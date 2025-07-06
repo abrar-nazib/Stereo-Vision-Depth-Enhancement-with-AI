@@ -3,3 +3,7 @@
 *.ttf
 *.filamat
 app/
+*.jpg
+*.png
+*.ply
+*.pcd
