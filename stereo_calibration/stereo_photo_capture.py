@@ -1,15 +1,25 @@
 import cv2
 import os
+import numpy as np
 
-CAM_L_IND = 2
-CAM_R_IND = 1
+CAM_L_IND = 4
+CAM_R_IND = 2
 current_directory = os.path.dirname(__file__)
 
 
 def main():
-    cap_l = cv2.VideoCapture(CAM_L_IND, cv2.CAP_DSHOW)
-    cap_r = cv2.VideoCapture(CAM_R_IND, cv2.CAP_DSHOW)
-
+    # Check the operating system
+    if os.name == "nt":  # Windows
+        cap_l = cv2.VideoCapture(CAM_L_IND, cv2.CAP_DSHOW)
+        cap_r = cv2.VideoCapture(CAM_R_IND, cv2.CAP_DSHOW)
+    elif os.name == "posix":  # Linux or macOS
+        print("Using V4L2 for Linux")
+        cap_l = cv2.VideoCapture(CAM_L_IND, cv2.CAP_V4L2)
+        cap_r = cv2.VideoCapture(CAM_R_IND, cv2.CAP_V4L2)
+    else:  # Fallback for other OS
+        print("Unsupported operating system. Using default capture method.")
+        cap_l = cv2.VideoCapture(CAM_L_IND)
+        cap_r = cv2.VideoCapture(CAM_R_IND)
     print(
         f"Camera L resolution: {cap_l.get(cv2.CAP_PROP_FRAME_WIDTH)}x{cap_l.get(cv2.CAP_PROP_FRAME_HEIGHT)}"
     )
@@ -32,7 +42,12 @@ def main():
         ret_r, frame_r = cap_r.read()
         # frame2 = cv2.rotate(frame2, cv2.ROTATE_90_CLOCKWISE)
         if not (ret_l and ret_r):
-            break
+            if not ret_l:
+                # Make frame l black using numpy
+                frame_l = np.zeros((480, 640, 3), dtype=np.uint8)
+            if not ret_r:
+                # Make frame r black using numpy
+                frame_r = np.zeros((480, 640, 3), dtype=np.uint8)
 
         cv2.imshow(f"Camera L", frame_l)
         cv2.imshow(f"Camera R", frame_r)

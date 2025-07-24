@@ -4,8 +4,8 @@ import pickle
 
 current_dir = os.path.dirname(__file__)
 
-CAM_L_IND = 2
-CAM_R_IND = 1
+CAM_L_IND = 4
+CAM_R_IND = 2
 
 cap_l = cv2.VideoCapture(CAM_L_IND)
 cap_r = cv2.VideoCapture(CAM_R_IND)

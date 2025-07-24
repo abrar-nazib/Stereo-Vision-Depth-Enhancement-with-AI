@@ -7,3 +7,4 @@ app/
 *.png
 *.ply
 *.pcd
+venv/
