@@ -7,14 +7,14 @@ current_dir = os.path.dirname(__file__)
 
 ################ FIND CHESSBOARD CORNERS - OBJECT POINTS AND IMAGE POINTS #############################
 
-chessboardSize = (8, 6)
+chessboardSize = (11, 7)
 frameSize = (640, 480)
 
 # termination criteria for cornerSubPix
 criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
 # prepare object points
-square_size_mm = 23.07  # size of each square in mm
+square_size_mm = 20.0  # size of each square in mm
 objp = np.zeros((chessboardSize[0] * chessboardSize[1], 3), np.float32)
 objp[:, :2] = np.mgrid[0 : chessboardSize[0], 0 : chessboardSize[1]].T.reshape(-1, 2)
 objp = objp * square_size_mm
@@ -61,11 +61,43 @@ for idx, (imgLeft, imgRight) in enumerate(zip(imagesLeft, imagesRight)):
 
     # If found, refine and add points
     if retL and retR:
+        print("Processed image pair:", idx)
         objpoints.append(objp)
 
         # Refine corners
         cornersL = cv.cornerSubPix(grayL, cornersL, (11, 11), (-1, -1), criteria)
         cornersR = cv.cornerSubPix(grayR, cornersR, (11, 11), (-1, -1), criteria)
+
+        # Check corner orientation for both cameras
+        def check_corner_orientation(corners, camera_name):
+            # First corner (index 0) and last corner in first row (index chessboardSize[0]-1)
+            first_corner = corners[0][0]  # Top-left or bottom-left
+            end_first_row = corners[chessboardSize[0] - 1][
+                0
+            ]  # Top-right or bottom-right
+
+            # Check if we're going from top to bottom or bottom to top
+            if first_corner[1] < end_first_row[1]:  # Y-coordinate comparison
+                orientation = "Top-Left to Bottom-Right"
+            else:
+                orientation = "Bottom-Left to Top-Right"
+
+            print(f"  {camera_name}: Corner pattern starts from {orientation}")
+            print(
+                f"    First corner at: ({first_corner[0]:.1f}, {first_corner[1]:.1f})"
+            )
+            return orientation
+
+        orientationL = check_corner_orientation(cornersL, "Left Camera")
+        orientationR = check_corner_orientation(cornersR, "Right Camera")
+
+        # Check if both cameras have same orientation
+        if orientationL == orientationR:
+            print("  ✓ Both cameras have consistent orientation")
+        else:
+            print("  ⚠ Warning: Cameras have different orientations!")
+            objpoints.pop()  # Remove this pair if inconsistent
+            continue
 
         imgpointsL.append(cornersL)
         imgpointsR.append(cornersR)
@@ -79,9 +111,11 @@ for idx, (imgLeft, imgRight) in enumerate(zip(imagesLeft, imagesRight)):
         imgL_small = cv.resize(imgL, display_size)
         imgR_small = cv.resize(imgR, display_size)
 
-        cv.imshow("Left Image Corners", imgL_small)
-        cv.imshow("Right Image Corners", imgR_small)
+        # Stack images horizontally for display
+        combined = np.hstack((imgL_small, imgR_small))
+        cv.imshow("Chessboard Corners", combined)
         cv.waitKey(500)
+
 
 print(f"Successfully processed {len(objpoints)} image pairs")
 cv.destroyAllWindows()

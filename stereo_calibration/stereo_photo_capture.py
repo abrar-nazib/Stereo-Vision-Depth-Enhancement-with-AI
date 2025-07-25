@@ -2,8 +2,8 @@ import cv2
 import os
 import numpy as np
 
-CAM_L_IND = 4
-CAM_R_IND = 2
+CAM_L_IND = 2
+CAM_R_IND = 0
 current_directory = os.path.dirname(__file__)
 
 
@@ -44,8 +44,20 @@ def main():
         if not (ret_l and ret_r):
             if not ret_l:
                 # Make frame l black using numpy
+                if os.name == "nt":
+                    cap_r = cv2.VideoCapture(CAM_R_IND, cv2.CAP_DSHOW)
+                elif os.name == "posix":
+                    cap_r = cv2.VideoCapture(CAM_R_IND, cv2.CAP_V4L2)
+                else:
+                    cap_r = cv2.VideoCapture(CAM_R_IND)
                 frame_l = np.zeros((480, 640, 3), dtype=np.uint8)
             if not ret_r:
+                if os.name == "nt":
+                    cap_l = cv2.VideoCapture(CAM_L_IND, cv2.CAP_DSHOW)
+                elif os.name == "posix":
+                    cap_l = cv2.VideoCapture(CAM_L_IND, cv2.CAP_V4L2)
+                else:
+                    cap_l = cv2.VideoCapture(CAM_L_IND)
                 # Make frame r black using numpy
                 frame_r = np.zeros((480, 640, 3), dtype=np.uint8)
 

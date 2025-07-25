@@ -16,7 +16,7 @@ stereoMapR_y = cv_file.getNode("stereoMapR_y").mat()
 
 
 cap_left = cv2.VideoCapture(2, cv2.CAP_DSHOW)
-cap_right = cv2.VideoCapture(1, cv2.CAP_DSHOW)
+cap_right = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
 # Set the resolution of the cameras
 cap_left.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
