@@ -5,41 +5,22 @@ import os
 current_dir = os.path.dirname(__file__)
 
 # Camera setup
-CamL_id = 4
-CamR_id = 2
+CamL_id = 2
+CamR_id = 0
 
 
 def compute_depth_map(disparity, Q):
-    # Convert disparity to depth
+    # Convert disparity to depth using the Q matrix
     points_3D = cv2.reprojectImageTo3D(disparity, Q)
-    depth_map = points_3D[:, :, 2]  # Z coordinate
+    depth_map = points_3D[:, :, 2]  # Extract Z coordinate (depth)
 
-    # Filter out invalid values
-    mask = (disparity > disparity.min()) & (depth_map > 0) & (depth_map < 5000)
+    # Filter out invalid values (only remove negative/zero depths)
+    mask = (disparity > disparity.min()) & (depth_map > 0)
     depth_map[~mask] = 0
-
     return depth_map
 
 
-# def save_depth_data(depth_map):
-#     # Save the raw depth data (float32)
-#     depth_filename = os.path.join(current_dir, "images", f"depth_raw.npy")
-#     np.save(depth_filename, depth_map)
-
-#     # # Save the color image
-#     # color_filename = f"color_{timestamp}.jpg"
-#     # cv2.imwrite(os.path.join(current_dir, "images", color_filename), color_image)
-
-#     # Also save visualization
-#     normalized_depth = cv2.normalize(depth_map, None, 0, 65535, cv2.NORM_MINMAX)
-#     depth_uint16 = normalized_depth.astype(np.uint16)
-#     depth_vis_filename = f"depth_vis_{timestamp}.png"
-#     cv2.imwrite(os.path.join(current_dir, "images", depth_vis_filename), depth_uint16)
-
-#     print(f"Saved:\n{depth_filename}\n{depth_vis_filename}")
-
-
-def visualize_depth(depth_map, min_depth=100, max_depth=2000):  # depths in mm
+def visualize_depth(depth_map, min_depth=100, max_depth=5000):  # Depths in mm
     # Normalize depth map for visualization
     depth_map_normalized = np.clip(depth_map, min_depth, max_depth)
     depth_map_normalized = (
@@ -47,7 +28,7 @@ def visualize_depth(depth_map, min_depth=100, max_depth=2000):  # depths in mm
     ).astype(np.uint8)
     depth_colormap = cv2.applyColorMap(depth_map_normalized, cv2.COLORMAP_PLASMA)
 
-    # Add text showing depth range
+    # Add depth range text
     cv2.putText(
         depth_colormap,
         f"Range: {min_depth}mm - {max_depth}mm",
@@ -57,10 +38,10 @@ def visualize_depth(depth_map, min_depth=100, max_depth=2000):  # depths in mm
         (255, 255, 255),
         2,
     )
-
     return depth_colormap
 
 
+# Initialize cameras based on OS
 if os.name == "nt":  # Windows
     print("Using DSHOW for Windows")
     CamL = cv2.VideoCapture(CamL_id, cv2.CAP_DSHOW)
@@ -69,12 +50,12 @@ elif os.name == "posix":  # Linux or macOS
     print("Using V4L2 for Linux")
     CamL = cv2.VideoCapture(CamL_id, cv2.CAP_V4L2)
     CamR = cv2.VideoCapture(CamR_id, cv2.CAP_V4L2)
-else:  # Fallback for other OS
-    print("Unsupported operating system. Using default capture method.")
+else:  # Fallback
+    print("Unsupported OS. Using default capture method.")
     CamL = cv2.VideoCapture(CamL_id)
     CamR = cv2.VideoCapture(CamR_id)
 
-# Set resolution
+# Set camera resolution
 CamL.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 CamL.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 CamR.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
@@ -102,32 +83,32 @@ def nothing(x):
 
 
 cv2.createTrackbar("Min Depth (mm)", "Controls", 100, 1000, nothing)
-cv2.createTrackbar("Max Depth (mm)", "Controls", 2000, 5000, nothing)
+cv2.createTrackbar("Max Depth (mm)", "Controls", 5000, 10000, nothing)
 
-# Create SGBM object with the optimal parameters
+# Initialize StereoSGBM with tuned parameters
 stereo = cv2.StereoSGBM_create(
     minDisparity=5,
-    numDisparities=128,
-    blockSize=7,
-    P1=8 * 3 * 7**2,
-    P2=32 * 3 * 7**2,
+    numDisparities=64,  # Reduced for closer objects
+    blockSize=5,  # Smaller for finer details
+    P1=8 * 3 * 5**2,
+    P2=32 * 3 * 5**2,
     disp12MaxDiff=1,
-    uniquenessRatio=15,
-    speckleWindowSize=100,
-    speckleRange=2,
+    uniquenessRatio=20,  # Increased to filter ambiguous matches
+    speckleWindowSize=50,  # Reduced for better noise handling
+    speckleRange=1,  # Reduced for smaller consistent regions
     preFilterCap=63,
     mode=cv2.STEREO_SGBM_MODE_HH,
 )
 
 
-# Mouse callback function for depth measurement
+# Mouse callback for depth measurement
 def mouse_callback(event, x, y, flags, param):
     if event == cv2.EVENT_LBUTTONDOWN:
         depth = depth_map[y, x]
         if depth > 0:
             print(f"Depth at ({x}, {y}): {depth:.1f} mm")
         else:
-            print(f"Invalid depth measurement at ({x}, {y})")
+            print(f"Invalid depth at ({x}, {y})")
 
 
 cv2.setMouseCallback("Depth Map", mouse_callback)
@@ -149,7 +130,6 @@ while True:
         rectR_gray = cv2.remap(
             grayR, Right_Stereo_Map_x, Right_Stereo_Map_y, cv2.INTER_LANCZOS4
         )
-
         rect_L_color = cv2.remap(
             imgL, Left_Stereo_Map_x, Left_Stereo_Map_y, cv2.INTER_LANCZOS4
         )
@@ -163,11 +143,9 @@ while True:
         # Compute depth map
         depth_map = compute_depth_map(disparity, Q)
 
-        # Get current depth visualization range
+        # Get depth visualization range from trackbars
         min_depth = cv2.getTrackbarPos("Min Depth (mm)", "Controls")
         max_depth = cv2.getTrackbarPos("Max Depth (mm)", "Controls")
-
-        # Ensure min_depth is less than max_depth
         if min_depth >= max_depth:
             min_depth = max_depth - 100
             cv2.setTrackbarPos("Min Depth (mm)", "Controls", min_depth)
@@ -181,12 +159,9 @@ while True:
         )
         disparity_color = cv2.applyColorMap(disparity_vis, cv2.COLORMAP_JET)
 
+        # Stack rectified images with alignment lines
         rectified_images_gray = np.hstack((rectL_gray, rectR_gray))
         rectified_images_gray = cv2.cvtColor(rectified_images_gray, cv2.COLOR_GRAY2BGR)
-
-        original_images = np.hstack((imgL, imgR))
-
-        # Draw horizontal lines on rectified images
         for y in range(0, rectL_gray.shape[0], 20):
             cv2.line(
                 rectified_images_gray,
@@ -203,6 +178,8 @@ while True:
                 1,
             )
 
+        original_images = np.hstack((imgL, imgR))
+
         # Display results
         cv2.imshow("Original Images", original_images)
         cv2.imshow("Rectified images", rectified_images_gray)
@@ -210,70 +187,46 @@ while True:
         cv2.imshow("Disparity Map", disparity_color)
 
         key = cv2.waitKey(1)
-        if key == 27:  # ESC
+        if key == 27:  # ESC to exit
             break
-        elif key == ord("s"):  # Save depth map
-
-            # Save rectified images
+        elif key == ord("s"):  # Save outputs
             cv2.imwrite(
-                os.path.join(current_dir, "images", f"rect_L_color.png"),
-                rect_L_color,
+                os.path.join(current_dir, "images", "rect_L_color.png"), rect_L_color
             )
             cv2.imwrite(
-                os.path.join(current_dir, "images", f"rect_R_color.png"),
-                rect_R_color,
-            )
-
-            cv2.imwrite(
-                os.path.join(current_dir, "images", f"rect_L_gray.png"),
-                rectL_gray,
+                os.path.join(current_dir, "images", "rect_R_color.png"), rect_R_color
             )
             cv2.imwrite(
-                os.path.join(current_dir, "images", f"rect_R_gray.png"),
-                rectR_gray,
-            )
-
-            # Save original images
-            cv2.imwrite(os.path.join(current_dir, "images", f"img_l.png"), imgL)
-            cv2.imwrite(os.path.join(current_dir, "images", f"img_r.png"), imgR)
-
-            # Save the depth and disparity visualizations
-            cv2.imwrite(
-                os.path.join(current_dir, "images", f"depth_vis.png"),
-                depth_colormap,
+                os.path.join(current_dir, "images", "rect_L_gray.png"), rectL_gray
             )
             cv2.imwrite(
-                os.path.join(current_dir, "images", f"disparity_vis.png"),
+                os.path.join(current_dir, "images", "rect_R_gray.png"), rectR_gray
+            )
+            cv2.imwrite(os.path.join(current_dir, "images", "img_l.png"), imgL)
+            cv2.imwrite(os.path.join(current_dir, "images", "img_r.png"), imgR)
+            cv2.imwrite(
+                os.path.join(current_dir, "images", "depth_vis.png"), depth_colormap
+            )
+            cv2.imwrite(
+                os.path.join(current_dir, "images", "disparity_vis.png"),
                 disparity_color,
             )
-
-            # Save stacked images
             cv2.imwrite(
-                os.path.join(current_dir, "images", f"rectified_images_gray.png"),
+                os.path.join(current_dir, "images", "rectified_images_gray.png"),
                 rectified_images_gray,
             )
-
-            # Save the disparity map
-            np.save(
-                os.path.join(current_dir, "images", f"disparity.npy"),
-                disparity,
-            )
-
-            # Save raw depth data
-            np.save(
-                os.path.join(current_dir, "images", f"depth_raw.npy"),
-                depth_map,
-            )
-
+            np.save(os.path.join(current_dir, "images", "disparity.npy"), disparity)
+            np.save(os.path.join(current_dir, "images", "depth_raw.npy"), depth_map)
+            print("Saved all outputs to 'images' directory.")
     else:
-        # Try to reconnect to cameras
-        if os.name == "nt":  # Windows
+        # Reconnect cameras if frame capture fails
+        if os.name == "nt":
             CamL = cv2.VideoCapture(CamL_id, cv2.CAP_DSHOW)
             CamR = cv2.VideoCapture(CamR_id, cv2.CAP_DSHOW)
-        elif os.name == "posix":  # Linux or macOS
+        elif os.name == "posix":
             CamL = cv2.VideoCapture(CamL_id, cv2.CAP_V4L2)
             CamR = cv2.VideoCapture(CamR_id, cv2.CAP_V4L2)
-        else:  # Fallback for other OS
+        else:
             CamL = cv2.VideoCapture(CamL_id)
             CamR = cv2.VideoCapture(CamR_id)
 

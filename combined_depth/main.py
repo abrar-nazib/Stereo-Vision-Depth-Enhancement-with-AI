@@ -303,6 +303,164 @@ class DepthFusion:
             "alignment_quality": alignment_quality,
         }
 
+    def generate_point_cloud(self, depth_map, color_image, mask=None, max_depth=5000):
+        """Generate 3D point cloud from depth map"""
+        h, w = depth_map.shape
+
+        # Create coordinate grids
+        i, j = np.meshgrid(np.arange(w), np.arange(h))
+
+        # Convert depth to 3D points using camera matrix Q
+        # For simplified visualization, we'll use basic projection
+        # You should use your actual camera intrinsics for accurate results
+
+        # Basic projection (replace with your camera intrinsics)
+        fx, fy = 500, 500  # focal length (adjust based on your calibration)
+        cx, cy = w / 2, h / 2  # principal point
+
+        # Apply mask if provided
+        if mask is not None:
+            valid_mask = mask & (depth_map > 0) & (depth_map < max_depth)
+        else:
+            valid_mask = (depth_map > 0) & (depth_map < max_depth)
+
+        # Get valid points
+        valid_i = i[valid_mask]
+        valid_j = j[valid_mask]
+        valid_depth = depth_map[valid_mask]
+
+        # Convert to 3D coordinates
+        x = (valid_i - cx) * valid_depth / fx
+        y = (valid_j - cy) * valid_depth / fy
+        z = valid_depth
+
+        # Stack coordinates
+        points_3d = np.column_stack((x, y, z))
+
+        # Get colors
+        if color_image is not None:
+            colors = color_image[valid_mask] / 255.0  # Normalize to [0,1]
+            # Convert BGR to RGB
+            colors = colors[:, [2, 1, 0]]
+        else:
+            colors = np.ones((len(points_3d), 3)) * 0.5  # Gray color
+
+        return points_3d, colors
+
+    def save_point_cloud_data(self, results, color_image, timestamp):
+        """Save point cloud data for Open3D visualization"""
+        import os
+        import pickle
+
+        # Create images directory if it doesn't exist
+        images_dir = os.path.join(self.current_dir, "images")
+        os.makedirs(images_dir, exist_ok=True)
+
+        point_cloud_data = {}
+
+        # Define the depth maps to process
+        depth_maps = {
+            "sgbm": {"depth": results["sgbm_depth"], "mask": results["sgbm_mask"]},
+            "midas_aligned": {"depth": results["midas_aligned"], "mask": None},
+            "fused": {"depth": results["fused_depth"], "mask": None},
+            "final": {"depth": results["final_depth"], "mask": None},
+        }
+
+        print(f"Generating point clouds for timestamp {timestamp}...")
+
+        for name, data in depth_maps.items():
+            depth = data["depth"]
+            mask = data["mask"]
+
+            print(f"Processing {name} point cloud...")
+
+            # Generate point cloud
+            points_3d, colors = self.generate_point_cloud(depth, color_image, mask)
+
+            # Save point cloud data
+            point_cloud_data[name] = {
+                "points": points_3d,
+                "colors": colors,
+                "depth_map": depth,
+                "mask": mask,
+            }
+
+            # Save as .ply file for direct Open3D loading
+            ply_filename = os.path.join(
+                images_dir, f"pointcloud_{name}_{timestamp}.ply"
+            )
+            self.save_ply(points_3d, colors, ply_filename)
+
+            # Save raw data as numpy arrays
+            np.save(
+                os.path.join(images_dir, f"points3d_{name}_{timestamp}.npy"), points_3d
+            )
+            np.save(os.path.join(images_dir, f"colors_{name}_{timestamp}.npy"), colors)
+            np.save(os.path.join(images_dir, f"depth_{name}_{timestamp}.npy"), depth)
+
+            if mask is not None:
+                np.save(os.path.join(images_dir, f"mask_{name}_{timestamp}.npy"), mask)
+
+        # Save combined data
+        with open(
+            os.path.join(images_dir, f"pointcloud_data_{timestamp}.pkl"), "wb"
+        ) as f:
+            pickle.dump(point_cloud_data, f)
+
+        # Save color image
+        cv2.imwrite(
+            os.path.join(images_dir, f"color_image_{timestamp}.jpg"), color_image
+        )
+
+        # Save camera parameters for accurate reconstruction
+        camera_params = {
+            "Q_matrix": self.Q,
+            "Left_Stereo_Map_x": self.Left_Stereo_Map_x,
+            "Left_Stereo_Map_y": self.Left_Stereo_Map_y,
+            "Right_Stereo_Map_x": self.Right_Stereo_Map_x,
+            "Right_Stereo_Map_y": self.Right_Stereo_Map_y,
+        }
+
+        with open(
+            os.path.join(images_dir, f"camera_params_{timestamp}.pkl"), "wb"
+        ) as f:
+            pickle.dump(camera_params, f)
+
+        print(f"Point cloud data saved successfully!")
+        print(f"Files saved in: {images_dir}")
+        print(f"Point cloud counts:")
+        for name, data in point_cloud_data.items():
+            print(f"  {name}: {len(data['points'])} points")
+
+        return point_cloud_data
+
+    def save_ply(self, points, colors, filename):
+        """Save point cloud as PLY file"""
+        if len(points) == 0:
+            print(f"Warning: No points to save for {filename}")
+            return
+
+        with open(filename, "w") as f:
+            # Write header
+            f.write("ply\n")
+            f.write("format ascii 1.0\n")
+            f.write(f"element vertex {len(points)}\n")
+            f.write("property float x\n")
+            f.write("property float y\n")
+            f.write("property float z\n")
+            f.write("property uchar red\n")
+            f.write("property uchar green\n")
+            f.write("property uchar blue\n")
+            f.write("end_header\n")
+
+            # Write points
+            for i in range(len(points)):
+                x, y, z = points[i]
+                r, g, b = (colors[i] * 255).astype(np.uint8)
+                f.write(f"{x:.6f} {y:.6f} {z:.6f} {r} {g} {b}\n")
+
+        print(f"Saved PLY file: {filename}")
+
     def visualize_results(self, results, min_depth=100, max_depth=3000):
         """Create visualization of all depth maps"""
 
@@ -336,8 +494,8 @@ def main():
     fusion = DepthFusion()
 
     # Camera setup (modify IDs as needed)
-    CamL_id = 4
-    CamR_id = 2
+    CamL_id = 2
+    CamR_id = 0
 
     # Initialize cameras
     if os.name == "nt":
@@ -387,17 +545,36 @@ def main():
             if key == 27:  # ESC
                 break
             elif key == ord("s"):  # Save results
+                import time
+
                 timestamp = int(time.time())
+
+                # Save all depth data and point clouds
+                point_cloud_data = fusion.save_point_cloud_data(
+                    results, imgL, timestamp
+                )
+
+                # Save traditional results
+                images_dir = "images"
+                os.makedirs(images_dir, exist_ok=True)
+
                 for name, data in results.items():
                     if isinstance(data, np.ndarray):
                         if data.dtype == np.bool_:
                             cv2.imwrite(
-                                f"images/{name}_{timestamp}.png",
+                                f"{images_dir}/{name}_{timestamp}.png",
                                 data.astype(np.uint8) * 255,
                             )
                         else:
-                            np.save(f"images/{name}_{timestamp}.npy", data)
-                print(f"Results saved with timestamp {timestamp}")
+                            np.save(f"{images_dir}/{name}_{timestamp}.npy", data)
+
+                # Save visualization images
+                for name, viz_img in viz.items():
+                    cv2.imwrite(f"{images_dir}/viz_{name}_{timestamp}.png", viz_img)
+
+                print(f"All data saved with timestamp {timestamp}")
+                print("Point cloud files (.ply) can be opened directly in Open3D")
+                print("Use the visualization script below to view all point clouds")
 
     # Cleanup
     CamL.release()
