@@ -1,0 +1,12 @@
+{
+  "experiment": "Ablation Test 2",
+  "architecture": "Official LightStereo-S control; unmodified MobileNetV2 backbone",
+  "protocol": "native 540x960, 200 fixed SceneFlow Driving pairs, no resize, no training",
+  "training_checkpoint": "models/stereo/lightstereo/LightStereo-S-SceneFlow.ckpt",
+  "checkpoint_sha256": "e34b6aaa646217d03abcaa4f438dd02404711fe2bcee10eb59a6aff71f2ca02f",
+  "count": 200,
+  "metric_mask": "finite GT, 0 < disparity < 192 native pixels",
+  "padding": "official RightTopPad equivalent: replicate top/right to multiple of 32, removed before scoring",
+  "precision": "FP32",
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU"
+}

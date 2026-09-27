@@ -8,3 +8,46 @@ app/
 *.ply
 *.pcd
 venv/
+
+# uv-managed Python environments (keep pyproject.toml and uv.lock tracked)
+.venv/
+.uv/
+
+# Python bytecode, tooling caches, and build artifacts
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Local model checkpoints and exported inference artifacts
+models/**/*.pt
+models/**/*.pth
+models/**/*.ckpt
+models/**/*.onnx
+models/**/*.engine
+models/**/*.part
+
+# Third-party source checkouts used only to deserialize research checkpoints
+external_models/
+
+# Ablation checkpoints; retain experiment configs, manifests, CSV and reports
+experiments/**/runs/**/*.pth
+
+# Generated captures, videos, and saved experiment arrays
+*.mp4
+*.avi
+*.mkv
+*.npy
+*.npz
+
+# Third-party reference papers: local research copies only, redistribution
+# rights unverified. Keep summaries and figures; never publish the PDFs.
+paper/reference_papers/**/*.pdf

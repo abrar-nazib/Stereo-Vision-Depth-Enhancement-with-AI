@@ -1,0 +1,8 @@
+{
+  "mean_ms": 34.10372939986701,
+  "median_ms": 33.65581249818206,
+  "p95_ms": 37.234472499949334,
+  "fps": 29.322306316560784,
+  "peak_allocated_mb": 156.0107421875,
+  "scope": "disparity only; GPU-resident input"
+}

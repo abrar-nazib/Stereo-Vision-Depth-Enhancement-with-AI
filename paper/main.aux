@@ -1,0 +1,93 @@
+\relax 
+\citation{wang2023multi}
+\citation{son2019lightweight}
+\citation{zhou2006high}
+\citation{xu2025towards}
+\citation{rohan2025systematic}
+\citation{agresti2019stereo}
+\citation{wen2025foundationstereo}
+\citation{jiang2025defom}
+\citation{cheng2025monster}
+\citation{wang2025stereogen}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {II}Related Work}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Deep Learning Advancements in Stereo Matching}{1}{}\protected@file@percent }
+\citation{rohan2025systematic}
+\citation{perezyabov2022depth}
+\citation{guo2025monocular,li2024virt,correll2024versatile,chen2024bio}
+\citation{du2021vision}
+\citation{hansard2012time}
+\citation{liao2303deep}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Applications of Stereo Vision in Robotics}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {III}Methodology}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Hardware Setup}{2}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Custom-built 4-DOF robotic arm.}}{2}{}\protected@file@percent }
+\newlabel{fig:robotic_arm}{{1}{2}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces ToF and Stereo Camera System.}}{2}{}\protected@file@percent }
+\newlabel{fig:cameras}{{2}{2}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Workspace setup for data acquisition and robotic arm operation.}}{2}{}\protected@file@percent }
+\newlabel{fig:workspace}{{3}{2}{}{}{}}
+\citation{zhang2002flexible,zhang1999flexible}
+\citation{hirschmuller2007stereo,hernandez2016embedded}
+\citation{chang2018pyramid}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Camera Calibration}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-B}1}Epipolar Geometry and Rectification}{3}{}\protected@file@percent }
+\newlabel{eq:intrinsic_matrix}{{1}{3}{}{}{}}
+\newlabel{eq:extrinsic_params}{{2}{3}{}{}{}}
+\newlabel{eq:distort_x}{{3}{3}{}{}{}}
+\newlabel{eq:distort_y}{{4}{3}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-B}2}Calibration Process and Results}{3}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Fantech Luminous C30 Camera Intrinsic Parameters and Distortion Coefficients}}{3}{}\protected@file@percent }
+\newlabel{tab1}{{I}{3}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Rectified camera view demonstrating epipolar alignment.}}{3}{}\protected@file@percent }
+\newlabel{fig:rectification}{{4}{3}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Data Acquisition}{3}{}\protected@file@percent }
+\newlabel{eq:disparity}{{5}{3}{}{}{}}
+\newlabel{eq:depth_triangulation}{{6}{3}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Depth Estimation (Traditional SGBM)}{3}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces SGBM Algorithm Optimized Parameters}}{3}{}\protected@file@percent }
+\newlabel{tab2}{{II}{3}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-E}}Deep Learning Enhancement (PSMNet)}{3}{}\protected@file@percent }
+\citation{chang2018pyramid}
+\citation{yao2025stereo}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Depth map and Disparity map generated using the SGBM algorithm.}}{4}{}\protected@file@percent }
+\newlabel{fig:sgbm_depth}{{5}{4}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Simplified architecture of the PSMNet \cite  {chang2018pyramid}}}{4}{}\protected@file@percent }
+\newlabel{fig:psmnet_architecture}{{6}{4}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Results}{4}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Comparison of End-Point Error (EPE) for different depth estimation models against the ToF camera ground truth. The custom-trained PSMNet achieves the lowest error.}}{4}{}\protected@file@percent }
+\newlabel{fig:epe_comparison}{{7}{4}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Point Cloud generated from SGBM algorithm.}}{4}{}\protected@file@percent }
+\newlabel{fig:sgbm_point_cloud}{{8}{4}{}{}{}}
+\bibstyle{IEEEtran}
+\bibdata{references}
+\bibcite{wang2023multi}{1}
+\bibcite{son2019lightweight}{2}
+\bibcite{zhou2006high}{3}
+\bibcite{xu2025towards}{4}
+\bibcite{rohan2025systematic}{5}
+\bibcite{agresti2019stereo}{6}
+\bibcite{wen2025foundationstereo}{7}
+\bibcite{jiang2025defom}{8}
+\bibcite{cheng2025monster}{9}
+\bibcite{wang2025stereogen}{10}
+\bibcite{perezyabov2022depth}{11}
+\bibcite{guo2025monocular}{12}
+\bibcite{li2024virt}{13}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Point clouds generated from the custom-trained PSMNet.}}{5}{}\protected@file@percent }
+\newlabel{fig:psmnet_point_cloud}{{9}{5}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Conclusion}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Future Work}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{5}{}\protected@file@percent }
+\bibcite{correll2024versatile}{14}
+\bibcite{chen2024bio}{15}
+\bibcite{du2021vision}{16}
+\bibcite{hansard2012time}{17}
+\bibcite{liao2303deep}{18}
+\bibcite{zhang2002flexible}{19}
+\bibcite{zhang1999flexible}{20}
+\bibcite{hirschmuller2007stereo}{21}
+\bibcite{hernandez2016embedded}{22}
+\bibcite{chang2018pyramid}{23}
+\bibcite{yao2025stereo}{24}
+\gdef \@abspage@last{6}

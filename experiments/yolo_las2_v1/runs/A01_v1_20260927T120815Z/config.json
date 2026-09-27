@@ -1,0 +1,33 @@
+{
+  "steps": 500,
+  "height": 384,
+  "width": 640,
+  "seed": 42,
+  "data": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving",
+  "architecture": "A01-v1.0",
+  "protocol": "100-pair overfit, no held-out evaluation",
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "torch": "2.14.0+cu130",
+  "cuda": "13.0",
+  "batch_size": 1,
+  "lr": 0.0001,
+  "optimizer": "AdamW",
+  "weight_decay": 0.0001,
+  "loss": "smooth_l1(full) + 0.3*smooth_l1(coarse)",
+  "max_disparity": 192,
+  "precision": "float16 autocast with GradScaler",
+  "resize": "RGB bilinear; disparity nearest scaled by width ratio",
+  "aggregation": "macro average over images",
+  "semantic": "frozen; no semantic GT, no mIoU claim",
+  "source_sha256": {
+    "model.py": "1490a212dd5a62f338b771307a43d207ec3a7b4dd436be5dd6dfa6a2432a76bf",
+    "run.py": "bbc35bc91e6584d67ba7e0381396260883e6bffb59698e3e685097708085600a"
+  },
+  "upstream_commit": "8c97bd4c4da3712c2ac60003a23201dfdb5935f4",
+  "checkpoint_sha256": {
+    "models/stereo/liteanystereo/LAS2_S.pth": "dda5ad5495710466f7e5c5a2dff395223893ef68a17d57d88e7ea7dfbb9d08e1",
+    "models/segmentation/yolo26s-sem-cityscapes.pt": "bc3e2152329831303de83e1af91d4b57d547e8794de8bb6edb1f2a622d1d5435"
+  },
+  "parameters_total": 10559662,
+  "parameters_trainable": 4056520
+}

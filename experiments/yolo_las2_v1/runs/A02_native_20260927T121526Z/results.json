@@ -1,0 +1,38 @@
+{
+  "initial": {
+    "epe": 88.64544616699219,
+    "rmse": 102.49154052734374,
+    "median": 98.3102912902832,
+    "valid_pixels": 440376.18,
+    "bad_0.5": 99.31580674648285,
+    "bad_1": 98.79635798931122,
+    "bad_2": 98.02742487192154,
+    "bad_3": 97.32044684886932,
+    "d1": 94.73298621177673
+  },
+  "final": {
+    "epe": 3.8054902398586274,
+    "rmse": 8.620972371101379,
+    "median": 1.312552290558815,
+    "valid_pixels": 440376.18,
+    "bad_0.5": 65.4287733733654,
+    "bad_1": 46.72877335548401,
+    "bad_2": 31.02401329576969,
+    "bad_3": 23.863725796341896,
+    "d1": 20.781545117497444
+  },
+  "training": {
+    "seconds": 68.23283823500242,
+    "peak_allocated_mb": 758.60888671875,
+    "peak_reserved_mb": 1070.0
+  },
+  "performance": {
+    "mean_ms": 58.13200659977156,
+    "median_ms": 57.70039799972437,
+    "p95_ms": 61.44574495119741,
+    "fps": 17.20222745594902,
+    "peak_allocated_mb": 512.7275390625,
+    "scope": "joint forward plus full-resolution semantic argmax; GPU-resident input; no capture or point cloud"
+  },
+  "semantic_weights_and_buffers_unchanged": true
+}
