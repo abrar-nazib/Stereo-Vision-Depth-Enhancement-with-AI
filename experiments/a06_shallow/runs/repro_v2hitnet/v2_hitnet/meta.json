@@ -1,0 +1,156 @@
+{
+  "arch": "v2_hitnet",
+  "steps": 3000,
+  "lr": 0.0002,
+  "batch": 4,
+  "height": 384,
+  "width": 640,
+  "n_pairs": 20,
+  "seed": 42,
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "pytorch": "2.14.0+cu130",
+  "platform": "Linux-7.0.0-34-generic-x86_64-with-glibc2.39",
+  "started_at": "2026-09-28T16:56:33",
+  "params_total_M": 0.487,
+  "params_train_M": 0.487,
+  "encoder_out_channels": [
+    24,
+    48,
+    72,
+    96
+  ],
+  "pair_paths": [
+    {
+      "left": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/left/0001.png",
+      "right": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/right/0001.png",
+      "disp": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/disparity/15mm_focallength/scene_forwards/slow/left/0001.pfm"
+    },
+    {
+      "left": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/left/0002.png",
+      "right": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/right/0002.png",
+      "disp": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/disparity/15mm_focallength/scene_forwards/slow/left/0002.pfm"
+    },
+    {
+      "left": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/left/0003.png",
+      "right": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/right/0003.png",
+      "disp": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/disparity/15mm_focallength/scene_forwards/slow/left/0003.pfm"
+    },
+    {
+      "left": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/left/0004.png",
+      "right": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/right/0004.png",
+      "disp": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/disparity/15mm_focallength/scene_forwards/slow/left/0004.pfm"
+    },
+    {
+      "left": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/left/0005.png",
+      "right": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/right/0005.png",
+      "disp": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/disparity/15mm_focallength/scene_forwards/slow/left/0005.pfm"
+    },
+    {
+      "left": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/left/0006.png",
+      "right": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/right/0006.png",
+      "disp": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/disparity/15mm_focallength/scene_forwards/slow/left/0006.pfm"
+    },
+    {
+      "left": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/left/0007.png",
+      "right": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/right/0007.png",
+      "disp": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/disparity/15mm_focallength/scene_forwards/slow/left/0007.pfm"
+    },
+    {
+      "left": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/left/0008.png",
+      "right": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/right/0008.png",
+      "disp": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/disparity/15mm_focallength/scene_forwards/slow/left/0008.pfm"
+    },
+    {
+      "left": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/left/0009.png",
+      "right": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/right/0009.png",
+      "disp": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/disparity/15mm_focallength/scene_forwards/slow/left/0009.pfm"
+    },
+    {
+      "left": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/left/0010.png",
+      "right": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/right/0010.png",
+      "disp": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/disparity/15mm_focallength/scene_forwards/slow/left/0010.pfm"
+    },
+    {
+      "left": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/left/0011.png",
+      "right": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/right/0011.png",
+      "disp": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/disparity/15mm_focallength/scene_forwards/slow/left/0011.pfm"
+    },
+    {
+      "left": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/left/0012.png",
+      "right": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/right/0012.png",
+      "disp": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/disparity/15mm_focallength/scene_forwards/slow/left/0012.pfm"
+    },
+    {
+      "left": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/left/0013.png",
+      "right": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/right/0013.png",
+      "disp": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/disparity/15mm_focallength/scene_forwards/slow/left/0013.pfm"
+    },
+    {
+      "left": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/left/0014.png",
+      "right": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/right/0014.png",
+      "disp": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/disparity/15mm_focallength/scene_forwards/slow/left/0014.pfm"
+    },
+    {
+      "left": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/left/0015.png",
+      "right": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/right/0015.png",
+      "disp": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/disparity/15mm_focallength/scene_forwards/slow/left/0015.pfm"
+    },
+    {
+      "left": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/left/0016.png",
+      "right": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/right/0016.png",
+      "disp": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/disparity/15mm_focallength/scene_forwards/slow/left/0016.pfm"
+    },
+    {
+      "left": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/left/0017.png",
+      "right": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/right/0017.png",
+      "disp": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/disparity/15mm_focallength/scene_forwards/slow/left/0017.pfm"
+    },
+    {
+      "left": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/left/0018.png",
+      "right": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/right/0018.png",
+      "disp": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/disparity/15mm_focallength/scene_forwards/slow/left/0018.pfm"
+    },
+    {
+      "left": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/left/0019.png",
+      "right": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/right/0019.png",
+      "disp": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/disparity/15mm_focallength/scene_forwards/slow/left/0019.pfm"
+    },
+    {
+      "left": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/left/0020.png",
+      "right": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/frames_finalpass/15mm_focallength/scene_forwards/slow/right/0020.png",
+      "disp": "/media/abrar/AbrarSSD/Datasets/sceneflow_driving/disparity/15mm_focallength/scene_forwards/slow/left/0020.pfm"
+    }
+  ],
+  "viz_pair_idx": -1,
+  "viz_rotate": false,
+  "guided_start_step": 3000,
+  "finished_at": "2026-09-28T17:16:09",
+  "elapsed_s": 1156.0,
+  "peak_gpu_mem_gb": 1.879,
+  "final_epe_all": 0.77,
+  "final_metrics_all": {
+    "epe": 0.77,
+    "rmse": 1.7916,
+    "median_ae": 0.2974,
+    "bad_0.5": 33.4946,
+    "bad_1.0": 17.9049,
+    "bad_2.0": 8.4413,
+    "bad_3.0": 5.0379,
+    "d1_all": 5.0366
+  },
+  "inference_bench": {
+    "n_warmup": 10,
+    "n_timed": 100,
+    "input_size_HW": [
+      384,
+      640
+    ],
+    "batch_size": 1,
+    "ms_mean": 32.989,
+    "ms_std": 2.504,
+    "ms_median": 32.467,
+    "ms_p95": 38.69,
+    "fps_mean": 30.31
+  }
+}

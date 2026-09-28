@@ -1,0 +1,5 @@
+17:20:33 INFO arm=B
+17:20:33 INFO run=A07v2B_20260928T112033Z steps=20
+17:20:49 INFO pairs: 160 train / 40 held-out
+17:20:49 INFO params: total 1.647 M, trainable 0.414 M, encoder (32, 128, 256, 256)
+17:20:56 INFO initial held-out EPE: 133.0993

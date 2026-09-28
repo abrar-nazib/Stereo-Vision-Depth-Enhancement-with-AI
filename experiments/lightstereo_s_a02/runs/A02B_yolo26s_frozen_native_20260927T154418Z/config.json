@@ -1,0 +1,30 @@
+{
+  "experiment": "Ablation Test 2B",
+  "architecture": "frozen YOLO26s-sem encoder; four learned 1x1 adapters [128,256,256,512]->[24,32,96,160]; pretrained LightStereo-S aggregation/refinement head fine-tuned",
+  "data": "SceneFlow Driving 200 fixed pairs; stratified deterministic 160 train / 40 validation",
+  "training": {
+    "steps": 10000,
+    "optimizer": "AdamW",
+    "lr": 0.0001,
+    "weight_decay": 0.0001,
+    "batch_size": 1,
+    "precision": "AMP float16",
+    "loss": "smooth_l1(full)+0.3*smooth_l1(coarse)",
+    "crop": [
+      384,
+      640
+    ]
+  },
+  "evaluation": "native 540x960 full image, top/right replicate pad to /32, no resize",
+  "metric_mask": "finite GT, 0 < disparity < 192 native pixels",
+  "seed": 42,
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "checkpoint_sha256": {
+    "models/stereo/lightstereo/LightStereo-S-SceneFlow.ckpt": "e34b6aaa646217d03abcaa4f438dd02404711fe2bcee10eb59a6aff71f2ca02f",
+    "models/segmentation/yolo26s-sem-cityscapes.pt": "bc3e2152329831303de83e1af91d4b57d547e8794de8bb6edb1f2a622d1d5435"
+  },
+  "source_sha256": {
+    "model.py": "a4a0e8560344598f9d2f05f2d63f4a7063b4e07d2c58c0f3aa13c99666d196f8",
+    "run_yolo_backbone.py": "d8774a0fcb39743787d72abbfda6bf4fbf10a0c810ae96b6ce2b4f52d3589cd7"
+  }
+}

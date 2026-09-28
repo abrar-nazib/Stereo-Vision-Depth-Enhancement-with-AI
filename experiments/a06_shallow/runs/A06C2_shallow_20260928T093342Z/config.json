@@ -1,0 +1,39 @@
+{
+  "experiment": "A06C2 shallow-tap C2 + RAFT head (frozen YOLO, modal loss)",
+  "encoder": "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/models/segmentation/yolo26s-sem-ade20k.pt",
+  "encoder_frozen": true,
+  "arm": "C2",
+  "taps": "RECORD",
+  "encoder_out_channels": [
+    128,
+    256
+  ],
+  "adapter": "none \u2014 head self-sizes from shallow taps C2",
+  "head": "RAFT-like TileInit + 2/3/3 GRU iters + convex upsample on shallow taps C2",
+  "parameters": {
+    "total": 1339829,
+    "trainable": 1043189
+  },
+  "data": "SceneFlow Driving 200 fixed pairs; stratified 160/40",
+  "training": {
+    "steps": 15000,
+    "batch_size": 1,
+    "lr": 0.0001,
+    "optimizer": "AdamW",
+    "precision": "AMP fp16",
+    "crop": [
+      384,
+      640
+    ],
+    "loss": "modal multi-scale (1.0/0.5/0.3 + grad 0.5 + hinge 0.2/0.2 + smooth 0.02)"
+  },
+  "evaluation": "native 540x960, replicate pad to /16, no resize",
+  "seed": 42,
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "source_sha256": {
+    "model_c.py": "65def078092eefca16457e20efab2f78a3bc37056b209927a75c9aa99be939ef",
+    "tile_propagate.py": "c93bf24f88b7267176aeeb2f6169c87f9d63f6aad3313a331742b01d0ec23559",
+    "run_C2.py": "0bf03d38b69149d2b0536dd54e704c5f2d3d7be653d2d0a38a15e929266095ce",
+    "losses.py": "3f5684ab9f64e6b26aad92c58a938567e202c9fa8e898ed024efeaba1f2175b6"
+  }
+}

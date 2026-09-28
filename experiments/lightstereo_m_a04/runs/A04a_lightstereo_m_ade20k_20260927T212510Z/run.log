@@ -1,0 +1,4 @@
+03:25:10 INFO run=A04a_lightstereo_m_ade20k_20260927T212510Z steps=20
+03:25:25 INFO pairs: 160 train / 40 held-out
+03:25:26 INFO params: total 11.463 M, trainable 6.021 M, encoder (32, 128, 256, 256, 512)
+03:25:33 INFO initial held-out EPE: 54.0596

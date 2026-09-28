@@ -139,8 +139,10 @@ class YoloLightStereoS(nn.Module):
         from stereo.modeling.disp_pred.disp_regression import disparity_regression
         from stereo.modeling.disp_refinement.disp_refinement import context_upsample
 
-        left_features = self.encoder(left)
-        right_features = self.encoder(right)
+        stacked = self.encoder(torch.cat((left, right), dim=0))
+        batch = left.shape[0]
+        left_features = [feature[:batch] for feature in stacked]
+        right_features = [feature[batch:] for feature in stacked]
         cost = correlation_volume(left_features[0], right_features[0], self.stereo.max_disp // 4)
         encoded = self.stereo.cost_agg(cost, left_features)
         logits = encoded[0].reshape(encoded[0].size(0), -1, encoded[0].size(2), encoded[0].size(3))

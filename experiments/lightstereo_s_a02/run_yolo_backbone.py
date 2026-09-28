@@ -45,6 +45,11 @@ def load_record(record: dict[str, str]) -> tuple[np.ndarray, np.ndarray, np.ndar
     return left, right, read_pfm(record["disparity"])
 
 
+def preload(records: list[dict[str, str]]) -> list[tuple[np.ndarray, np.ndarray, np.ndarray]]:
+    """Decode every pair once so no step pays external-drive image I/O."""
+    return [load_record(record) for record in records]
+
+
 def to_tensor(image: np.ndarray) -> torch.Tensor:
     return torch.from_numpy(image).permute(2, 0, 1)[None].float().cuda(non_blocking=True)
 
@@ -60,12 +65,11 @@ def pad_top_right(left: torch.Tensor, right: torch.Tensor) -> tuple[torch.Tensor
     )
 
 
-def evaluate_hybrid(model: YoloLightStereoS, records: list[dict[str, str]], *, semantic: bool = False) -> tuple[dict[str, float], list[dict[str, float]]]:
+def evaluate_hybrid(model: YoloLightStereoS, cache: list[tuple[np.ndarray, np.ndarray, np.ndarray]], *, semantic: bool = False) -> tuple[dict[str, float], list[dict[str, float]]]:
     model.eval()
     rows: list[dict[str, float]] = []
     with torch.inference_mode(), torch.autocast("cuda", dtype=torch.float16):
-        for index, record in enumerate(records):
-            left, right, ground_truth = load_record(record)
+        for index, (left, right, ground_truth) in enumerate(cache):
             left_tensor, right_tensor, top, width = pad_top_right(to_tensor(left), to_tensor(right))
             prediction, _, _ = model(left_tensor, right_tensor, semantic=semantic and index == 0)
             prediction = prediction[..., top:, :width].cpu()
@@ -75,14 +79,13 @@ def evaluate_hybrid(model: YoloLightStereoS, records: list[dict[str, str]], *, s
     return ({key: float(np.mean([row[key] for row in rows])) for key in rows[0] if key != "index"}, rows)
 
 
-def evaluate_baseline(records: list[dict[str, str]]) -> dict[str, float]:
+def evaluate_baseline(cache: list[tuple[np.ndarray, np.ndarray, np.ndarray]]) -> dict[str, float]:
     model = load_official_lightstereo().cuda().eval()
     mean = torch.tensor([0.485, 0.456, 0.406], device="cuda")[None, :, None, None]
     std = torch.tensor([0.229, 0.224, 0.225], device="cuda")[None, :, None, None]
     rows: list[dict[str, float]] = []
     with torch.inference_mode():
-        for record in records:
-            left, right, ground_truth = load_record(record)
+        for left, right, ground_truth in cache:
             left_tensor, right_tensor, top, width = pad_top_right(to_tensor(left), to_tensor(right))
             prediction = model({"left": (left_tensor / 255 - mean) / std, "right": (right_tensor / 255 - mean) / std})["disp_pred"]
             rows.append(metrics(prediction[..., top:, :width].cpu(), torch.from_numpy(ground_truth)[None, None]))
@@ -133,6 +136,8 @@ def main() -> None:
     write_json(output / "manifest_all.json", all_records)
     write_json(output / "manifest_train.json", train_records)
     write_json(output / "manifest_validation.json", validation_records)
+    train_cache = preload(train_records)
+    validation_cache = preload(validation_records)
     checkpoint_paths = [
         ROOT / "models/stereo/lightstereo/LightStereo-S-SceneFlow.ckpt",
         ROOT / "models/segmentation/yolo26s-sem-cityscapes.pt",
@@ -150,13 +155,13 @@ def main() -> None:
         "source_sha256": {name: hashlib.sha256((Path(__file__).parent / name).read_bytes()).hexdigest() for name in ("model.py", "run_yolo_backbone.py")},
     }
     write_json(output / "config.json", config)
-    baseline = evaluate_baseline(validation_records)
+    baseline = evaluate_baseline(validation_cache)
     write_json(output / "baseline_official_lightstereo_s_validation.json", baseline)
 
     model = YoloLightStereoS().cuda()
     parameter_counts = {"total": sum(parameter.numel() for parameter in model.parameters()), "trainable": sum(parameter.numel() for parameter in model.parameters() if parameter.requires_grad)}
     frozen_before = {key: value.detach().cpu().clone() for key, value in model.encoder.semantic.state_dict().items()}
-    initial, initial_rows = evaluate_hybrid(model, validation_records, semantic=True)
+    initial, initial_rows = evaluate_hybrid(model, validation_cache, semantic=True)
     write_json(output / "hybrid_initial_validation.json", initial)
     optimizer = torch.optim.AdamW((parameter for parameter in model.parameters() if parameter.requires_grad), lr=1e-4, weight_decay=1e-4)
     scaler = torch.amp.GradScaler("cuda")
@@ -173,7 +178,7 @@ def main() -> None:
             if not order:
                 order = list(range(len(train_records)))
                 randomizer.shuffle(order)
-            left, right, ground_truth = load_record(train_records[order.pop()])
+            left, right, ground_truth = train_cache[order.pop()]
             maximum_top = left.shape[0] - args.crop_height
             maximum_left = left.shape[1] - args.crop_width
             crop_top, crop_left = randomizer.randint(0, maximum_top), randomizer.randint(0, maximum_left)
@@ -197,14 +202,14 @@ def main() -> None:
             writer.writerow(row)
             train_rows.append(row)
             if step % args.eval_every == 0 or step == args.steps:
-                values, _ = evaluate_hybrid(model, validation_records)
+                values, _ = evaluate_hybrid(model, validation_cache)
                 validation_row = {"step": float(step), "epe": values["epe"]}
                 validation_rows.append(validation_row)
                 checkpoint_payload = {"model": model.state_dict(), "optimizer": optimizer.state_dict(), "scaler": scaler.state_dict(), "config": config, "step": step, "validation": values}
                 torch.save(checkpoint_payload, checkpoints / f"step_{step:06d}.pth")
                 torch.save(checkpoint_payload, checkpoints / "latest.pth")
                 print(f"step={step} loss={row['loss']:.4f} crop_epe={row['epe']:.4f} val_native_epe={values['epe']:.4f}", flush=True)
-    final, final_rows = evaluate_hybrid(model, validation_records, semantic=True)
+    final, final_rows = evaluate_hybrid(model, validation_cache, semantic=True)
     frozen_unchanged = all(torch.equal(value.cpu(), frozen_before[key]) for key, value in model.encoder.semantic.state_dict().items())
     if not frozen_unchanged:
         raise RuntimeError("Frozen YOLO semantic weights or buffers changed")

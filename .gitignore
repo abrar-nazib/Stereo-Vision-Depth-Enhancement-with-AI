@@ -35,6 +35,15 @@ models/**/*.onnx
 models/**/*.engine
 models/**/*.part
 
+# Checkpoints downloaded/staged anywhere under experiments (e.g. yolo encoder weights)
+experiments/**/models/**/*.pt
+experiments/**/models/**/*.pth
+experiments/**/models/**/*.ckpt
+experiments/**/models/**/*.onnx
+
+# Skill reference screenshots: white-listed despite the global *.png rule
+!.agents/skills/**/*.png
+
 # Third-party source checkouts used only to deserialize research checkpoints
 external_models/
 

@@ -1,0 +1,38 @@
+{
+  "experiment": "A03 encoder swap on StereoLite v2_hitnet head",
+  "arm": "ade20k",
+  "head": "StereoLite_v2_hitnet (ported from the author's thesis repo)",
+  "encoder": "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/models/segmentation/yolo26s-sem-ade20k.pt",
+  "encoder_frozen": true,
+  "encoder_out_channels": [
+    32,
+    128,
+    256,
+    256
+  ],
+  "parameters": {
+    "total": 1646625,
+    "trainable": 413537
+  },
+  "data": "SceneFlow Driving 200 fixed pairs; deterministic stratified 160/40",
+  "training": {
+    "steps": 10000,
+    "batch_size": 1,
+    "lr": 0.0002,
+    "optimizer": "AdamW",
+    "precision": "AMP float16",
+    "crop": [
+      384,
+      640
+    ],
+    "loss": "smooth_l1(full), mask finite & 0<d<192"
+  },
+  "evaluation": "native 540x960, replicate pad to /16, no resize",
+  "seed": 42,
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "source_sha256": {
+    "run.py": "6f3a324e2af1c19ee69f2be767e4340dc3dffc22015ea1c01855ff0f737784f0",
+    "hitnet_head/model.py": "a98845fc13a516b76a2a5f32fe50904b37c2913f767a79ed18b1dbb663e89445",
+    "hitnet_head/encoders.py": "4deff13354931184fe1506ba526488967fe486cb4f8273ebb795479daabb4645"
+  }
+}

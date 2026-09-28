@@ -1,0 +1,15 @@
+16:34:56 A07pre_scratch_20260928T103455Z: 20 pairs, train==eval, encoder=scratch
+16:34:56 trainable 2.124M / total 2.124M
+16:35:50 step=250 loss=872.783 train==eval EPE=38.9983
+16:36:41 step=500 loss=442.436 train==eval EPE=24.0088
+16:37:39 step=750 loss=93.010 train==eval EPE=27.5257
+16:38:51 step=1000 loss=514.589 train==eval EPE=26.3084
+16:40:06 step=1250 loss=179.926 train==eval EPE=22.5825
+16:41:20 step=1500 loss=334.243 train==eval EPE=19.5569
+16:42:38 step=1750 loss=93.293 train==eval EPE=20.0477
+16:43:53 step=2000 loss=75.878 train==eval EPE=17.7282
+16:45:10 step=2250 loss=100.521 train==eval EPE=14.5823
+16:46:23 step=2500 loss=1744.341 train==eval EPE=11.2405
+16:47:34 step=2750 loss=38.903 train==eval EPE=13.9774
+16:48:47 step=3000 loss=72.945 train==eval EPE=13.1057
+16:48:47 DONE A07pre_scratch_20260928T103455Z final=13.1057 in 829s

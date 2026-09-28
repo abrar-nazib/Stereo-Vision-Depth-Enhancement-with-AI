@@ -1,0 +1,62 @@
+{
+  "arm": "ghost",
+  "config": {
+    "experiment": "A03 encoder swap on StereoLite v2_hitnet head",
+    "arm": "ghost",
+    "head": "StereoLite_v2_hitnet (ported from the author's thesis repo)",
+    "encoder": "ghost",
+    "encoder_frozen": false,
+    "encoder_out_channels": [
+      24,
+      48,
+      72,
+      96
+    ],
+    "parameters": {
+      "total": 487030,
+      "trainable": 487030
+    },
+    "data": "SceneFlow Driving 200 fixed pairs; deterministic stratified 160/40",
+    "training": {
+      "steps": 10000,
+      "batch_size": 1,
+      "lr": 0.0002,
+      "optimizer": "AdamW",
+      "precision": "AMP float16",
+      "crop": [
+        384,
+        640
+      ],
+      "loss": "smooth_l1(full), mask finite & 0<d<192"
+    },
+    "evaluation": "native 540x960, replicate pad to /16, no resize",
+    "seed": 42,
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "source_sha256": {
+      "run.py": "6f3a324e2af1c19ee69f2be767e4340dc3dffc22015ea1c01855ff0f737784f0",
+      "hitnet_head/model.py": "a98845fc13a516b76a2a5f32fe50904b37c2913f767a79ed18b1dbb663e89445",
+      "hitnet_head/encoders.py": "4deff13354931184fe1506ba526488967fe486cb4f8273ebb795479daabb4645"
+    }
+  },
+  "initial": {
+    "step": 0.0,
+    "epe": 122.79273300170898
+  },
+  "final": {
+    "epe": 5.686027261614799,
+    "rmse": 11.90012081861496,
+    "median": 2.1010732203722,
+    "valid_pixels": 440719.75,
+    "bad_0.5": 70.7008458673954,
+    "bad_1": 52.950196489691734,
+    "bad_2": 37.829749062657356,
+    "bad_3": 30.663939267396927,
+    "d1": 27.44611183181405
+  },
+  "best": {
+    "step": 8700.0,
+    "epe": 4.714249387383461
+  },
+  "training_seconds": 1777.950610713,
+  "peak_allocated_mb": 289.47705078125
+}

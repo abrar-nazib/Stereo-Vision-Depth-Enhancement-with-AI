@@ -1,0 +1,15 @@
+16:22:23 A07pre_frozen_20260928T102220Z: 20 pairs, train==eval, encoder=frozen
+16:22:23 trainable 1.043M / total 1.340M
+16:23:38 step=250 loss=910.387 train==eval EPE=21.9576
+16:24:47 step=500 loss=172.219 train==eval EPE=11.1563
+16:26:00 step=750 loss=50.027 train==eval EPE=13.9032
+16:27:16 step=1000 loss=40.505 train==eval EPE=11.6654
+16:28:28 step=1250 loss=100.518 train==eval EPE=10.3998
+16:29:25 step=1500 loss=34.221 train==eval EPE=7.7118
+16:30:28 step=1750 loss=28.187 train==eval EPE=8.2419
+16:31:34 step=2000 loss=39.422 train==eval EPE=8.8624
+16:32:35 step=2250 loss=24.675 train==eval EPE=7.8035
+16:33:21 step=2500 loss=86.831 train==eval EPE=7.1921
+16:34:06 step=2750 loss=24.498 train==eval EPE=6.9688
+16:34:50 step=3000 loss=15.961 train==eval EPE=6.0195
+16:34:50 DONE A07pre_frozen_20260928T102220Z final=6.0195 in 744s

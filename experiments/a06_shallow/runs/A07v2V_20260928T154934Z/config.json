@@ -1,0 +1,40 @@
+{
+  "experiment": "A07v2V fusion arm V on v2_hitnet host + frozen ADE20K + THEIR multi-scale loss (B=no fusion)",
+  "encoder": "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/models/segmentation/yolo26s-sem-ade20k.pt",
+  "encoder_frozen": true,
+  "arm": "V",
+  "matching_taps": "layers 0-6 (f2/f4/f8/f16)",
+  "guidance_layer": 6,
+  "encoder_out_channels": [
+    32,
+    128,
+    256,
+    256
+  ],
+  "adapter": "fusion module at init volume; matching path = layers 0-4, guidance = layer 6",
+  "head": "v2_hitnet TileInit+HITNetPropagate 16/8/4/2 (A03 vendored)",
+  "parameters": {
+    "total": 1654434,
+    "trainable": 421346
+  },
+  "data": "SceneFlow Driving 200 fixed pairs; stratified 160/40",
+  "training": {
+    "steps": 35000,
+    "batch_size": 1,
+    "lr": 0.0001,
+    "optimizer": "AdamW",
+    "precision": "AMP fp16",
+    "crop": [
+      384,
+      640
+    ],
+    "loss": "modal multi-scale (1.0/0.5/0.3 + grad 0.5 + hinge 0.2/0.2 + smooth 0.02)"
+  },
+  "evaluation": "native 540x960, replicate pad to /16, no resize",
+  "seed": 42,
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "source_sha256": {
+    "model_a07v2.py": "9793b5cb3fac62ba9c1fc3642ccb009d889f951c722a940eee457508392d0f02",
+    "run_A07v2.py": "60595825e06d26dd85b911fb94e27f1b32af5becd90b76c80686745a66bbc4bd"
+  }
+}

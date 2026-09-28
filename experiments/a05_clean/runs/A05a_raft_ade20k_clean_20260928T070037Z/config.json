@@ -1,0 +1,39 @@
+{
+  "experiment": "A05a Selective-RAFT + frozen ADE20K YOLO26 (clean manifest + modal loss)",
+  "encoder": "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/models/segmentation/yolo26s-sem-ade20k.pt",
+  "encoder_frozen": true,
+  "encoder_out_channels": [
+    32,
+    128,
+    256,
+    256
+  ],
+  "adapter": "none \u2014 head self-sizes from YOLO channels",
+  "head": "RAFT-like TileInit + 2/3/3 GRU iters + convex upsample (vendored tile_propagate)",
+  "parameters": {
+    "total": 2068661,
+    "trainable": 835573
+  },
+  "data": "SceneFlow Driving 200 fixed pairs; stratified 160/40",
+  "training": {
+    "steps": 15000,
+    "batch_size": 1,
+    "lr": 0.0001,
+    "optimizer": "AdamW",
+    "precision": "AMP fp16",
+    "crop": [
+      384,
+      640
+    ],
+    "loss": "modal multi-scale (1.0/0.5/0.3 + grad 0.5 + hinge 0.2/0.2 + smooth 0.02)"
+  },
+  "evaluation": "native 540x960, replicate pad to /16, no resize",
+  "seed": 42,
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "source_sha256": {
+    "model_raft.py": "8e854de548393a6847dd5f49b6dde0df6b8ab77941b8e7e04ffca52681918a48",
+    "tile_propagate.py": "c93bf24f88b7267176aeeb2f6169c87f9d63f6aad3313a331742b01d0ec23559",
+    "run_raft.py": "cf7ddb40e4e89fcc1f8d40727353a36d68f59a54b0297b6e479bb11b6b4f6370",
+    "losses.py": "3f5684ab9f64e6b26aad92c58a938567e202c9fa8e898ed024efeaba1f2175b6"
+  }
+}

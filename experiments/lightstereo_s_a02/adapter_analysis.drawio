@@ -1,0 +1,170 @@
+<mxfile host="app.diagrams.net" agent="CommandCode" version="24.0.0" type="device">
+  <diagram id="page-1-lightstereo" name="1. LightStereo-S as designed">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1850" pageHeight="620" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="a_t" value="LightStereo-S (OpenStereo, ICRA 2025) — as designed" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="700" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="a_in" value="Left + Right RGB&#10;540 x 960" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="90" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a_enc" value="Backbone: MobileNetV2-100&#10;timm, ImageNet-pretrained&#10;strides 2 / 4 / 8 / 16 / 32" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="220" y="80" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="a_fpn" value="FPN fusion → pyramid&#10;p2 24ch @ H/4&#10;p3 32ch @ H/8&#10;p4 96ch @ H/16&#10;c5 160ch @ H/32" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="440" y="60" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="a_corr" value="Correlation volume&#10;p2 ⊗ p2, 48 bins @ H/4&#10;(left · right).mean(ch)&#10;— unnormalized" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="660" y="80" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="a_agg" value="Cost aggregation&#10;4x MobileV2Residual blocks&#10;+ gated attention from p2, p3, p4&#10;(1x1 conv → strip convs →&#10;multiplicative gate on cost)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="880" y="60" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="a_reg" value="softmax over 48 bins&#10;+ disparity regression&#10;→ disparity @ H/4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="80" width="170" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="a_ref" value="Refinement + context upsample&#10;refine_1(p2) ⊕ stem_2(image)&#10;→ 9-way softmax weights&#10;×(3x3 coarse disp cells)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1330" y="60" width="190" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="a_out" value="Disparity&#10;full res 540 x 960" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1560" y="90" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a_img" value="normalized left image&#10;(ImageNet mean/std)" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1330" y="230" width="190" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="a_note" value="Only p2 (24ch @ H/4) feeds BOTH the correlation volume and the upsampling guidance.&#10;c5 (160ch @ H/32) is produced by the backbone and then NEVER consumed by the head." style="text;html=1;strokeColor=none;fillColor=#fff2cc;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="40" y="300" width="720" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="a_e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;" edge="1" parent="1" source="a_in" target="a_enc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;" edge="1" parent="1" source="a_enc" target="a_fpn">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;" edge="1" parent="1" source="a_fpn" target="a_corr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;" edge="1" parent="1" source="a_corr" target="a_agg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_e5" value="p2, p3, p4 as attention" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;dashed=1;fontSize=10;" edge="1" parent="1" source="a_fpn" target="a_agg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_e6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;" edge="1" parent="1" source="a_agg" target="a_reg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;" edge="1" parent="1" source="a_reg" target="a_ref">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_e8" value="p2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;dashed=1;fontSize=10;" edge="1" parent="1" source="a_fpn" target="a_ref">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_e9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;dashed=1;" edge="1" parent="1" source="a_img" target="a_ref">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_e10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;" edge="1" parent="1" source="a_ref" target="a_out">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="page-2-replacement" name="2. Our encoder replacement">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1850" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="b_t" value="A02B — frozen YOLO26s-sem encoder + LightStereo-S head" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="700" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="b_in" value="Left + Right RGB&#10;540 x 960&#10;scaled to [0,1] only" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="90" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="b_enc" value="YOLO26s-sem (Cityscapes)&#10;FROZEN — segmentation objective&#10;3.7M params, no gradient&#10;takes RGB in [0,1] (/255)" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="80" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="b_adapt" value="4x 1x1 Conv adapters (TRAINABLE)&#10;saved[2] 128ch @/4 → 24&#10;saved[4] 256ch @/8 → 32&#10;saved[6] 256ch @/16 → 96&#10;saved[10] 512ch @/32 → 160" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="440" y="55" width="180" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="b_dead" value="512ch → 160ch adapter output is&#10;NEVER USED by the LightStereo head&#10;(c5 is not consumed) — 82k dead params" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="440" y="220" width="180" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="b_corr" value="Correlation volume&#10;p2 ⊗ p2, 48 bins @ H/4&#10;feature SCALE now comes from&#10;a frozen segmentation space" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="660" y="80" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="b_agg" value="Cost aggregation&#10;(same pretrained blocks,&#10;fine-tuned on 160 images)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="880" y="80" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="b_reg" value="softmax + regression&#10;(fine-tuned)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="80" width="170" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="b_ref" value="Refinement + context upsample&#10;(same pretrained blocks,&#10;fine-tuned on 160 images)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1330" y="80" width="190" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="b_out" value="Disparity&#10;full res 540 x 960" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1560" y="90" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="b_legend" value="LEGEND&#10;dashed blue = FROZEN (no gradient)&#10;green = TRAINABLE (1.71M params: adapters + head)&#10;red = unused / dead&#10;orange = the critical interface" style="text;html=1;strokeColor=none;fillColor=#f5f5f5;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="40" y="230" width="380" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="b_e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;" edge="1" parent="1" source="b_in" target="b_enc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b_e2" value="2 forward passes&#10;(or 1 batched)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=10;" edge="1" parent="1" source="b_enc" target="b_adapt">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b_e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;" edge="1" parent="1" source="b_adapt" target="b_corr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b_e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;" edge="1" parent="1" source="b_corr" target="b_agg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b_e5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;" edge="1" parent="1" source="b_agg" target="b_reg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b_e6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;" edge="1" parent="1" source="b_reg" target="b_ref">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b_e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;" edge="1" parent="1" source="b_ref" target="b_out">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="page-3-bottlenecks" name="3. Bottlenecks">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="980" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="c_t" value="Where the 6.2 EPE comes from — ranked bottlenecks" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="700" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="c_b1" value="B1  FROZEN SEMANTIC ENCODER  (dominant)&#10;The feature space that builds the cost volume is never adapted to matching.&#10;YOLO26s-sem is optimised for 19-class Cityscapes segmentation, not dense&#10;correspondence. Correlation is a dot product, so an unfitted metric space&#10;directly caps how discriminative the cost volume can be." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="700" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="c_b2" value="B2  TRAINING BUDGET / DATA  (dominant)&#10;160 training images (Drive only) x 10,000 steps, batch 1, no augmentation.&#10;StereoLite reached 0.79 EPE with the SAME YOLO26s encoder family but&#10;TRAINED end-to-end for 53,000 steps on the full SceneFlow split." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="770" y="60" width="700" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="c_b3" value="B3  1x1 ADAPTER IS AN INFORMATION BOTTLENECK&#10;p2 is the single feature that drives BOTH the correlation volume and the&#10;upsampling guidance. A 1x1 conv maps 128 → 24 channels and cannot&#10;reorganise the feature space — 104 of 128 channels are discarded linearly." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="700" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="c_b4" value="B4  HEAD PRETRAINED ON MOBILENETV2 STATISTICS&#10;The aggregation / refinement weights were fit to MobileNetV2 features.&#10;They must shift domain to YOLO features with only ~1.7M trainable params&#10;and a tiny budget — so part of the head is effectively unlearning." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="770" y="200" width="700" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="c_b5" value="B5  COST-VOLUME SCALE / TEMPERATURE MISMATCH&#10;correlation = (left · right).mean(ch), unnormalised, so feature magnitude&#10;becomes the softmax temperature over the 48 disparity bins. A frozen&#10;feature space with different variance shifts that temperature." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="340" width="700" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="c_b6" value="B6  DEAD CAPACITY + PROTOCOL DETAILS&#10;512→160 adapter is never consumed (82k params wasted).&#10;Training on 384x640 crops but evaluating full 540x960.&#10;Only correlation is used — no GEV / groupwise volume as in StereoLite." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="770" y="340" width="700" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="c_cmp" value="COMPARISON&#10;&#10;StereoLite (gev4_opt_narrow_plane):  YOLO26s encoder TRAINED on full SceneFlow, 53,000 steps  →  EPE 0.79, D1 3.47%&#10;A02B (this ablation):                     YOLO encoder FROZEN, head-only, 160 images, 10,000 steps      →  EPE 6.22, D1 ~24%&#10;Official LightStereo-S control:       MobileNetV2 + its own head, zero-shot                                →  EPE 1.96, D1 11.07%" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=left;verticalAlign=middle;spacingLeft=10;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="480" width="1430" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="c_fix" value="WHAT THIS IMPLIES&#10;1. Unfreeze the encoder (or train it end-to-end) — this is the difference between 6.2 and ~0.8.&#10;2. Train on the full SceneFlow split at scale (your own bar: 10k steps minimum), not 160 Drive images.&#10;3. Replace 1x1 adapters with a real adapter (1x1 → 3x3 depthwise → 1x1) or an FPN, so p2 is genuinely rebuilt.&#10;4. Drop the 160ch adapter; consider a groupwise/GEV volume instead of plain correlation." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="610" width="1430" height="150" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

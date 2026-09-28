@@ -1,0 +1,38 @@
+{
+  "experiment": "A04a LightStereo-M + frozen ADE20K YOLO26",
+  "encoder": "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/models/segmentation/yolo26s-sem-ade20k.pt",
+  "encoder_frozen": true,
+  "encoder_out_channels": [
+    32,
+    128,
+    256,
+    256,
+    512
+  ],
+  "adapter": "1x1 per scale, wide (no chokepoint)",
+  "head": "LightStereo-M (EfficientNetV2, blocks [4,8,16], expanse 4)",
+  "parameters": {
+    "total": 11462768,
+    "trainable": 6020784
+  },
+  "data": "SceneFlow Driving 200 fixed pairs; stratified 160/40",
+  "training": {
+    "steps": 20,
+    "batch_size": 1,
+    "lr": 0.0001,
+    "optimizer": "AdamW",
+    "precision": "AMP fp16",
+    "crop": [
+      384,
+      640
+    ],
+    "loss": "smooth_l1(full)+0.3*smooth_l1(coarse)"
+  },
+  "evaluation": "native 540x960, replicate pad to /32, no resize",
+  "seed": 42,
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "source_sha256": {
+    "model.py": "4cdb38950682641ed69f9451671484fbe15590af4a9bb17388d2b95639268cde",
+    "run.py": "5b381278dc0bd0ee45a4a5dd9adf4ca27867af658d94af45b0c3ceafcb1d338a"
+  }
+}
