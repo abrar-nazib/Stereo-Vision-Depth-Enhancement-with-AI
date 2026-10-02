@@ -1,0 +1,13 @@
+{
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "input": "375x1242 RGB stereo pair, replicate-pad to 384x1248",
+  "dtype": "AMP FP16 base, FP32 correction head",
+  "protocol": "5 warm-up and 20 measured CUDA-event repeats, synchronized per inference; includes class confidence postprocessing, excludes image I/O",
+  "results": {
+    "B_0_fused_baseline": {"median_ms": 64.55, "p95_ms": 66.02, "peak_allocated_mib": 440.0},
+    "B_1_residual": {"median_ms": 64.25, "p95_ms": 65.96, "peak_allocated_mib": 440.0},
+    "B_2_confidence": {"median_ms": 85.32, "p95_ms": 93.56, "peak_allocated_mib": 440.0},
+    "B_3_classaware": {"median_ms": 64.45, "p95_ms": 66.20, "peak_allocated_mib": 440.0}
+  },
+  "note": "Sub-millisecond differences among B0/B1/B3 are within run-to-run noise; B2 incurs a clear cost from photometric warping. Peak allocated memory was measured in one process reusing the frozen base and resetting peak stats for each arm; it is not isolated per-model residency."
+}

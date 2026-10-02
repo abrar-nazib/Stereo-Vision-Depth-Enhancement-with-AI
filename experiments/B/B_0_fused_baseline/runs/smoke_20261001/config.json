@@ -1,0 +1,21 @@
+{
+  "seed": 42,
+  "steps": 10,
+  "eval_every": 10,
+  "crop": [
+    256,
+    512
+  ],
+  "native_evaluation": true,
+  "resize": false,
+  "semantic_classes": 14,
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "torch": "2.14.0+cu130",
+  "manifest_sha256": "6ec58a86e40d700ae3f98ba54b13f7c1d9bbb6ca49e9a30957e784d3331ee422",
+  "stereo_sha256": "5ceaad4c84d941bd23be0d4c045f6d94934f6c17d0e6f5a9bc4cbc18f7f226b7",
+  "semantic_sha256": "bc3b9d334e3dc9d6535e8c9bea04cd2fad54b0dd36cf223c5313887c145807b9",
+  "fused_code_sha256": "19aaf19a4ffeb93b2aec8ad73077d104cf5df41390deee3205fea936f7d24269",
+  "runner_code_sha256": "47abff23b331b59e04458ed7e8e1925da658fb37394a83b99673651e5a7aa051",
+  "eval_limit": 2,
+  "limitations": "VKITTI semantic teacher's full-dataset random split likely overlaps this subset"
+}
