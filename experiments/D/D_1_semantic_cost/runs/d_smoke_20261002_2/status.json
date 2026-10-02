@@ -1,0 +1,10 @@
+{
+  "state": "complete",
+  "arm": "D_1_semantic_cost",
+  "step": 1,
+  "selected_step": 1,
+  "best_val_bad_3": 13.716071020345957,
+  "test_epe": 1.0312941271992997,
+  "test_bad_3": 6.843206843206843,
+  "elapsed_s": 5.871293544769287
+}

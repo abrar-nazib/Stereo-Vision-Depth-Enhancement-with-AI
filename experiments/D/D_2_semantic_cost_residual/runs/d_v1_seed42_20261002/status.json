@@ -1,0 +1,10 @@
+{
+  "state": "complete",
+  "arm": "D_2_semantic_cost_residual",
+  "step": 9000,
+  "selected_step": 6000,
+  "best_val_bad_3": 10.517715956870113,
+  "test_epe": 2.0286160733277936,
+  "test_bad_3": 10.511915187978829,
+  "elapsed_s": 1273.1554579734802
+}

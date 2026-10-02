@@ -1,0 +1,10 @@
+{
+  "state": "complete",
+  "arm": "D_3_no_semantic_cost",
+  "step": 10000,
+  "selected_step": 8000,
+  "best_val_bad_3": 13.188777538499508,
+  "test_epe": 2.2774204340516095,
+  "test_bad_3": 11.955994175268202,
+  "elapsed_s": 1372.4632196426392
+}

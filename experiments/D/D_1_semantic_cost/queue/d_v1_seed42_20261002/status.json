@@ -1,0 +1,11 @@
+{
+  "state": "complete",
+  "run_id": "d_v1_seed42_20261002",
+  "completed": [
+    "D_1_semantic_cost",
+    "D_2_semantic_cost_residual",
+    "D_3_no_semantic_cost",
+    "D_4_no_semantic_residual"
+  ],
+  "updated_unix": 1790930314.148596
+}

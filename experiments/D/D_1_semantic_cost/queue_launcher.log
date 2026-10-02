@@ -1,0 +1,4 @@
+{"state": "arm_complete", "arm": "D_1_semantic_cost", "log": "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/experiments/D_1_semantic_cost/queue/d_v1_seed42_20261002/D_1_semantic_cost.log"}
+{"state": "arm_complete", "arm": "D_2_semantic_cost_residual", "log": "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/experiments/D_1_semantic_cost/queue/d_v1_seed42_20261002/D_2_semantic_cost_residual.log"}
+{"state": "arm_complete", "arm": "D_3_no_semantic_cost", "log": "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/experiments/D_1_semantic_cost/queue/d_v1_seed42_20261002/D_3_no_semantic_cost.log"}
+{"state": "arm_complete", "arm": "D_4_no_semantic_residual", "log": "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/experiments/D_1_semantic_cost/queue/d_v1_seed42_20261002/D_4_no_semantic_residual.log"}
