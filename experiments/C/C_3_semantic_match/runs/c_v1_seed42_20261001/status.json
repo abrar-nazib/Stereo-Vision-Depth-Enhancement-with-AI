@@ -1,0 +1,10 @@
+{
+  "state": "complete",
+  "arm": "C_3_semantic_match",
+  "step": 7000,
+  "selected_step": 4000,
+  "best_val_epe": 2.301811410959972,
+  "test_epe": 2.0596406464484085,
+  "test_miou": 0.7345131813767042,
+  "elapsed_s": 866.8680477142334
+}

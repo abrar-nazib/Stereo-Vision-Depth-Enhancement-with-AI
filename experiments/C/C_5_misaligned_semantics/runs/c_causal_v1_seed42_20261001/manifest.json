@@ -1,0 +1,26 @@
+{
+  "arm": "C_5_misaligned_semantics",
+  "run_id": "c_causal_v1_seed42_20261001",
+  "seed": 42,
+  "max_steps": 10000,
+  "eval_every": 1000,
+  "patience": 3,
+  "crop_hw": [
+    256,
+    512
+  ],
+  "train_pairs": 800,
+  "val_pairs": 100,
+  "test_pairs": 100,
+  "data_manifest_sha256": "6ec58a86e40d700ae3f98ba54b13f7c1d9bbb6ca49e9a30957e784d3331ee422",
+  "stereo_sha256": "5ceaad4c84d941bd23be0d4c045f6d94934f6c17d0e6f5a9bc4cbc18f7f226b7",
+  "semantic_sha256": "bc3b9d334e3dc9d6535e8c9bea04cd2fad54b0dd36cf223c5313887c145807b9",
+  "trainable_params": 369137,
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "semantic_metric": "GT-present mIoU",
+  "split": "B-series 800/100/100 Scene20 frame-grouped seed42",
+  "smoke_limit": null,
+  "guidance_mode": "misaligned",
+  "reference_run": "C_2_feature_fusion/runs/c_v1_seed42_20261001",
+  "guidance_shift_seed": 314159
+}

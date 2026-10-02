@@ -1,0 +1,3 @@
+{"state": "arm_complete", "arm": "C_1_large_control", "log": "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/experiments/C_1_large_control/queue/c_v1_seed42_20261001/C_1_large_control.log"}
+{"state": "arm_complete", "arm": "C_2_feature_fusion", "log": "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/experiments/C_1_large_control/queue/c_v1_seed42_20261001/C_2_feature_fusion.log"}
+{"state": "arm_complete", "arm": "C_3_semantic_match", "log": "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/experiments/C_1_large_control/queue/c_v1_seed42_20261001/C_3_semantic_match.log"}

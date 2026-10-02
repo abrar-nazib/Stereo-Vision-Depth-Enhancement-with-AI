@@ -1,0 +1,9 @@
+{
+  "state": "complete",
+  "run_id": "c_causal_v1_seed42_20261001",
+  "completed": [
+    "C_4_no_semantics",
+    "C_5_misaligned_semantics"
+  ],
+  "updated_unix": 1790852537.3503351
+}

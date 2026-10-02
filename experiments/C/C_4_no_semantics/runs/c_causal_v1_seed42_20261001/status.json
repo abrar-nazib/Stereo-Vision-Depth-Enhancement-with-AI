@@ -1,0 +1,10 @@
+{
+  "state": "complete",
+  "arm": "C_4_no_semantics",
+  "step": 10000,
+  "selected_step": 7000,
+  "best_val_epe": 2.2480627467753895,
+  "test_epe": 2.037401147695946,
+  "test_miou": 0.7345131813767042,
+  "elapsed_s": 1324.2108147144318
+}

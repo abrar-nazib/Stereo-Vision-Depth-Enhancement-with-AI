@@ -1,0 +1,10 @@
+{
+  "state": "complete",
+  "arm": "C_5_misaligned_semantics",
+  "step": 10000,
+  "selected_step": 7000,
+  "best_val_epe": 2.242585981288529,
+  "test_epe": 2.0359045405495406,
+  "test_miou": 0.7345131813767042,
+  "elapsed_s": 1209.2225577831268
+}

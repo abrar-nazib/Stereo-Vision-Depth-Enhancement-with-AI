@@ -1,0 +1,10 @@
+{
+  "state": "complete",
+  "arm": "C_2_feature_fusion",
+  "step": 2,
+  "selected_step": 1,
+  "best_val_epe": 2.375417587441896,
+  "test_epe": 1.0298641117606635,
+  "test_miou": 0.5800616676303618,
+  "elapsed_s": 6.060402870178223
+}

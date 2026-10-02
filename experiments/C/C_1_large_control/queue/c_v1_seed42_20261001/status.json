@@ -1,0 +1,10 @@
+{
+  "state": "complete",
+  "run_id": "c_v1_seed42_20261001",
+  "completed": [
+    "C_1_large_control",
+    "C_2_feature_fusion",
+    "C_3_semantic_match"
+  ],
+  "updated_unix": 1790840092.6717944
+}

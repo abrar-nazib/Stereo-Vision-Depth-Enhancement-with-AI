@@ -1,0 +1,10 @@
+{
+  "state": "complete",
+  "arm": "C_1_large_control",
+  "step": 7000,
+  "selected_step": 4000,
+  "best_val_epe": 2.4706180089644274,
+  "test_epe": 2.1796410751248505,
+  "test_miou": 0.7345131813767042,
+  "elapsed_s": 832.8697366714478
+}
