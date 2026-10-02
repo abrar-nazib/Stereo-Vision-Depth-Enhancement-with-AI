@@ -54,6 +54,11 @@ experiments/**/runs/**/*.pt
 # remain ignored; downloaded/pretrained weights under models/ remain ignored.
 !experiments/**/runs/**/best*.pth
 !experiments/**/runs/**/best*.pt
+# Smoke/probe outputs are diagnostics, not the selected ablation weights.
+experiments/**/runs/*smoke*/**/best*.pth
+experiments/**/runs/*smoke*/**/best*.pt
+experiments/**/runs/probe*/**/best*.pth
+experiments/**/runs/probe*/**/best*.pt
 
 # Generated captures, videos, and saved experiment arrays
 *.mp4
