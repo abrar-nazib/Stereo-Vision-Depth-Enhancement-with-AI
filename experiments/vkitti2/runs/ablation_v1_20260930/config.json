@@ -1,0 +1,21 @@
+{
+  "data": "/media/abrar/AbrarSSD/Datasets/VirtualKitti2/ablation500",
+  "ckpt": "/media/abrar/AbrarSSD/ResearchArtifacts/SVDE/final_pass/a09m_fullsf_a10_v1_20260929/checkpoints/best.pth",
+  "steps": 800,
+  "eval_every": 200,
+  "crop_height": 256,
+  "crop_width": 512,
+  "seed": 260930,
+  "seg_weight": 0.5,
+  "run_dir": "experiments/vkitti2/runs/ablation_v1_20260930",
+  "manifest_sha256": "7f366b4c3a4574a381eaa1e109580d64a5b1f3458e36bd995085338666ae3847",
+  "checkpoint_sha256": "5ceaad4c84d941bd23be0d4c045f6d94934f6c17d0e6f5a9bc4cbc18f7f226b7",
+  "torch": "2.14.0+cu130",
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "input_resolution": "native 375x1242 val",
+  "arms": [
+    "baseline",
+    "depth_only",
+    "joint"
+  ]
+}
