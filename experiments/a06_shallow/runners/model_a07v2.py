@@ -42,8 +42,9 @@ ADE20K = ROOT / "models/segmentation/yolo26s-sem-ade20k.pt"
 class FusionStereoLite(StereoLite):
     """StereoLite with a fusion arm injected at the 1/16 init volume."""
 
-    def __init__(self, arm: str, cfg: StereoLiteConfig | None = None):
-        cfg = cfg or StereoLiteConfig(backbone=str(ADE20K), freeze_encoder=True)
+    def __init__(self, arm: str, cfg: StereoLiteConfig | None = None,
+                 encoder: str | Path | None = None):
+        cfg = cfg or StereoLiteConfig(backbone=str(encoder or ADE20K), freeze_encoder=True)
         super().__init__(cfg)
         self.arm = arm
         ch16 = self.fnet.out_channels[3]

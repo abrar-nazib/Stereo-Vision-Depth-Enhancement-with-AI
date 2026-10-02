@@ -100,6 +100,10 @@ declaring a figure done.
 | 10 | Stage brackets that stop short of the elements they name | Brackets span the full stage bounding box, including the last element |
 | 11 | Branch annotations placed on top of the per-bar channel labels | Branch annotations go above the group with their own offset, clear of per-bar labels |
 | 12 | Params/suffixes crammed into section titles ("2 · THE VETO — … (7.8K params)") until they overflow | Titles stay short; params go on their own line under the block name |
+| 13 | A branch wire crosses or visually traverses an unrelated block (for example, a correlation branch routed through the aggregation prefix to reach a gate) | Give each branch a dedicated upper or lower routing lane. Its horizontal segment must clear all unrelated block bounds, and its arrowhead must terminate on the intended module border. |
+| 14 | An upsample or intermediate operator looks bypassed because one continuous arrow passes through it | Draw one input arrow ending on the operator's entry face and a separate output arrow beginning at its exit face. Never run an arrow through a trapezoid, cuboid, or rounded block. |
+| 15 | An isometric tensor has an open or missing face, especially the lower side edge | Draw closed top and side polylines: top `front-TL → back-TL → back-TR → front-TR → front-TL`; side `front-TR → back-TR → back-BR → front-BR → front-TR`. Inspect at 100% before accepting it. |
+| 16 | A label technically fits in a headless render but touches the next arrow, block, or its own border | Treat labels as bounded annotations: shorten a compound operator label or move a secondary term to its output wire. Keep visible whitespace around all four sides rather than relying on natural text width. |
 
 ## Two figure kinds
 

@@ -153,7 +153,8 @@ def main() -> None:
 
     for path in chosen:
         step = int(path.stem.split("_")[1])
-        model = FusionStereoLite(config["arm"]).to(device).eval()
+        model = FusionStereoLite(config["arm"],
+                                 encoder=config.get("encoder")).to(device).eval()
         model.load_state_dict(torch.load(path, map_location="cpu", weights_only=False)["model"])
         tag = f"step_{step:06d}"
         (output / tag).mkdir(parents=True, exist_ok=True)

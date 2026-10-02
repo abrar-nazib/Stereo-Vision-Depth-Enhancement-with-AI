@@ -19,6 +19,20 @@ download; the byte sizes are the local file sizes.
 | `yolo26n-sem-ade20k.pt` | [Ultralytics assets v8.4.0](https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26n-sem-ade20k.pt); semantic model pretrained on ADE20K (150 classes) | 3,497,863 | `68ac71bef2868c987fff7cd7c49cb656922f6d8447ad21af3893305577435000` | [AGPL-3.0](https://github.com/ultralytics/ultralytics/blob/main/LICENSE) or [Enterprise](https://www.ultralytics.com/license) |
 | `yolo26s-sem-ade20k.pt` | [Ultralytics assets v8.4.0](https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26s-sem-ade20k.pt); semantic model pretrained on ADE20K (150 classes) | 13,291,143 | `feb2bd47eed6f721a4588213c670ccdad69c0ba29b4b5f97892df222b18c6c3a` | [AGPL-3.0](https://github.com/ultralytics/ultralytics/blob/main/LICENSE) or [Enterprise](https://www.ultralytics.com/license) |
 
+## Locally trained semantic checkpoint
+
+`yolo26m-sem-vkitti2-14class-freeze7-best.pt` was downloaded from
+`svde-results:/vkitti2_semantic/vkitti2sem_random14_a10_v1_20260930/weights/best.pt`
+on 2026-09-30. It is the epoch-9 **best-validation-mIoU** checkpoint from
+YOLO26m-sem ADE20K fine-tuning on 14-class VKITTI2 with shared layers 0–6
+frozen. The original run stopped during epoch 15. File size: 85,101,205 bytes;
+SHA-256: `bc3b9d334e3dc9d6535e8c9bea04cd2fad54b0dd36cf223c5313887c145807b9`.
+It loads as Ultralytics `task=semantic` with fourteen class names. Separate
+held-out random-split test: mIoU 0.82664, pixel accuracy 0.95608; frozen
+trunk equality verified. Full protocol, caveats, and per-class IoU are in
+[`SEMANTIC_MODAL_RUN.md`](../../experiments/vkitti2/SEMANTIC_MODAL_RUN.md)
+and the Modal `final_test.json`. This checkpoint remains gitignored.
+
 ## Loading
 
 Install the loader packages in the active project environment, then use paths

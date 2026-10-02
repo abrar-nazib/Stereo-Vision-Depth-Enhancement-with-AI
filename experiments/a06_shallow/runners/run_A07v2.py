@@ -131,6 +131,12 @@ def main():
     parser.add_argument("--crop-width", type=int, default=640)
     parser.add_argument("--data", type=Path, default=Path("/media/abrar/AbrarSSD/Datasets/sceneflow_driving"))
     parser.add_argument("--arm", choices=["B", "E", "V", "D", "VD", "VE", "VD_E"], default="B")
+    parser.add_argument("--out-dir", type=Path, default=None,
+                        help="fixed output dir (enables resume across process restarts)")
+    parser.add_argument("--resume", action="store_true",
+                        help="continue from checkpoints/latest.pth in --out-dir")
+    parser.add_argument("--encoder", type=Path, default=None,
+                        help="frozen yolo26-sem checkpoint (default: s/ADE20K)")
     args = parser.parse_args()
     _arm = args.arm
 
@@ -138,9 +144,13 @@ def main():
         raise RuntimeError("CUDA is required")
     random.seed(args.seed); np.random.seed(args.seed); torch.manual_seed(args.seed)
 
-    output = A06 / "runs" / f"A07v2{_arm}_{datetime.now(timezone.utc):%Y%m%dT%H%M%SZ}"
-    output.mkdir(parents=True, exist_ok=False)
-    (output / "checkpoints").mkdir()
+    if args.out_dir is not None:
+        output = args.out_dir
+        output.mkdir(parents=True, exist_ok=True)
+    else:
+        output = A06 / "runs" / f"A07v2{_arm}_{datetime.now(timezone.utc):%Y%m%dT%H%M%SZ}"
+        output.mkdir(parents=True, exist_ok=False)
+    (output / "checkpoints").mkdir(exist_ok=True)
     logger = setup_logging(output)
     logger.info("arm=%s", _arm)
     logger.info("run=%s steps=%d", output.name, args.steps)
@@ -154,18 +164,18 @@ def main():
     val_cache = preload(val_records)
     logger.info("pairs: %d train / %d held-out", len(train_cache), len(val_cache))
 
-    model = FusionStereoLite(arm=_arm).cuda()
+    model = FusionStereoLite(arm=_arm, encoder=args.encoder).cuda()
     trainable = [p for p in model.parameters() if p.requires_grad]
     total = sum(p.numel() for p in model.parameters())
     config = {
         "experiment": f"A07v2{_arm} fusion arm {_arm} on v2_hitnet host + frozen ADE20K + THEIR multi-scale loss (B=no fusion)",
-        "encoder": str((ROOT / "models/segmentation/yolo26s-sem-ade20k.pt")),
+        "encoder": str(args.encoder) if args.encoder else str((ROOT / "models/segmentation/yolo26s-sem-ade20k.pt")),
         "encoder_frozen": True,
         "arm": _arm, "matching_taps": "layers 0-6 (f2/f4/f8/f16)", "guidance_layer": 6, "encoder_out_channels": list(model.fnet.out_channels),
         "adapter": "fusion module at init volume; matching path = layers 0-4, guidance = layer 6",
         "head": "v2_hitnet TileInit+HITNetPropagate 16/8/4/2 (A03 vendored)",
         "parameters": {"total": total, "trainable": sum(p.numel() for p in trainable)},
-        "data": "SceneFlow Driving 200 fixed pairs; stratified 160/40",
+        "data": f"SceneFlow Driving; {len(train_records)}/{len(val_records)} pairs stratified 80/20",
         "training": {"steps": args.steps, "batch_size": 1, "lr": 1e-4, "optimizer": "AdamW",
                      "precision": "AMP fp16", "crop": [args.crop_height, args.crop_width],
                      "loss": "modal multi-scale (1.0/0.5/0.3 + grad 0.5 + hinge 0.2/0.2 + smooth 0.02)"},
@@ -181,16 +191,37 @@ def main():
     scaler = torch.amp.GradScaler("cuda")
     rnd = random.Random(args.seed)
     order: list[int] = []
-    val_rows = [{"step": 0.0, "epe": evaluate(model, val_cache)[0]["epe"]}]
-    logger.info("initial held-out EPE: %.4f", val_rows[0]["epe"])
+    start_step = 0
+    val_rows: list[dict] = []
+    train_rows: list[dict] = []
+    if args.resume:
+        ckpt_path = output / "checkpoints" / "latest.pth"
+        if ckpt_path.exists():
+            payload = torch.load(ckpt_path, map_location="cuda", weights_only=False)
+            model.load_state_dict(payload["model"])
+            optimizer.load_state_dict(payload["optimizer"])
+            scaler.load_state_dict(payload["scaler"])
+            start_step = int(payload["step"])
+            if (output / "validation.csv").exists():
+                val_rows = [{"step": float(r["step"]), "epe": float(r["epe"])}
+                            for r in csv.DictReader((output / "validation.csv").open())]
+            if (output / "train.csv").exists():
+                train_rows = [{"step": float(r["step"]), "loss": float(r["loss"]),
+                               "epe": float(r["epe"]), "elapsed_seconds": float(r["elapsed_seconds"])}
+                              for r in csv.DictReader((output / "train.csv").open())]
+            logger.info("resumed from %s at step %d (%d val rows)", ckpt_path, start_step, len(val_rows))
+    if not val_rows:
+        val_rows = [{"step": 0.0, "epe": evaluate(model, val_cache)[0]["epe"]}]
+        logger.info("initial held-out EPE: %.4f", val_rows[0]["epe"])
     torch.cuda.reset_peak_memory_stats()
     started = time.perf_counter()
-    train_rows: list[dict] = []
 
-    with (output / "train.csv").open("w", newline="", buffering=1) as stream:
+    csv_mode = "a" if start_step > 0 else "w"
+    with (output / "train.csv").open(csv_mode, newline="", buffering=1) as stream:
         writer = csv.DictWriter(stream, fieldnames=["step", "loss", "epe", "elapsed_seconds"])
-        writer.writeheader()
-        for step in range(1, args.steps + 1):
+        if start_step == 0:
+            writer.writeheader()
+        for step in range(start_step + 1, args.steps + 1):
             if not order:
                 order = list(range(len(train_cache)))
                 rnd.shuffle(order)

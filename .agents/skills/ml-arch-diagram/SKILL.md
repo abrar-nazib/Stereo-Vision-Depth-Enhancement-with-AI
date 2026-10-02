@@ -16,7 +16,7 @@ vision-capable read before the first draft; do not draw from memory of this text
 ## Hard rules (violations caused every rejected diagram so far)
 
 0. Before finishing, walk the **Common mistakes and remedies** table at the end of
-   grammar.md — all 12 entries were real rejections.
+   grammar.md — every entry records a real rejection.
 
 1. Canvas holds tensors and operations only. No why/result/scoreboard/meta boxes.
    The single allowed meta element: one header badge line (name · params · metric).

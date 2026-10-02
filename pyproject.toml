@@ -28,3 +28,9 @@ torchvision = { index = "pytorch-cu130" }
 name = "pytorch-cu130"
 url = "https://download.pytorch.org/whl/cu130"
 explicit = true
+
+[dependency-groups]
+dev = [
+    "modal>=1.6.0",
+    "pytest>=9.1.1",
+]
