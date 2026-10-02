@@ -1,0 +1,10 @@
+{
+  "state": "complete",
+  "arm": "E_1_wide2_semantics",
+  "step": 9000,
+  "selected_step": 6000,
+  "best_val_bad_3": 10.636232251184744,
+  "test_epe": 2.036064535717158,
+  "test_bad_3": 10.576822619206226,
+  "elapsed_s": 1417.1916244029999
+}

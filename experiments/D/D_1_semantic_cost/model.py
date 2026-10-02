@@ -32,10 +32,12 @@ def semantic_agreement(left: torch.Tensor, right: torch.Tensor,
 class SemanticCostGate(nn.Module):
     """Identity-initialized correction to SGNet-style candidate confidence."""
 
-    def __init__(self):
+    def __init__(self, hidden_channels: int = 8):
         super().__init__()
-        self.net = nn.Sequential(nn.Conv3d(2, 8, 3, padding=1), nn.SiLU(),
-                                 nn.Conv3d(8, 1, 3, padding=1))
+        if hidden_channels < 1:
+            raise ValueError("hidden_channels must be positive")
+        self.net = nn.Sequential(nn.Conv3d(2, hidden_channels, 3, padding=1), nn.SiLU(),
+                                 nn.Conv3d(hidden_channels, 1, 3, padding=1))
         nn.init.zeros_(self.net[-1].weight)
         nn.init.zeros_(self.net[-1].bias)
 
@@ -59,11 +61,13 @@ class SemanticCostGate(nn.Module):
 class ClassResidual(nn.Module):
     """SGNet-inspired category-wise depthwise refinement at native resolution."""
 
-    def __init__(self, classes: int = 14):
+    def __init__(self, classes: int = 14, hidden_channels: int = 32):
         super().__init__()
+        if hidden_channels < 1:
+            raise ValueError("hidden_channels must be positive")
         self.depthwise = nn.Conv2d(classes, classes, 3, padding=1, groups=classes)
-        self.fuse = nn.Sequential(nn.Conv2d(2 * classes + 2, 32, 3, padding=1),
-                                  nn.SiLU(), nn.Conv2d(32, 1, 3, padding=1))
+        self.fuse = nn.Sequential(nn.Conv2d(2 * classes + 2, hidden_channels, 3, padding=1),
+                                  nn.SiLU(), nn.Conv2d(hidden_channels, 1, 3, padding=1))
         nn.init.zeros_(self.fuse[-1].weight)
         nn.init.zeros_(self.fuse[-1].bias)
 

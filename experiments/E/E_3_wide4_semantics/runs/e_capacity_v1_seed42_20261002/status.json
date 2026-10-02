@@ -1,0 +1,10 @@
+{
+  "state": "complete",
+  "arm": "E_3_wide4_semantics",
+  "step": 10000,
+  "selected_step": 7000,
+  "best_val_bad_3": 10.54526087377158,
+  "test_epe": 1.9706926948699923,
+  "test_bad_3": 10.413965913396389,
+  "elapsed_s": 1755.0421574115753
+}

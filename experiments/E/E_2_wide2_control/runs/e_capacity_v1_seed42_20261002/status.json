@@ -1,0 +1,10 @@
+{
+  "state": "complete",
+  "arm": "E_2_wide2_control",
+  "step": 10000,
+  "selected_step": 8000,
+  "best_val_bad_3": 12.458955613261706,
+  "test_epe": 2.2237879763317925,
+  "test_bad_3": 11.551695694971615,
+  "elapsed_s": 1557.4488208293915
+}

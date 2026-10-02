@@ -1,0 +1,11 @@
+{
+  "state": "complete",
+  "run_id": "e_capacity_v1_seed42_20261002",
+  "completed": [
+    "E_1_wide2_semantics",
+    "E_2_wide2_control",
+    "E_3_wide4_semantics",
+    "E_4_wide4_control"
+  ],
+  "updated_unix": 1790947357.7529194
+}

@@ -84,6 +84,14 @@ all metrics or code in an older one.
   D1–D3 test EPE differed by -0.2424 px and D2–D4 by -0.2479 px, with
   lower bad-3 in both semantic arms; read the D insight caveats before a
   manuscript claim, especially semantic-teacher split overlap risk.
+- `experiments/E/` holds the D2 head-capacity sweep: 2× and 4× gate/refiner
+  widths, each paired with an equal-capacity no-semantics control. E1 owns
+  the shared model, runner, sequential queue and polling `README.md`; D2/D4
+  remain the 1× references. Treat E as an in-domain capacity ablation, not
+  proof of cross-domain generalization. Its `full_vkitti_data.py`,
+  `full_vkitti_train.py`, and `modal_full_vkitti_t4.py` implement the subsequent
+  teacher-split-aligned full VKITTI2 T4 comparison of E3/E4/D2; results live
+  on `svde-results:/E_full_vkitti/`, not in the local ablation run folders.
 - `models/segmentation/` stores local semantic/instance checkpoints and a
   provenance inventory. The frozen-shared-trunk VKITTI checkpoint is
   `yolo26m-sem-vkitti2-14class-freeze7-best.pt` (14 semantic classes); large
@@ -144,10 +152,43 @@ all metrics or code in an older one.
   point-cloud data after pressing `s`. Its write location is relative to the
   process working directory; run it from `combined_depth/` when outputs should
   land in `combined_depth/images/`.
-- Avoid committing model checkpoints, camera recordings, raw sensor streams,
-  or large generated arrays. Record reproducibility details (camera model,
+- Avoid committing routine model checkpoints, camera recordings, raw sensor
+  streams, or large generated arrays. The intentionally selected `best*.pt`
+  and `best*.pth` checkpoints in substantive experiment runs are eligible for
+  Git after checking individual sizes; smoke/probe and downloaded weights stay
+  ignored. Record reproducibility details (camera model,
   resolution, baseline, calibration source, model/checkpoint, and parameters)
   alongside any retained result.
+
+## Local ablation protocol
+
+- Give each series its own `experiments/<letter>/` folder and versioned
+  `runs/<run-id>/` artifacts; preserve old series rather than rewriting their
+  results. Record arm architecture, trainable parameter count, frozen-weight
+  and dataset hashes, seed, crop, optimizer/schedule, validation selection
+  rule, GPU, metrics, and limitations in each manifest/report.
+- For the current VKITTI2 fusion-head comparison, keep the fixed-seed
+  1,000-pair subset: 800 train, 100 validation, 100 test. Group all ten
+  variations of a `(scene, frame)` together: 80/10/10 distinct source-frame
+  groups. Keep the A09 stereo model, shared YOLO layers 0–6, and VKITTI
+  semantic decoder frozen. Train only the stated fusion head, and include a
+  same-architecture/same-capacity no-semantics control for causal claims.
+- Never resize stereo images or disparity in these comparisons. Use paired
+  native-pixel crops for training and padded full-image validation/test;
+  preserve left/right ordering and report valid-pixel EPE, RMSE, bad-0.5/1/2/3,
+  D1, segmentation mIoU definition, trainable parameters, and when relevant
+  inference latency and peak VRAM. Select the checkpoint on validation only;
+  the test split is for final comparison, not tuning.
+- Before a long local ablation, run unit tests and a short smoke of **every**
+  arm. Launch full arms sequentially on the RTX 3050 in a detached queue with
+  a durable status JSON and separate arm logs; give the user copyable polling
+  commands and do not keep polling on their behalf. Do not spend Modal credit
+  on these local screening runs. A later full VKITTI Modal run is a separate
+  decision after the ablation is reviewed.
+- B/C/D/E VKITTI evidence is in-domain. The semantic teacher's random
+  full-VKITTI split may overlap the depth test frames; audit or eliminate this
+  overlap, repeat with independent source frames/seeds, and evaluate a real
+  domain before claiming generalization in a manuscript.
 
 ## Editing and validation
 

@@ -73,9 +73,10 @@ def evaluate(model: DModel, rows: list[dict], data: Path) -> dict:
             "selection_metric": "bad_3"}
 
 
-def main() -> None:
+def main(argv: list[str] | None = None, *, arms: dict = ARMS,
+         factory=construct, series: str = "D") -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--arm", choices=ARMS, required=True)
+    parser.add_argument("--arm", choices=arms, required=True)
     parser.add_argument("--run-id", default="d_v1_seed42_20261002")
     parser.add_argument("--steps", type=int, default=10000)
     parser.add_argument("--eval-every", type=int, default=1000)
@@ -83,14 +84,14 @@ def main() -> None:
     parser.add_argument("--eval-limit", type=int, default=None,
                         help="Smoke only; truncates each split and must not be cited")
     parser.add_argument("--data", type=Path, default=DATA)
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     if not torch.cuda.is_available():
         raise RuntimeError("D-series requires local CUDA")
     if min(args.steps, args.eval_every, args.patience) < 1:
         raise ValueError("steps, eval-every and patience must be positive")
     if not args.data.joinpath("manifest.json").is_file() or not STEREO.is_file():
         raise FileNotFoundError("VKITTI ablation1000 or A09 stereo checkpoint is unavailable")
-    run_dir = ROOT / "experiments" / "D" / args.arm / "runs" / args.run_id
+    run_dir = ROOT / "experiments" / series / args.arm / "runs" / args.run_id
     run_dir.mkdir(parents=True, exist_ok=False)
     (run_dir / "checkpoints").mkdir()
     status_path = run_dir / "status.json"
@@ -106,7 +107,7 @@ def main() -> None:
                                               val_rows[:limit], test_rows[:limit])
         torch.manual_seed(42)
         rng = random.Random(42)
-        model = construct(args.arm).cuda().train()
+        model = factory(args.arm).cuda().train()
         trainable = [p for p in model.parameters() if p.requires_grad]
         if any(p.requires_grad for p in model.base.parameters()):
             raise AssertionError("a frozen predictor became trainable")
@@ -122,8 +123,10 @@ def main() -> None:
             "split": "B/C-series Scene20 frame-grouped 800/100/100 seed42",
             "semantic_metric": "GT-present 14-class mIoU", "smoke_limit": args.eval_limit,
             "use_semantics": model.use_semantics, "refinement": model.refiner is not None,
-            "architecture": "SGNet-inspired 1/16 semantic correlation gate before A09 aggregation"
+            "architecture": getattr(model, "architecture_name",
+                                    "SGNet-inspired 1/16 semantic correlation gate before A09 aggregation")
         }
+        metadata.update(getattr(model, "ablation_metadata", {}))
         atomic_json(run_dir / "manifest.json", metadata)
         optimizer = torch.optim.AdamW(trainable, lr=2e-4, weight_decay=1e-4)
         scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr=2e-4,

@@ -1,0 +1,4 @@
+{"state": "arm_complete", "arm": "E_1_wide2_semantics", "log": "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/experiments/E/E_1_wide2_semantics/queue/e_capacity_v1_seed42_20261002/E_1_wide2_semantics.log"}
+{"state": "arm_complete", "arm": "E_2_wide2_control", "log": "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/experiments/E/E_1_wide2_semantics/queue/e_capacity_v1_seed42_20261002/E_2_wide2_control.log"}
+{"state": "arm_complete", "arm": "E_3_wide4_semantics", "log": "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/experiments/E/E_1_wide2_semantics/queue/e_capacity_v1_seed42_20261002/E_3_wide4_semantics.log"}
+{"state": "arm_complete", "arm": "E_4_wide4_control", "log": "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/experiments/E/E_1_wide2_semantics/queue/e_capacity_v1_seed42_20261002/E_4_wide4_control.log"}
