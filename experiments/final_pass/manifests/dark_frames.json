@@ -1,0 +1,1781 @@
+{
+  "threshold_mean": 45.0,
+  "historical": [
+    "frames_finalpass/15mm_focallength/scene_backwards/fast/left/0300.png",
+    "frames_finalpass/15mm_focallength/scene_backwards/slow/left/0800.png",
+    "frames_finalpass/35mm_focallength/scene_backwards/fast/left/0300.png",
+    "frames_finalpass/35mm_focallength/scene_backwards/slow/left/0800.png"
+  ],
+  "scanned_dark": [
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0157.png",
+      "mean": 44.42,
+      "std": 21.86
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0158.png",
+      "mean": 43.15,
+      "std": 19.94
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0159.png",
+      "mean": 43.16,
+      "std": 21.08
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0160.png",
+      "mean": 44.32,
+      "std": 23.3
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0176.png",
+      "mean": 44.16,
+      "std": 24.29
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0177.png",
+      "mean": 42.83,
+      "std": 23.5
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0178.png",
+      "mean": 42.42,
+      "std": 24.65
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0179.png",
+      "mean": 42.86,
+      "std": 26.4
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0180.png",
+      "mean": 44.02,
+      "std": 28.63
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0287.png",
+      "mean": 44.75,
+      "std": 24.83
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0288.png",
+      "mean": 42.9,
+      "std": 21.1
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0289.png",
+      "mean": 41.49,
+      "std": 18.13
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0290.png",
+      "mean": 41.39,
+      "std": 17.92
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0291.png",
+      "mean": 40.91,
+      "std": 17.43
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0292.png",
+      "mean": 39.77,
+      "std": 16.06
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0293.png",
+      "mean": 37.38,
+      "std": 12.08
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0294.png",
+      "mean": 36.27,
+      "std": 11.04
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0295.png",
+      "mean": 35.68,
+      "std": 11.16
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0296.png",
+      "mean": 35.19,
+      "std": 11.95
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0297.png",
+      "mean": 34.67,
+      "std": 12.68
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0298.png",
+      "mean": 33.42,
+      "std": 11.04
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0299.png",
+      "mean": 33.75,
+      "std": 13.79
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/fast/left/0300.png",
+      "mean": 34.5,
+      "std": 17.82
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0418.png",
+      "mean": 44.62,
+      "std": 24.7
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0419.png",
+      "mean": 43.49,
+      "std": 21.7
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0420.png",
+      "mean": 42.89,
+      "std": 20.47
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0421.png",
+      "mean": 42.84,
+      "std": 20.61
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0422.png",
+      "mean": 42.63,
+      "std": 20.78
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0423.png",
+      "mean": 42.66,
+      "std": 21.07
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0424.png",
+      "mean": 42.75,
+      "std": 21.71
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0425.png",
+      "mean": 43.08,
+      "std": 22.6
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0426.png",
+      "mean": 43.51,
+      "std": 23.48
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0427.png",
+      "mean": 44.05,
+      "std": 24.19
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0428.png",
+      "mean": 44.24,
+      "std": 24.75
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0468.png",
+      "mean": 44.87,
+      "std": 24.85
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0469.png",
+      "mean": 44.35,
+      "std": 24.53
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0470.png",
+      "mean": 43.76,
+      "std": 24.08
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0471.png",
+      "mean": 43.13,
+      "std": 23.75
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0472.png",
+      "mean": 42.77,
+      "std": 23.64
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0473.png",
+      "mean": 42.48,
+      "std": 24.02
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0474.png",
+      "mean": 42.32,
+      "std": 24.52
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0475.png",
+      "mean": 42.29,
+      "std": 25.06
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0476.png",
+      "mean": 42.26,
+      "std": 25.59
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0477.png",
+      "mean": 42.57,
+      "std": 26.33
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0478.png",
+      "mean": 42.8,
+      "std": 27.07
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0479.png",
+      "mean": 43.2,
+      "std": 27.92
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0480.png",
+      "mean": 43.76,
+      "std": 28.92
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0481.png",
+      "mean": 44.44,
+      "std": 29.74
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0765.png",
+      "mean": 44.89,
+      "std": 25.17
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0766.png",
+      "mean": 44.3,
+      "std": 24.29
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0767.png",
+      "mean": 43.74,
+      "std": 23.08
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0768.png",
+      "mean": 43.01,
+      "std": 21.48
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0769.png",
+      "mean": 41.91,
+      "std": 19.38
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0770.png",
+      "mean": 41.54,
+      "std": 18.56
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0771.png",
+      "mean": 41.37,
+      "std": 18.36
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0772.png",
+      "mean": 41.53,
+      "std": 18.46
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0773.png",
+      "mean": 41.53,
+      "std": 18.45
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0774.png",
+      "mean": 41.28,
+      "std": 18.21
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0775.png",
+      "mean": 41.25,
+      "std": 18.1
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0776.png",
+      "mean": 41.25,
+      "std": 18.31
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0777.png",
+      "mean": 41.09,
+      "std": 18.06
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0778.png",
+      "mean": 40.7,
+      "std": 17.74
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0779.png",
+      "mean": 39.8,
+      "std": 16.42
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0780.png",
+      "mean": 38.77,
+      "std": 14.71
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0781.png",
+      "mean": 37.81,
+      "std": 13.1
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0782.png",
+      "mean": 37.13,
+      "std": 12.09
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0783.png",
+      "mean": 36.65,
+      "std": 11.57
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0784.png",
+      "mean": 36.36,
+      "std": 11.37
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0785.png",
+      "mean": 36.09,
+      "std": 11.29
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0786.png",
+      "mean": 35.87,
+      "std": 11.35
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0787.png",
+      "mean": 35.68,
+      "std": 11.54
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0788.png",
+      "mean": 35.47,
+      "std": 11.78
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0789.png",
+      "mean": 35.32,
+      "std": 12.11
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0790.png",
+      "mean": 35.17,
+      "std": 12.52
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0791.png",
+      "mean": 35.02,
+      "std": 12.92
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0792.png",
+      "mean": 34.76,
+      "std": 12.96
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0793.png",
+      "mean": 34.3,
+      "std": 12.35
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0794.png",
+      "mean": 33.77,
+      "std": 11.63
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0795.png",
+      "mean": 33.44,
+      "std": 11.46
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0796.png",
+      "mean": 33.12,
+      "std": 11.37
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0797.png",
+      "mean": 33.58,
+      "std": 13.25
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0798.png",
+      "mean": 34.38,
+      "std": 15.75
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0799.png",
+      "mean": 34.51,
+      "std": 17.01
+    },
+    {
+      "left_rel": "15mm_focallength/scene_backwards/slow/left/0800.png",
+      "mean": 34.54,
+      "std": 17.95
+    },
+    {
+      "left_rel": "15mm_focallength/scene_forwards/fast/left/0112.png",
+      "mean": 40.04,
+      "std": 26.87
+    },
+    {
+      "left_rel": "15mm_focallength/scene_forwards/fast/left/0113.png",
+      "mean": 41.05,
+      "std": 28.75
+    },
+    {
+      "left_rel": "15mm_focallength/scene_forwards/fast/left/0114.png",
+      "mean": 43.55,
+      "std": 30.08
+    },
+    {
+      "left_rel": "15mm_focallength/scene_forwards/slow/left/0296.png",
+      "mean": 44.9,
+      "std": 34.97
+    },
+    {
+      "left_rel": "15mm_focallength/scene_forwards/slow/left/0297.png",
+      "mean": 40.19,
+      "std": 27.67
+    },
+    {
+      "left_rel": "15mm_focallength/scene_forwards/slow/left/0298.png",
+      "mean": 40.03,
+      "std": 27.24
+    },
+    {
+      "left_rel": "15mm_focallength/scene_forwards/slow/left/0299.png",
+      "mean": 39.94,
+      "std": 26.85
+    },
+    {
+      "left_rel": "15mm_focallength/scene_forwards/slow/left/0300.png",
+      "mean": 40.59,
+      "std": 28.51
+    },
+    {
+      "left_rel": "15mm_focallength/scene_forwards/slow/left/0301.png",
+      "mean": 40.67,
+      "std": 28.38
+    },
+    {
+      "left_rel": "15mm_focallength/scene_forwards/slow/left/0302.png",
+      "mean": 40.84,
+      "std": 28.21
+    },
+    {
+      "left_rel": "15mm_focallength/scene_forwards/slow/left/0303.png",
+      "mean": 41.79,
+      "std": 28.76
+    },
+    {
+      "left_rel": "15mm_focallength/scene_forwards/slow/left/0304.png",
+      "mean": 43.07,
+      "std": 29.68
+    },
+    {
+      "left_rel": "15mm_focallength/scene_forwards/slow/left/0305.png",
+      "mean": 44.57,
+      "std": 30.67
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0083.png",
+      "mean": 43.21,
+      "std": 25.41
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0084.png",
+      "mean": 41.67,
+      "std": 17.47
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0085.png",
+      "mean": 41.65,
+      "std": 16.22
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0086.png",
+      "mean": 41.9,
+      "std": 17.07
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0087.png",
+      "mean": 42.84,
+      "std": 17.96
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0088.png",
+      "mean": 43.8,
+      "std": 18.76
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0155.png",
+      "mean": 39.56,
+      "std": 17.9
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0156.png",
+      "mean": 38.29,
+      "std": 15.14
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0157.png",
+      "mean": 37.95,
+      "std": 15.85
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0158.png",
+      "mean": 38.15,
+      "std": 17.15
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0159.png",
+      "mean": 39.63,
+      "std": 19.99
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0160.png",
+      "mean": 40.16,
+      "std": 20.83
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0161.png",
+      "mean": 38.95,
+      "std": 16.71
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0162.png",
+      "mean": 38.73,
+      "std": 13.89
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0163.png",
+      "mean": 40.07,
+      "std": 14.89
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0164.png",
+      "mean": 40.39,
+      "std": 15.08
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0165.png",
+      "mean": 40.02,
+      "std": 14.84
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0166.png",
+      "mean": 39.66,
+      "std": 14.65
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0167.png",
+      "mean": 39.14,
+      "std": 14.33
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0168.png",
+      "mean": 38.63,
+      "std": 13.87
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0169.png",
+      "mean": 38.15,
+      "std": 13.2
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0170.png",
+      "mean": 37.4,
+      "std": 12.36
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0171.png",
+      "mean": 36.74,
+      "std": 11.26
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0172.png",
+      "mean": 36.14,
+      "std": 10.59
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0173.png",
+      "mean": 35.56,
+      "std": 10.2
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0174.png",
+      "mean": 34.66,
+      "std": 9.04
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0175.png",
+      "mean": 33.51,
+      "std": 6.9
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0176.png",
+      "mean": 32.45,
+      "std": 4.93
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0177.png",
+      "mean": 31.76,
+      "std": 3.71
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0178.png",
+      "mean": 31.86,
+      "std": 5.53
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0179.png",
+      "mean": 32.91,
+      "std": 9.35
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0180.png",
+      "mean": 34.99,
+      "std": 15.43
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0181.png",
+      "mean": 38.47,
+      "std": 22.11
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0274.png",
+      "mean": 42.82,
+      "std": 15.55
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0275.png",
+      "mean": 41.97,
+      "std": 13.92
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0276.png",
+      "mean": 41.2,
+      "std": 12.99
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0277.png",
+      "mean": 40.36,
+      "std": 11.76
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0278.png",
+      "mean": 39.41,
+      "std": 9.89
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0279.png",
+      "mean": 38.66,
+      "std": 8.14
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0280.png",
+      "mean": 38.06,
+      "std": 6.49
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0281.png",
+      "mean": 37.61,
+      "std": 5.15
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0282.png",
+      "mean": 37.31,
+      "std": 4.76
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0283.png",
+      "mean": 37.12,
+      "std": 4.41
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0284.png",
+      "mean": 36.9,
+      "std": 4.28
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0285.png",
+      "mean": 36.64,
+      "std": 4.22
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0286.png",
+      "mean": 36.28,
+      "std": 4.19
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0287.png",
+      "mean": 35.86,
+      "std": 4.2
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0288.png",
+      "mean": 35.43,
+      "std": 4.18
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0289.png",
+      "mean": 34.99,
+      "std": 4.13
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0290.png",
+      "mean": 34.54,
+      "std": 4.04
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0291.png",
+      "mean": 33.99,
+      "std": 3.79
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0292.png",
+      "mean": 33.43,
+      "std": 3.5
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0293.png",
+      "mean": 32.84,
+      "std": 3.04
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0294.png",
+      "mean": 32.56,
+      "std": 2.87
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0295.png",
+      "mean": 32.0,
+      "std": 2.44
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0296.png",
+      "mean": 31.46,
+      "std": 2.03
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0297.png",
+      "mean": 31.04,
+      "std": 1.74
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0298.png",
+      "mean": 30.75,
+      "std": 1.49
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0299.png",
+      "mean": 30.52,
+      "std": 1.28
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/fast/left/0300.png",
+      "mean": 30.37,
+      "std": 1.26
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0220.png",
+      "mean": 44.44,
+      "std": 30.24
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0221.png",
+      "mean": 43.44,
+      "std": 26.53
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0222.png",
+      "mean": 42.62,
+      "std": 23.02
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0223.png",
+      "mean": 42.04,
+      "std": 20.07
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0224.png",
+      "mean": 41.57,
+      "std": 17.5
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0225.png",
+      "mean": 41.3,
+      "std": 15.6
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0226.png",
+      "mean": 41.44,
+      "std": 16.21
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0227.png",
+      "mean": 41.58,
+      "std": 16.52
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0228.png",
+      "mean": 41.8,
+      "std": 17.06
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0229.png",
+      "mean": 41.73,
+      "std": 17.23
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0230.png",
+      "mean": 41.9,
+      "std": 17.56
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0231.png",
+      "mean": 42.2,
+      "std": 18.02
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0232.png",
+      "mean": 42.56,
+      "std": 18.37
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0233.png",
+      "mean": 42.91,
+      "std": 18.63
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0234.png",
+      "mean": 43.17,
+      "std": 18.97
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0235.png",
+      "mean": 43.67,
+      "std": 19.61
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0236.png",
+      "mean": 44.15,
+      "std": 20.55
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0237.png",
+      "mean": 44.67,
+      "std": 21.59
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0411.png",
+      "mean": 43.71,
+      "std": 29.75
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0412.png",
+      "mean": 41.48,
+      "std": 25.12
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0413.png",
+      "mean": 39.47,
+      "std": 19.82
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0414.png",
+      "mean": 38.45,
+      "std": 16.92
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0415.png",
+      "mean": 37.92,
+      "std": 15.75
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0416.png",
+      "mean": 37.87,
+      "std": 15.87
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0417.png",
+      "mean": 37.74,
+      "std": 16.07
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0418.png",
+      "mean": 37.64,
+      "std": 16.39
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0419.png",
+      "mean": 37.57,
+      "std": 16.63
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0420.png",
+      "mean": 37.54,
+      "std": 16.83
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0421.png",
+      "mean": 37.71,
+      "std": 17.31
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0422.png",
+      "mean": 38.05,
+      "std": 18.17
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0423.png",
+      "mean": 38.56,
+      "std": 19.1
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0424.png",
+      "mean": 39.29,
+      "std": 20.43
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0425.png",
+      "mean": 39.99,
+      "std": 21.79
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0426.png",
+      "mean": 40.0,
+      "std": 21.8
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0427.png",
+      "mean": 39.75,
+      "std": 20.83
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0428.png",
+      "mean": 39.21,
+      "std": 19.08
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0429.png",
+      "mean": 38.81,
+      "std": 17.34
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0430.png",
+      "mean": 38.73,
+      "std": 16.2
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0431.png",
+      "mean": 38.63,
+      "std": 14.94
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0432.png",
+      "mean": 38.67,
+      "std": 13.99
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0433.png",
+      "mean": 39.14,
+      "std": 14.03
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0434.png",
+      "mean": 39.73,
+      "std": 14.63
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0435.png",
+      "mean": 40.03,
+      "std": 15.13
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0436.png",
+      "mean": 40.17,
+      "std": 15.2
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0437.png",
+      "mean": 40.29,
+      "std": 15.24
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0438.png",
+      "mean": 40.24,
+      "std": 15.17
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0439.png",
+      "mean": 40.07,
+      "std": 15.07
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0440.png",
+      "mean": 39.92,
+      "std": 14.98
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0441.png",
+      "mean": 39.74,
+      "std": 14.94
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0442.png",
+      "mean": 39.67,
+      "std": 14.85
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0443.png",
+      "mean": 39.56,
+      "std": 14.76
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0444.png",
+      "mean": 39.41,
+      "std": 14.63
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0445.png",
+      "mean": 39.19,
+      "std": 14.46
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0446.png",
+      "mean": 38.98,
+      "std": 14.32
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0447.png",
+      "mean": 38.77,
+      "std": 14.15
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0448.png",
+      "mean": 38.6,
+      "std": 13.93
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0449.png",
+      "mean": 38.42,
+      "std": 13.71
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0450.png",
+      "mean": 38.22,
+      "std": 13.47
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0451.png",
+      "mean": 38.03,
+      "std": 13.15
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0452.png",
+      "mean": 37.78,
+      "std": 12.84
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0453.png",
+      "mean": 37.44,
+      "std": 12.52
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0454.png",
+      "mean": 37.2,
+      "std": 12.19
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0455.png",
+      "mean": 36.9,
+      "std": 11.69
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0456.png",
+      "mean": 36.71,
+      "std": 11.33
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0457.png",
+      "mean": 36.48,
+      "std": 10.97
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0458.png",
+      "mean": 36.26,
+      "std": 10.8
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0459.png",
+      "mean": 36.03,
+      "std": 10.62
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0460.png",
+      "mean": 35.82,
+      "std": 10.49
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0461.png",
+      "mean": 35.6,
+      "std": 10.34
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0462.png",
+      "mean": 35.34,
+      "std": 10.12
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0463.png",
+      "mean": 34.98,
+      "std": 9.71
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0464.png",
+      "mean": 34.62,
+      "std": 9.13
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0465.png",
+      "mean": 34.24,
+      "std": 8.45
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0466.png",
+      "mean": 33.78,
+      "std": 7.56
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0467.png",
+      "mean": 33.34,
+      "std": 6.69
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0468.png",
+      "mean": 32.93,
+      "std": 5.92
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0469.png",
+      "mean": 32.58,
+      "std": 5.23
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0470.png",
+      "mean": 32.16,
+      "std": 4.47
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0471.png",
+      "mean": 31.9,
+      "std": 3.96
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0472.png",
+      "mean": 31.75,
+      "std": 3.81
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0473.png",
+      "mean": 31.7,
+      "std": 4.11
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0474.png",
+      "mean": 31.72,
+      "std": 4.88
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0475.png",
+      "mean": 31.93,
+      "std": 6.16
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0476.png",
+      "mean": 32.23,
+      "std": 7.62
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0477.png",
+      "mean": 32.64,
+      "std": 9.06
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0478.png",
+      "mean": 33.1,
+      "std": 10.54
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0479.png",
+      "mean": 33.71,
+      "std": 12.76
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0480.png",
+      "mean": 34.75,
+      "std": 15.76
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0481.png",
+      "mean": 35.93,
+      "std": 18.95
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0482.png",
+      "mean": 37.04,
+      "std": 20.98
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0483.png",
+      "mean": 38.68,
+      "std": 23.49
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0484.png",
+      "mean": 41.33,
+      "std": 27.38
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0485.png",
+      "mean": 44.48,
+      "std": 30.97
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0731.png",
+      "mean": 42.55,
+      "std": 14.56
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0732.png",
+      "mean": 42.31,
+      "std": 14.31
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0733.png",
+      "mean": 42.06,
+      "std": 14.05
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0734.png",
+      "mean": 41.77,
+      "std": 13.75
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0735.png",
+      "mean": 41.48,
+      "std": 13.41
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0736.png",
+      "mean": 41.18,
+      "std": 13.03
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0737.png",
+      "mean": 40.88,
+      "std": 12.61
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0738.png",
+      "mean": 40.51,
+      "std": 12.12
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0739.png",
+      "mean": 40.2,
+      "std": 11.58
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0740.png",
+      "mean": 39.87,
+      "std": 10.96
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0741.png",
+      "mean": 39.56,
+      "std": 10.34
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0742.png",
+      "mean": 39.24,
+      "std": 9.62
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0743.png",
+      "mean": 38.88,
+      "std": 8.79
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0744.png",
+      "mean": 38.59,
+      "std": 8.14
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0745.png",
+      "mean": 38.44,
+      "std": 7.69
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0746.png",
+      "mean": 38.21,
+      "std": 7.07
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0747.png",
+      "mean": 38.0,
+      "std": 6.41
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0748.png",
+      "mean": 37.73,
+      "std": 5.49
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0749.png",
+      "mean": 37.57,
+      "std": 5.02
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0750.png",
+      "mean": 37.43,
+      "std": 4.84
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0751.png",
+      "mean": 37.39,
+      "std": 4.98
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0752.png",
+      "mean": 37.31,
+      "std": 4.85
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0753.png",
+      "mean": 37.24,
+      "std": 4.63
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0754.png",
+      "mean": 37.12,
+      "std": 4.32
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0755.png",
+      "mean": 37.08,
+      "std": 4.36
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0756.png",
+      "mean": 37.04,
+      "std": 4.46
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0757.png",
+      "mean": 36.93,
+      "std": 4.4
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0758.png",
+      "mean": 36.82,
+      "std": 4.22
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0759.png",
+      "mean": 36.73,
+      "std": 4.28
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0760.png",
+      "mean": 36.64,
+      "std": 4.29
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0761.png",
+      "mean": 36.5,
+      "std": 4.21
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0762.png",
+      "mean": 36.36,
+      "std": 4.2
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0763.png",
+      "mean": 36.21,
+      "std": 4.2
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0764.png",
+      "mean": 36.06,
+      "std": 4.21
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0765.png",
+      "mean": 35.9,
+      "std": 4.22
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0766.png",
+      "mean": 35.75,
+      "std": 4.25
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0767.png",
+      "mean": 35.59,
+      "std": 4.25
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0768.png",
+      "mean": 35.43,
+      "std": 4.24
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0769.png",
+      "mean": 35.25,
+      "std": 4.19
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0770.png",
+      "mean": 35.1,
+      "std": 4.19
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0771.png",
+      "mean": 34.93,
+      "std": 4.14
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0772.png",
+      "mean": 34.78,
+      "std": 4.15
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0773.png",
+      "mean": 34.6,
+      "std": 4.13
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0774.png",
+      "mean": 34.4,
+      "std": 4.04
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0775.png",
+      "mean": 34.2,
+      "std": 3.96
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0776.png",
+      "mean": 33.99,
+      "std": 3.85
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0777.png",
+      "mean": 33.79,
+      "std": 3.8
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0778.png",
+      "mean": 33.58,
+      "std": 3.68
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0779.png",
+      "mean": 33.35,
+      "std": 3.5
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0780.png",
+      "mean": 33.12,
+      "std": 3.32
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0781.png",
+      "mean": 32.9,
+      "std": 3.14
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0782.png",
+      "mean": 32.75,
+      "std": 3.03
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0783.png",
+      "mean": 32.66,
+      "std": 2.97
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0784.png",
+      "mean": 32.55,
+      "std": 2.92
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0785.png",
+      "mean": 32.34,
+      "std": 2.76
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0786.png",
+      "mean": 32.12,
+      "std": 2.58
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0787.png",
+      "mean": 31.92,
+      "std": 2.44
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0788.png",
+      "mean": 31.71,
+      "std": 2.28
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0789.png",
+      "mean": 31.51,
+      "std": 2.13
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0790.png",
+      "mean": 31.33,
+      "std": 1.99
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0791.png",
+      "mean": 31.18,
+      "std": 1.89
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0792.png",
+      "mean": 31.04,
+      "std": 1.79
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0793.png",
+      "mean": 30.92,
+      "std": 1.71
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0794.png",
+      "mean": 30.8,
+      "std": 1.62
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0795.png",
+      "mean": 30.71,
+      "std": 1.54
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0796.png",
+      "mean": 30.61,
+      "std": 1.45
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0797.png",
+      "mean": 30.54,
+      "std": 1.4
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0798.png",
+      "mean": 30.47,
+      "std": 1.34
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0799.png",
+      "mean": 30.41,
+      "std": 1.3
+    },
+    {
+      "left_rel": "35mm_focallength/scene_backwards/slow/left/0800.png",
+      "mean": 30.36,
+      "std": 1.35
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/fast/left/0109.png",
+      "mean": 41.81,
+      "std": 23.38
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/fast/left/0110.png",
+      "mean": 40.39,
+      "std": 20.49
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/fast/left/0111.png",
+      "mean": 40.88,
+      "std": 20.87
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/fast/left/0112.png",
+      "mean": 41.41,
+      "std": 20.98
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/fast/left/0113.png",
+      "mean": 42.35,
+      "std": 21.1
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/fast/left/0114.png",
+      "mean": 43.46,
+      "std": 21.66
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/fast/left/0116.png",
+      "mean": 38.02,
+      "std": 11.03
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/fast/left/0117.png",
+      "mean": 41.37,
+      "std": 20.56
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/fast/left/0118.png",
+      "mean": 44.43,
+      "std": 24.52
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0290.png",
+      "mean": 44.37,
+      "std": 28.59
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0291.png",
+      "mean": 40.74,
+      "std": 21.56
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0292.png",
+      "mean": 40.19,
+      "std": 20.37
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0293.png",
+      "mean": 40.27,
+      "std": 20.58
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0294.png",
+      "mean": 40.38,
+      "std": 20.82
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0295.png",
+      "mean": 40.52,
+      "std": 21.02
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0296.png",
+      "mean": 40.71,
+      "std": 21.16
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0297.png",
+      "mean": 40.88,
+      "std": 21.26
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0298.png",
+      "mean": 41.07,
+      "std": 21.32
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0299.png",
+      "mean": 41.32,
+      "std": 21.39
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0300.png",
+      "mean": 41.67,
+      "std": 21.46
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0301.png",
+      "mean": 42.07,
+      "std": 21.52
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0302.png",
+      "mean": 42.48,
+      "std": 21.69
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0303.png",
+      "mean": 42.81,
+      "std": 21.78
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0304.png",
+      "mean": 43.38,
+      "std": 22.11
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0305.png",
+      "mean": 44.01,
+      "std": 22.48
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0307.png",
+      "mean": 44.4,
+      "std": 23.01
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0308.png",
+      "mean": 41.47,
+      "std": 18.55
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0309.png",
+      "mean": 38.62,
+      "std": 13.29
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0310.png",
+      "mean": 38.25,
+      "std": 15.18
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0311.png",
+      "mean": 39.02,
+      "std": 17.37
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0312.png",
+      "mean": 40.58,
+      "std": 20.06
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0313.png",
+      "mean": 41.89,
+      "std": 22.21
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0314.png",
+      "mean": 42.52,
+      "std": 23.15
+    },
+    {
+      "left_rel": "35mm_focallength/scene_forwards/slow/left/0315.png",
+      "mean": 44.13,
+      "std": 25.56
+    }
+  ]
+}
