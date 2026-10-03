@@ -109,6 +109,9 @@ all metrics or code in an older one.
 - `paper/reference_papers/` contains source PDFs, structured summaries in
   `summaries/`, and cropped architecture/equation figures in `figures/`.
   `paper/figures/` contains manuscript figures, not model checkpoints.
+  `paper/figures/semtilestereo/` holds the editable Excalidraw architecture,
+  checked preview, same-frame VKITTI2 training thumbnails, and provenance;
+  the inference helper is in `paper/figures/semtilestereo_infer_example.py`.
 - `tests/` holds fast protocol and code tests; `docs/` holds research links
   and implementation plans. `.agents/skills/` contains local workflow/domain
   skills, including Modal and ML-architecture guidance. `external_models/`
