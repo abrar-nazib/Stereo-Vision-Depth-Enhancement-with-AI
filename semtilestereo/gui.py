@@ -53,6 +53,8 @@ class ReviewWindow(QMainWindow):
         self.metadata = {}
         self.model = None
         self.worker = None
+        self._pending_camera = None
+        self._filter_error = False
         self.class_checks = {}
         self._build_ui()
 
@@ -79,7 +81,17 @@ class ReviewWindow(QMainWindow):
         for label, field in (("Left image", self.left_field), ("Right image", self.right_field),
                              ("Output folder", self.output_field)):
             form.addWidget(QLabel(label))
-            form.addWidget(field)
+            input_row = QHBoxLayout()
+            input_row.addWidget(field)
+            if field is not self.output_field:
+                browse = QPushButton("Browse…")
+                browse.clicked.connect(lambda _checked=False, target=field: self._choose_image(target))
+                input_row.addWidget(browse)
+                if field is self.left_field:
+                    self.left_browse = browse
+                else:
+                    self.right_browse = browse
+            form.addLayout(input_row)
         infer_button = QPushButton("Infer pair")
         infer_button.clicked.connect(lambda: self.infer_pair(Path(self.left_field.text()), Path(self.right_field.text())))
         form.addWidget(infer_button)
@@ -92,6 +104,8 @@ class ReviewWindow(QMainWindow):
             camera_form.addRow(name if name != "baseline_m" else "baseline (m)", field)
         form.addLayout(camera_form)
         self.fx_field = self.camera_fields["fx"]
+        self.use_camera_for_inference = QCheckBox("Apply these camera parameters to next inference")
+        form.addWidget(self.use_camera_for_inference)
         preset = QPushButton("VKITTI2 Camera 0 preset (1242×375)")
         preset.clicked.connect(self._preset_clicked)
         form.addWidget(preset)
@@ -133,6 +147,11 @@ class ReviewWindow(QMainWindow):
             except Exception as exc:
                 self.show_error(str(exc))
 
+    def _choose_image(self, target: QLineEdit):
+        name, _ = QFileDialog.getOpenFileName(self, "Select stereo image", str(ROOT), "Images (*.jpg *.jpeg *.png)")
+        if name:
+            target.setText(name)
+
     def _open_example(self, index):
         path = self.examples.itemData(index)
         if path is not None:
@@ -169,10 +188,15 @@ class ReviewWindow(QMainWindow):
     def open_result(self, path: Path):
         result, metadata = load_bundle(path)
         self._set_result(result, metadata)
-        self.status.setText(f"Loaded {path} · {result.disparity_px.shape[1]}×{result.disparity_px.shape[0]}")
+        if metadata.get("camera") is None and not metadata.get("example_vkitti"):
+            self.status.setText(f"Loaded {path} · enter camera calibration to view metric points")
+        elif not self._filter_error:
+            self.status.setText(f"Loaded {path} · {result.disparity_px.shape[1]}×{result.disparity_px.shape[0]}")
 
     def _set_result(self, result, metadata):
         self.result, self.metadata = result, metadata
+        self.viewport.set_cloud(np.empty((0, 3)), np.empty((0, 3)))
+        self.use_camera_for_inference.setChecked(False)
         for box in self.class_checks.values():
             box.deleteLater()
         self.class_checks.clear()
@@ -208,13 +232,21 @@ class ReviewWindow(QMainWindow):
             for class_id, box in self.class_checks.items():
                 box.setText(f"{CLASS_NAMES[class_id]} ({counts.get(class_id, 0):,})")
             self.viewport.set_cloud(points, colors)
+            self._filter_error = False
             self.status.setText(f"Showing {len(points):,} points · {len(visible)} classes")
         except (ValueError, TypeError) as exc:
+            self.viewport.set_cloud(np.empty((0, 3)), np.empty((0, 3)))
+            self._filter_error = True
             self.show_error(str(exc))
 
     def infer_pair(self, left_path: Path, right_path: Path):
         if self.worker is not None and self.worker.isRunning():
             self.show_error("Inference is already running")
+            return
+        try:
+            self._pending_camera = self._read_camera() if self.use_camera_for_inference.isChecked() else None
+        except ValueError as exc:
+            self.show_error(str(exc))
             return
         device = "cuda" if __import__("torch").cuda.is_available() else "cpu"
         self.worker = InferenceWorker(left_path, right_path, self.model, ModelPaths(), device)
@@ -226,17 +258,14 @@ class ReviewWindow(QMainWindow):
     def _inference_done(self, result, model):
         self.model = model
         try:
-            camera = None
-            try:
-                camera = self._read_camera()
-            except ValueError:
-                pass
-            path = save_result(result, Path(self.output_field.text()), camera=camera,
+            path = save_result(result, Path(self.output_field.text()), camera=self._pending_camera,
                                metadata={"checkpoints": {key: str(getattr(ModelPaths(), key)) for key in
                                                          ("stereo", "head", "semantic", "encoder")}}, display_max=80)
             self.open_result(path)
         except Exception as exc:
             self.show_error(f"Could not save inference: {exc}")
+        finally:
+            self._pending_camera = None
 
     def show_error(self, message: str):
         self.status.setText(f"Error: {message}")

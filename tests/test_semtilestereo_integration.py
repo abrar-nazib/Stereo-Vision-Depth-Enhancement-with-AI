@@ -1,6 +1,7 @@
 """Local checkpoint/asset acceptance; run explicitly on a CUDA workstation."""
 
 import hashlib
+import os
 from pathlib import Path
 
 import cv2
@@ -15,6 +16,8 @@ from semtilestereo.results import load_bundle
 ROOT = Path(__file__).resolve().parents[1]
 SOURCES = ROOT / "paper/figures/semtilestereo/candidates"
 EXAMPLES = ROOT / "examples/semtilestereo"
+RUN_INTEGRATION = os.environ.get("SEMTILESTEREO_RUN_INTEGRATION") == "1"
+requires_assets = pytest.mark.skipif(not RUN_INTEGRATION, reason="set SEMTILESTEREO_RUN_INTEGRATION=1 for local checkpoint/example checks")
 
 
 def sha(path):
@@ -25,6 +28,7 @@ def sha(path):
     return digest.hexdigest()
 
 
+@requires_assets
 def test_checkpoint_inventory_and_sources():
     paths = ModelPaths()
     for path in (paths.stereo, paths.head, paths.semantic, paths.encoder):
@@ -36,6 +40,7 @@ def test_checkpoint_inventory_and_sources():
         assert (SOURCES / f"{stem}_right.jpg").is_file()
 
 
+@requires_assets
 def test_three_saved_examples():
     for scene in ("Scene01", "Scene06", "Scene18"):
         path = EXAMPLES / scene / "result.npz"
@@ -48,6 +53,7 @@ def test_three_saved_examples():
             assert (path.parent / name).is_file()
 
 
+@requires_assets
 @pytest.mark.skipif(not torch.cuda.is_available(), reason="real checkpoint parity needs CUDA")
 def test_scene01_saved_matches_direct_inference():
     model = load_model(ModelPaths(), "cuda")

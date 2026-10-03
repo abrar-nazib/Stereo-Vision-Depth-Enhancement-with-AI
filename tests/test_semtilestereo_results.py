@@ -80,6 +80,25 @@ def test_load_bundle_rejects_bad_schema_and_missing_keys(tmp_path):
         load_bundle(path)
 
 
+def test_rejects_empty_logits_and_invalid_display_metadata(tmp_path):
+    empty = replace(sample(), semantic_logits=np.empty((14, 0, 0), np.float32))
+    with pytest.raises(ValueError, match="semantic_logits"):
+        save_result(empty, tmp_path, camera=None, metadata={}, display_max=20)
+    path = save_result(sample(), tmp_path, camera=None, metadata={}, display_max=20)
+    with np.load(path, allow_pickle=False) as data:
+        arrays = {key: data[key] for key in data.files}
+    for bad in (None, -1, "not-a-number"):
+        document = json.loads(str(arrays["metadata_json"]))
+        if bad is None:
+            document.pop("display_max")
+        else:
+            document["display_max"] = bad
+        arrays["metadata_json"] = json.dumps(document)
+        np.savez(path, **arrays)
+        with pytest.raises(ValueError, match="display_max"):
+            load_bundle(path)
+
+
 def test_overlay_preserves_dimensions():
     result = sample()
     assert segmentation_overlay(result.left_rgb, result.class_id).shape == result.left_rgb.shape

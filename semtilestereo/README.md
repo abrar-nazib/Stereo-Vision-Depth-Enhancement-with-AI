@@ -58,8 +58,10 @@ pixels and baseline in metres in the GUI. The VKITTI preset is only for native
 1242×375 VKITTI results; it must not be used as a substitute for rig
 calibration. Camera-frame coordinates use `X` right, `Y` down, `Z` forward.
 The GUI's class checkboxes only change the displayed cloud and do not rerun
-inference. Left/right image paths and an output folder can be entered for
-asynchronous inference in the GUI.
+inference. Left/right images can be selected with file pickers for asynchronous
+inference. A newly inferred pair does not inherit a previously opened bundle's
+calibration: select **Apply these camera parameters to next inference** explicitly
+if they match the new pair, or enter calibration after loading the result.
 
 ## Reproducing examples and validation
 
@@ -71,10 +73,11 @@ To regenerate with the released checkpoint:
 
 ```bash
 uv run python -m semtilestereo.examples
-PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run python -m pytest -q tests/test_semtilestereo_core.py tests/test_semtilestereo_results.py tests/test_semtilestereo_cli.py tests/test_semtilestereo_geometry.py tests/test_semtilestereo_gui.py tests/test_semtilestereo_integration.py
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run python -m pytest -q tests/test_semtilestereo_core.py tests/test_semtilestereo_results.py tests/test_semtilestereo_cli.py tests/test_semtilestereo_geometry.py tests/test_semtilestereo_gui.py
+SEMTILESTEREO_RUN_INTEGRATION=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 uv run python -m pytest -q tests/test_semtilestereo_integration.py
 ```
 
-The integration test requires the local assets and uses CUDA for the direct
+The opt-in integration test requires the local assets and uses CUDA for the direct
 inference parity check. Across independent CUDA processes, stereo aggregation
 may differ slightly (observed maximum 0.048 px for Scene01); saved arrays
 themselves are full-precision float32. Physical-camera capture was not

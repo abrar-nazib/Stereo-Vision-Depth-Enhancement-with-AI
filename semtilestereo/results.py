@@ -42,7 +42,9 @@ def _validate_result(result: InferenceResult) -> None:
     if disparity.ndim != 2 or disparity.dtype != np.float32:
         raise ValueError("disparity_px must be a float32 H×W array")
     h, w = disparity.shape
-    if h == 0 or w == 0 or logits.ndim != 3 or logits.shape[0] != len(CLASS_NAMES) or logits.dtype != np.float32:
+    if (h == 0 or w == 0 or logits.ndim != 3 or logits.shape[0] != len(CLASS_NAMES)
+            or min(logits.shape[1:]) <= 0 or logits.dtype != np.float32
+            or not np.isfinite(logits).all()):
         raise ValueError("semantic_logits must be a float32 14×h×w array")
     if labels.shape != (h, w) or labels.dtype != np.uint8 or np.any(labels >= len(CLASS_NAMES)):
         raise ValueError("class_id must be a uint8 H×W array with IDs 0–13")
@@ -92,13 +94,24 @@ def load_bundle(path: Path) -> tuple[InferenceResult, dict]:
             document = json.loads(str(archive["metadata_json"].item()))
         except (ValueError, TypeError, AttributeError) as exc:
             raise ValueError("invalid bundle metadata JSON") from exc
+        if not isinstance(document, dict):
+            raise ValueError("bundle metadata JSON must be an object")
         if document.get("schema_version") != SCHEMA_VERSION:
             raise ValueError(f"unsupported bundle schema: {document.get('schema_version')}")
+        display_max = document.get("display_max")
+        if (not isinstance(display_max, (int, float)) or isinstance(display_max, bool)
+                or not np.isfinite(display_max) or display_max <= 0):
+            raise ValueError("bundle display_max must be a finite positive number")
         result = InferenceResult(**{key: archive[key].copy() for key in ARRAY_KEYS})
     _validate_result(result)
     h, w = result.disparity_px.shape
     if document.get("image_size") != [w, h] or document.get("class_names") != list(CLASS_NAMES):
         raise ValueError("bundle metadata does not match numeric arrays or class taxonomy")
-    if document.get("camera") is not None:
-        CameraParameters(**document["camera"]).validate()
+    if "camera" not in document:
+        raise ValueError("bundle metadata missing camera field")
+    if document["camera"] is not None:
+        try:
+            CameraParameters(**document["camera"]).validate()
+        except (TypeError, ValueError) as exc:
+            raise ValueError("invalid bundle camera metadata") from exc
     return result, document
