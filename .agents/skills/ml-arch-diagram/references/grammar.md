@@ -7,19 +7,20 @@ stereolite `diagram-drawer` conventions. The reference images live beside this f
 
 1. **The canvas holds data and operations — nothing else.** Every shape is a tensor or
    an op. No "why" notes, no result tables, no scoreboards, no "NOT in this graph"
-   boxes. The one permitted meta element is a single header badge line (model name,
-   params, latency, headline metric) — see `stereolite_arch_mpl.png`.
+   boxes. A plain model title is sufficient; report metrics in the caption or text.
 2. **Tensors are pictures, not boxes.** Feature pyramids are groups of vertical bars;
    cost volumes are cuboids; intermediate disparities are rendered image thumbnails.
    A rectangle with a tensor's *name* in it is not a tensor.
-3. **Operations are quiet shapes.** Learnable stages = rounded rect with the op name,
-   `×N` repeat count, and param count underneath. Pointwise ops = circled symbols
+3. **Operations are quiet shapes.** Learnable stages = compact rounded rect with a
+   paper-facing operation name; show `×N` or param count only if it clarifies the
+   architecture. Pointwise ops = circled symbols
    (`⊗ ⊕ σ L Δ`). Geometric warps = parallelogram or trapezoid.
 4. **Color means role, and the legend decodes it.** 3–6 role colors, identical across
    every figure of the same model. Legend strip at the bottom: chip → role name.
-5. **Supervision is a red dot.** A crimson dot on every supervised tensor, labeled
-   `ℒ̂ᵢ` in math italic, dashed line (or bare dot, stereolite style) to a loss note
-   in the legend. Weights (`×1.0 … ×0.1`) sit in tiny text under the dot.
+5. **Training supervision is a red dot.** When showing losses, put a crimson dot
+   on each supervised tensor, labeled `ℒ̂ᵢ` in math italic, dashed line (or bare
+   dot, stereolite style) to a loss note in the legend. Omit loss symbols from
+   an inference-only overview.
 
 ## Tensor vocabulary
 
@@ -58,8 +59,8 @@ stereolite `diagram-drawer` conventions. The reference images live beside this f
 | Semantic / veto / fusion branch | `#cdb4f0` | `#7c5cb0` (extension — pick one and keep it) |
 | Text | `#1a1a2e` | |
 
-Frozen modules: grey-out or `❄` badge on the block, stated once in the legend
-(`❄ frozen — never trained`). Trainable blocks stay fully colored.
+Frozen modules: state the frozen/trainable distinction once in the legend or
+caption when needed. Do not stamp every block with implementation-stage status.
 
 ## Annotation rules
 
@@ -80,6 +81,12 @@ Frozen modules: grey-out or `❄` badge on the block, stated once in the legend
 - Arrows that start/end in whitespace or cross band borders without landing.
 - Text overflowing its shape (check in the *app*, not just the renderer — fonts differ).
 - Redundant color decoration — each color must appear in the legend.
+- Ablation IDs, code symbols, hidden widths, and checkpoint names in main blocks:
+  translate them into mechanism names; retain implementation provenance in caption.
+- A sequential chain of similar labeled rectangles standing in for the model's
+  defining tensors, interactions, and resolution changes.
+- A fusion diagram that makes it look as though the semantic output is refined
+  when only the disparity output receives a learned correction.
 
 ## Common mistakes and remedies
 
@@ -104,6 +111,10 @@ declaring a figure done.
 | 14 | An upsample or intermediate operator looks bypassed because one continuous arrow passes through it | Draw one input arrow ending on the operator's entry face and a separate output arrow beginning at its exit face. Never run an arrow through a trapezoid, cuboid, or rounded block. |
 | 15 | An isometric tensor has an open or missing face, especially the lower side edge | Draw closed top and side polylines: top `front-TL → back-TL → back-TR → front-TR → front-TL`; side `front-TR → back-TR → back-BR → front-BR → front-TR`. Inspect at 100% before accepting it. |
 | 16 | A label technically fits in a headless render but touches the next arrow, block, or its own border | Treat labels as bounded annotations: shorten a compound operator label or move a secondary term to its output wire. Keep visible whitespace around all four sides rather than relying on natural text width. |
+| 17 | Internal run IDs (`A09`, `E3`) and code-local names (`agg tail + init`, `veto`) dominate a public figure | Name the visible computation (`3D cost aggregation`, `candidate weighting`, `tile initialization`); put run-to-module correspondence in caption or methods. |
+| 18 | An overview is a sequence of colored boxes even though it includes one feature pyramid and one cube | After each major operation, depict the changed data (probability maps, cost volume, gated hypotheses, tile state, scale-specific disparity) and use a glyph for fusion. Test whether the diagram remains interpretable with its labels hidden. |
+| 19 | Frozen/trainable badges, hidden-channel counts, and experiment provenance occupy space needed for the architecture | State training status once in legend/caption; reserve inline numbers for tensor scales, disparity candidates, or repetitions needed to follow the computation. |
+| 20 | Two outputs are visually conflated or a refined class map is implied | Give the class map a direct branch from the semantic decoder and the disparity its own matching/refinement path. Trace both independently against `forward()`. |
 
 ## Two figure kinds
 

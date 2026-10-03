@@ -4,6 +4,12 @@
 `semtilestereo_architecture_excalidraw.png` is its checked preview. Export
 SVG or PDF from Excalidraw after the final manual adjustments. The figure derives its
 visual grammar from `experiments/a06_shallow/a08_architecture.excalidraw`.
+`semtilestereo_architecture_v2.excalidraw` and its matching PNG are a separate
+paper-style revision; the manually edited original has not been overwritten.
+The v2 overview replaces experiment IDs and implementation labels with
+paper-facing mechanisms, depicts the semantic class-agreement volume, explicit
+candidate modulation, tile state, per-scale propagation and upsampling, and the
+residual addition. It keeps the class output independent of disparity correction.
 There is no separate A09 architecture diagram in the repository. The actual
 topology was checked against `experiments/D/D_1_semantic_cost/model.py`,
 `experiments/E/E_1_wide2_semantics/model.py`, and
@@ -60,6 +66,11 @@ uv run --project .agents/skills/excalidraw-diagram/references --no-sync python \
   paper/figures/semtilestereo/semtilestereo_architecture.excalidraw \
   --output paper/figures/semtilestereo/semtilestereo_architecture_excalidraw.png \
   --width 2700
+uv run --project .agents/skills/excalidraw-diagram/references --no-sync python \
+  .agents/skills/excalidraw-diagram/references/render_excalidraw.py \
+  paper/figures/semtilestereo/semtilestereo_architecture_v2.excalidraw \
+  --output paper/figures/semtilestereo/semtilestereo_architecture_v2.png \
+  --width 3000
 ```
 
 The image pair and generated outputs are research-only artifacts. Respect the

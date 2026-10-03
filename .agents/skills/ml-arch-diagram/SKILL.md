@@ -19,16 +19,30 @@ vision-capable read before the first draft; do not draw from memory of this text
    grammar.md — every entry records a real rejection.
 
 1. Canvas holds tensors and operations only. No why/result/scoreboard/meta boxes.
-   The single allowed meta element: one header badge line (name · params · metric).
+   Use a plain paper-facing model title; put benchmark metrics and implementation
+   provenance in the caption or accompanying text, not the architecture flow.
 2. Tensors are pictures: bar-pyramids, cuboids, slot-glyph state boxes, rendered
    image thumbnails. A named rectangle is not a tensor.
-3. Ops are quiet shapes: rounded rect + `×N` + param count; circled `⊗ ⊕ σ L Δ`;
-   trapezoid for learned upsample.
+3. Ops are quiet shapes: compact rounded stages, circled `⊗ ⊕ σ L Δ`, and
+   trapezoids for upsampling. Show repeat counts or parameters only when they
+   explain a visible architectural distinction.
 4. Color = role per the palette in grammar.md; bottom legend decodes every color.
-5. Supervision = crimson dot `ℒ̂ᵢ` per supervised tensor; weights in tiny text under.
+5. When the figure includes training, supervision = crimson dot `ℒ̂ᵢ` per
+   supervised tensor; omit loss markers from inference-only overviews.
 6. ≤ 12 blocks; split overview + module detail instead of cramming.
 7. Every arrow lands on a shape; every label has 15% width headroom (app fonts run
    wider than the headless renderer — always verify in the excalidraw app too).
+   For this lab's paper figures, prefer exact horizontal/vertical arrow segments
+   and 90° bends; recheck coordinates after app edits that can introduce tiny
+   diagonal segments. Route long branches in dedicated lanes.
+8. Translate implementation names and ablation IDs into operations a new reader
+   can recognize. For example, `A09 agg + veto` becomes stereo cost aggregation;
+   `E3 gate` becomes semantic candidate weighting. State frozen/trainable status
+   once in a legend or caption, unless the distinction is the figure's subject.
+9. Draw the *model-specific transformation*, not a row of equally sized operation
+   boxes: show feature/cost/class tensors, where semantic evidence enters matching,
+   the tile state and scale changes, and the two distinct outputs. A label on a
+   rectangle does not replace a tensor or explain how one branch affects another.
 
 ## Workflow
 
