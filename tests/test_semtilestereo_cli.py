@@ -58,6 +58,7 @@ def test_live_releases_capture_on_failure(monkeypatch):
     capture = Capture()
     destroyed = []
     monkeypatch.setattr(cv2, "VideoCapture", lambda *_: capture)
+    monkeypatch.setattr(cv2, "namedWindow", lambda *_: None)
     monkeypatch.setattr(cv2, "destroyAllWindows", lambda: destroyed.append(True))
     monkeypatch.setattr("semtilestereo.infer.load_model", lambda *_: object())
     with pytest.raises(RuntimeError, match="read"):

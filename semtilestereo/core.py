@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+import hashlib
 
 import cv2
 import numpy as np
@@ -39,6 +40,11 @@ def load_model(paths: ModelPaths, device: str):
         if not path.is_file():
             hint = " Retrieve the A09 checkpoint from the svde-results Modal volume." if name == "stereo" else ""
             raise FileNotFoundError(f"Missing {name} checkpoint: {path}.{hint}")
+    if Path(paths.stereo) == ModelPaths.stereo:
+        with Path(paths.stereo).open("rb") as stream:
+            digest = hashlib.file_digest(stream, "sha256").hexdigest()
+        if digest != A09_SHA256:
+            raise ValueError(f"A09 checkpoint hash mismatch at {paths.stereo}: {digest}")
     from experiments.E.E_1_wide2_semantics.model import EModel
 
     model = EModel(paths.stereo, paths.semantic, paths.encoder,

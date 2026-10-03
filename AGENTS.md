@@ -116,6 +116,11 @@ all metrics or code in an older one.
   and implementation plans. `.agents/skills/` contains local workflow/domain
   skills, including Modal and ML-architecture guidance. `external_models/`
   contains third-party source checkouts used to load research checkpoints.
+- `semtilestereo/` contains the released E3 shared inference core, live/pair
+  CLI, saved-result contract, Qt6/Open3D reviewer, and usage notes.
+  `examples/semtilestereo/` holds locally generated, Git-ignored VKITTI
+  review bundles; `models/stereo/semtilestereo/` holds the ignored local A09
+  best checkpoint used by these tools.
 - `/media/abrar/AbrarSSD/Datasets/` is the external raw/custom dataset store,
   outside this repository. Do not mistake it for a versioned experiment output.
 
