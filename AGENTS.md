@@ -92,6 +92,15 @@ all metrics or code in an older one.
   `full_vkitti_train.py`, and `modal_full_vkitti_t4.py` implement the subsequent
   teacher-split-aligned full VKITTI2 T4 comparison of E3/E4/D2; results live
   on `svde-results:/E_full_vkitti/`, not in the local ablation run folders.
+- `experiments/F/` holds the inference-only KITTI 2015 real-domain transfer
+  test. `F1` is the frozen A09 stereo model without semantic fusion; `F2` is
+  the frozen E3 model; `F3` is its matched-capacity E4 no-semantics control.
+  `modal_kitti_t4.py` runs them on detached Modal T4 calls, and `README.md`
+  defines the shared GT masks and polling protocol. Run
+  `f1_f2_kitti2015_v1_20261003` found all-valid KITTI EPE 3.0822 / 2.5876 /
+  2.7139 px for F1/F2/F3 across 200 pairs. Read `INSIGHTS.md` for paired
+  semantic-control analysis and caveats.
+  Results live locally in F-arm `runs/` and on `svde-results:/F_kitti2015/`.
 - `models/segmentation/` stores local semantic/instance checkpoints and a
   provenance inventory. The frozen-shared-trunk VKITTI checkpoint is
   `yolo26m-sem-vkitti2-14class-freeze7-best.pt` (14 semantic classes); large
