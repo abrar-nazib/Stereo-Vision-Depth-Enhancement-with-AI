@@ -16,7 +16,7 @@ from pathlib import Path
 
 import modal
 
-from experiments.vkitti2.subset import extract_selected, manifest_from_metadata
+from experiments.vkitti2.subset import additional_training_rows, extract_selected, manifest_from_metadata
 
 
 app = modal.App("svde-vkitti2-subset")
@@ -70,3 +70,57 @@ def stage_500() -> None:
 @app.function(image=image, volumes={"/vkitti": volume}, cpu=2, memory=8192, timeout=3 * 3600)
 def stage_1000() -> None:
     _stage(20)
+
+
+@app.function(image=image, volumes={"/vkitti": volume}, cpu=2, memory=8192, timeout=3 * 3600)
+def stage_2000_delta() -> None:
+    """Package only the 1000 new training pairs; keep the old 1000 unchanged."""
+    prior_path = Path("/vkitti/subsets/ablation1000/manifest.json")
+    prior = json.loads(prior_path.read_text())
+    additions = additional_training_rows(
+        Path("/vkitti/archives/vkitti_2.0.3_textgt.tar.gz"), prior)
+    output = Path("/vkitti/subsets/ablation2000_delta")
+    output.mkdir(parents=True, exist_ok=True)
+    archive_dir = Path("/vkitti/archives")
+    by_modality = {
+        "rgb": {path for row in additions for key, path in row["files"].items() if key.startswith("rgb_")},
+        "depth": {row["files"]["depth"] for row in additions},
+        "classSegmentation": {row["files"]["class_seg"] for row in additions},
+    }
+    for modality, paths in by_modality.items():
+        print(f"[{modality}] extracting {len(paths)} new files", flush=True)
+        extract_selected(archive_dir / f"vkitti_2.0.3_{modality}.tar", paths, output)
+    (output / "manifest.json").write_text(json.dumps([*prior, *additions], indent=2) + "\n")
+    package = Path("/vkitti/subsets/ablation2000_delta.tar")
+    temporary = package.with_suffix(".tar.part")
+    with tarfile.open(temporary, "w") as archive:
+        archive.add(output, arcname="ablation2000_delta", recursive=True)
+    temporary.replace(package)
+    digest = hashlib.sha256()
+    with package.open("rb") as source:
+        for chunk in iter(lambda: source.read(8 * 1024 * 1024), b""):
+            digest.update(chunk)
+    Path("/vkitti/subsets/ablation2000_delta.sha256").write_text(
+        f"{digest.hexdigest()}  {package.name}\n")
+    volume.commit()
+    print(f"[complete] 1000 new pairs, {package.stat().st_size} bytes, sha256 {digest.hexdigest()}", flush=True)
+
+
+@app.function(image=image, volumes={"/vkitti": volume}, cpu=1, memory=2048, timeout=3600)
+def chunk_2000_delta() -> None:
+    """Prepare independently checksummed 16-MiB pieces for reliable transfer."""
+    source = Path("/vkitti/subsets/ablation2000_delta.tar")
+    directory = Path("/vkitti/subsets/ablation2000_chunks")
+    directory.mkdir(parents=True, exist_ok=True)
+    chunks = []
+    with source.open("rb") as stream:
+        for index, data in enumerate(iter(lambda: stream.read(16 * 1024 * 1024), b"")):
+            name = f"part_{index:04d}.bin"
+            (directory / name).write_bytes(data)
+            chunks.append({"name": name, "bytes": len(data),
+                           "sha256": hashlib.sha256(data).hexdigest()})
+    expected = Path("/vkitti/subsets/ablation2000_delta.sha256").read_text().split()[0]
+    (directory / "manifest.json").write_text(json.dumps(
+        {"archive": source.name, "sha256": expected, "chunks": chunks}, indent=2) + "\n")
+    volume.commit()
+    print(f"[complete] {len(chunks)} verified chunks", flush=True)

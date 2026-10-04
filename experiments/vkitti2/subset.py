@@ -23,6 +23,56 @@ def evenly_spaced_frames(frame_count: int, count: int = 10) -> list[int]:
     return [(i * (frame_count - 1) + (count - 1) // 2) // (count - 1) for i in range(count)]
 
 
+def extend_frame_selection(frames: list[int], prior: list[int], target_count: int) -> list[int]:
+    """Add evenly distributed new source frames without changing an old split."""
+    if len(set(prior)) != len(prior) or not set(prior).issubset(frames):
+        raise ValueError("prior frames must be unique members of the sequence")
+    if target_count < len(prior) or target_count > len(frames):
+        raise ValueError("target_count outside available frame range")
+    remaining = [frame for frame in frames if frame not in set(prior)]
+    needed = target_count - len(prior)
+    if not needed:
+        return sorted(prior)
+    if needed == 1:
+        additions = [remaining[len(remaining) // 2]]
+    else:
+        additions = [remaining[index] for index in evenly_spaced_frames(len(remaining), needed)]
+    return sorted([*prior, *additions])
+
+
+def additional_training_rows(metadata_archive: Path, prior_rows: list[dict],
+                             target_train: int = 1800) -> list[dict]:
+    """Extend the old 800 train pairs to 1800; preserve Scene20 verbatim."""
+    if target_train != 1800 or len(prior_rows) != 1000:
+        raise ValueError("expected the versioned 1000-pair source manifest")
+    grouped = {(scene, variation): sorted(row["frame"] for row in prior_rows
+               if row["scene"] == scene and row["variation"] == variation)
+               for scene in TRAIN_SCENES for variation in VARIATIONS}
+    if any(len(group) != 20 for group in grouped.values()):
+        raise ValueError("old train manifest must have 20 frames per variation")
+    additions: list[dict] = []
+    with tarfile.open(metadata_archive, "r:gz") as archive:
+        for scene in TRAIN_SCENES:
+            for variation in VARIATIONS:
+                member = archive.extractfile(f"{scene}/{variation}/intrinsic.txt")
+                if member is None:
+                    raise FileNotFoundError(f"{scene}/{variation}/intrinsic.txt")
+                intrinsic = list(csv.DictReader(io.TextIOWrapper(member, encoding="utf-8"), delimiter=" "))
+                fx_by_frame = {int(row["frame"]): float(row["K[0,0]"])
+                               for row in intrinsic if row["cameraID"] == "0"}
+                selected = extend_frame_selection(sorted(fx_by_frame), grouped[scene, variation], 45)
+                for frame in selected:
+                    if frame in grouped[scene, variation]:
+                        continue
+                    additions.append({"scene": scene, "variation": variation, "frame": frame,
+                                      "split": "train", "fx": fx_by_frame[frame],
+                                      "baseline_m": 0.532725,
+                                      "files": required_members(scene, variation, frame)})
+    if len(additions) != 1000:
+        raise AssertionError(f"expected 1000 additions, got {len(additions)}")
+    return additions
+
+
 def required_members(scene: str, variation: str, frame: int) -> dict[str, str]:
     base = f"{scene}/{variation}/frames"
     index = f"{frame:05d}"

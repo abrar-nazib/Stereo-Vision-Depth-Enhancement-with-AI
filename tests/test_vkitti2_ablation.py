@@ -88,6 +88,16 @@ class RefinerTests(unittest.TestCase):
 
 
 class SubsetTests(unittest.TestCase):
+    def test_extension_keeps_existing_frames_and_adds_exactly_25(self):
+        subset = subject("subset")
+        frames = list(range(200))
+        prior = subset.evenly_spaced_frames(len(frames), 20)
+        selected = subset.extend_frame_selection(frames, prior, 45)
+        self.assertEqual(len(selected), 45)
+        self.assertEqual(len(set(selected)), 45)
+        self.assertTrue(set(prior).issubset(selected))
+        self.assertEqual(selected, sorted(selected))
+
     def test_evenly_spaced_frames_include_sequence_endpoints(self):
         subset = subject("subset")
         self.assertEqual(subset.evenly_spaced_frames(91, 10),

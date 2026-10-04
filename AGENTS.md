@@ -101,6 +101,22 @@ all metrics or code in an older one.
   2.7139 px for F1/F2/F3 across 200 pairs. Read `INSIGHTS.md` for paired
   semantic-control analysis and caveats.
   Results live locally in F-arm `runs/` and on `svde-results:/F_kitti2015/`.
+- `experiments/G/` holds the local RTX 3050 visual-edge refinement screening
+  on the frozen E3 model and VKITTI2 1,000-pair 800/100/100 split. G1 is an
+  RGB-guided residual, G2 adds learned convex half-to-full reconstruction,
+  and G3 adds a stereo-warp correction. `queue.py` runs the arms sequentially;
+  `queue/<run-id>/status.json` and per-arm logs are the polling sources.
+  The completed 10k run is documented in `INSIGHTS.md`: none of G1/G2/G3
+  visibly sharpens E3, and all three slightly worsen overall test EPE despite
+  tiny edge-EPE gains. Treat this as in-domain visual screening, not
+  independent generalization.
+- `experiments/H/` is the stereo-only follow-up: matched 25k-step
+  scratch-initialized disparity-side A09 control, RGB-guided residual, and
+  strict-convex final upsampling on 2,000 VKITTI pairs, with the pretrained
+  YOLO encoder frozen and no semantic decoder or E3 fusion head. The selected
+  checkpoints scored test EPE 1.422 / 1.436 / 1.453 px respectively; H1/H2
+  slightly improved edge/outlier metrics but not overall EPE or visual clarity.
+  See `README.md` and the sequential queue for the complete protocol.
 - `models/segmentation/` stores local semantic/instance checkpoints and a
   provenance inventory. The frozen-shared-trunk VKITTI checkpoint is
   `yolo26m-sem-vkitti2-14class-freeze7-best.pt` (14 semantic classes); large
@@ -202,6 +218,13 @@ all metrics or code in an older one.
   commands and do not keep polling on their behalf. Do not spend Modal credit
   on these local screening runs. A later full VKITTI Modal run is a separate
   decision after the ablation is reviewed.
+- Queue handoff must include an **absolute-path status command and an explicit
+  absolute-path tail command for every arm**, including arms that have not
+  started yet. Create their log files at queue setup so `tail -F` works before
+  an arm starts. Verify the exact commands from a directory outside the repo
+  (for example `~`) before sending them; never assume the user's shell is at
+  the repository root. Explain that sequential arms start automatically and
+  that stopping `tail` does not stop training.
 - B/C/D/E VKITTI evidence is in-domain. The semantic teacher's random
   full-VKITTI split may overlap the depth test frames; audit or eliminate this
   overlap, repeat with independent source frames/seeds, and evaluate a real
