@@ -1,0 +1,35 @@
+{
+  "arm": "H2_strict_convex_scratch",
+  "run_id": "h_scratch_smoke_20261004_a",
+  "seed": 42,
+  "split": {
+    "train": 2,
+    "validation": 1,
+    "test": 1
+  },
+  "steps": 2,
+  "eval_every": 2,
+  "crop_hw": [
+    256,
+    512
+  ],
+  "resize": false,
+  "batch": 1,
+  "encoder_frozen": true,
+  "stereo_trainable": true,
+  "stereo_initialization": "scratch",
+  "initial_stereo_state_sha256": "d361b8d209be90b421693f930fba59398ce653511899402dc0d8714f2c2c5140",
+  "trainable_params": 530771,
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "optimizer": "AdamW 1e-4 wd1e-4; OneCycle 10% warmup",
+  "loss": "A09 multiscale L1 + gradient + bad1 hinge",
+  "selection": "lowest validation full-image EPE; test after selection",
+  "dataset_sha256": "73b14f6d098ebfe98d27f5e82e4f0cd23abe3da51b2567892595ab305f214660",
+  "stereo_source_sha256": null,
+  "encoder_sha256": "099d977182f7b13fabf5d4ed254dda05e7c03d6405096572c356722e9ae8f374",
+  "code_sha256": {
+    "runner": "857103a5ae5d8bb691b8df96cac39d9549fd091df87ad0e0b7724fc768eff759",
+    "head": "9b8fd85403ffa4c82a6c158616cefd3d25bcb2d105b06c820622b57392ce5d73"
+  },
+  "limitations": "VKITTI in-domain training; Scene20 held out from new training only"
+}

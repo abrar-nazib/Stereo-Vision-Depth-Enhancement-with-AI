@@ -1,0 +1,21 @@
+{
+  "state": "stopped_by_user",
+  "current_arm": "H0_a09_finetune",
+  "completed": [],
+  "log": "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/experiments/H/queue/h_stereo_only_2k_25k_seed42_v1/H0_a09_finetune.log",
+  "command": [
+    "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/.venv/bin/python",
+    "-m",
+    "experiments.H.run",
+    "--arm",
+    "H0_a09_finetune",
+    "--run-id",
+    "h_stereo_only_2k_25k_seed42_v1",
+    "--steps",
+    "25000",
+    "--eval-every",
+    "2500"
+  ],
+  "updated_unix": 1791067070.1695104,
+  "reason": "Pretrained SceneFlow stereo-head initialization invalidated this comparison; replaced by scratch-head v2."
+}

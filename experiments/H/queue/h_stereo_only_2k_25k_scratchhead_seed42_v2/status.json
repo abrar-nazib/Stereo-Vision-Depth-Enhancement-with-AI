@@ -1,0 +1,10 @@
+{
+  "state": "complete",
+  "completed": [
+    "H0_a09_scratch",
+    "H1_rgb_guided_scratch",
+    "H2_strict_convex_scratch"
+  ],
+  "run_id": "h_stereo_only_2k_25k_scratchhead_seed42_v2",
+  "updated_unix": 1791080307.1574252
+}
