@@ -5,6 +5,9 @@
 app/
 *.jpg
 *.png
+# Intentional, compact manuscript-style diagnostic comparison figure.
+!comparisons/scene18_clone_00259_native_v1_20261004/side_by_side.png
+!experiments/G/figures/Scene20__clone__00088_all_arms.png
 *.ply
 *.pcd
 venv/
@@ -59,6 +62,12 @@ experiments/**/runs/*smoke*/**/best*.pth
 experiments/**/runs/*smoke*/**/best*.pt
 experiments/**/runs/probe*/**/best*.pth
 experiments/**/runs/probe*/**/best*.pt
+experiments/**/runs/**/*smoke*/best*.pth
+experiments/**/runs/**/*smoke*/best*.pt
+experiments/**/runs/**/probe*/best*.pth
+experiments/**/runs/**/probe*/best*.pt
+experiments/**/runs/**/*probe*/best*.pth
+experiments/**/runs/**/*probe*/best*.pt
 
 # Generated captures, videos, and saved experiment arrays
 *.mp4

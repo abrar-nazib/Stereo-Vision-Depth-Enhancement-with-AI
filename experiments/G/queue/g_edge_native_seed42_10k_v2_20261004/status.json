@@ -1,0 +1,10 @@
+{
+  "state": "complete",
+  "completed": [
+    "G_1_rgb_residual",
+    "G_2_convex",
+    "G_3_stereo_correct"
+  ],
+  "run_id": "g_edge_native_seed42_10k_v2_20261004",
+  "updated_unix": 1791061313.488741
+}

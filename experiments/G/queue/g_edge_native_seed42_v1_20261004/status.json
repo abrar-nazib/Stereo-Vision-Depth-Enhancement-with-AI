@@ -1,0 +1,23 @@
+{
+  "state": "cancelled_protocol_mismatch",
+  "current_arm": "G_2_convex",
+  "completed": [
+    "G_1_rgb_residual"
+  ],
+  "log": "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/experiments/G/queue/g_edge_native_seed42_v1_20261004/G_2_convex.log",
+  "command": [
+    "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/.venv/bin/python3",
+    "-m",
+    "experiments.G.run",
+    "--arm",
+    "G_2_convex",
+    "--run-id",
+    "g_edge_native_seed42_v1_20261004",
+    "--steps",
+    "4000",
+    "--eval-every",
+    "800"
+  ],
+  "updated_unix": 1791056808.4823844,
+  "reason": "Stopped at user request: 4000-step schedule was below the agreed 10000-step ablation budget. G1 finished; G2 was partial; G3 had not started. Replaced by g_edge_native_seed42_10k_v2_20261004."
+}

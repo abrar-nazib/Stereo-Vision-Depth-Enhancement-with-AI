@@ -1,0 +1,36 @@
+{
+  "arm": "G_1_rgb_residual",
+  "run_id": "smoke_g1_20261004",
+  "seed": 42,
+  "split": {
+    "train": 1,
+    "val": 1,
+    "test": 1
+  },
+  "split_rule": "B-series frame-grouped Scene20 holdout",
+  "steps": 2,
+  "eval_every": 1,
+  "crop_hw": [
+    256,
+    512
+  ],
+  "resize": false,
+  "base_frozen": true,
+  "trainable_params": 6313,
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "torch": "2.14.0+cu130",
+  "optimizer": "AdamW lr2e-4 wd1e-4, OneCycle 10% warmup",
+  "loss": "valid SmoothL1 + 0.5 edge SmoothL1 + 0.2 bad1 hinge",
+  "selection": "lowest validation edge_epe",
+  "test_only_after_selection": true,
+  "dataset_sha256": "6ec58a86e40d700ae3f98ba54b13f7c1d9bbb6ca49e9a30957e784d3331ee422",
+  "e3_head_sha256": "2493d46d17eceb51ab133b73f9b8fd54fb4ccc1b9b2d87a9a05810f15b727b87",
+  "stereo_sha256": "5ceaad4c84d941bd23be0d4c045f6d94934f6c17d0e6f5a9bc4cbc18f7f226b7",
+  "semantic_sha256": "bc3b9d334e3dc9d6535e8c9bea04cd2fad54b0dd36cf223c5313887c145807b9",
+  "encoder_sha256": "099d977182f7b13fabf5d4ed254dda05e7c03d6405096572c356722e9ae8f374",
+  "code_sha256": {
+    "runner": "ccf32c7f025e5f11ef2ef169024144b2bc7bd23240bf4af1dddc0245e5f74f05",
+    "head": "6a77d34999f9200b99e7f0a5c9c303619591b82c2121e06e49bf10ba372545e6"
+  },
+  "limitations": "E3 semantic/depth teacher saw full VKITTI; this is visual in-domain screening"
+}
