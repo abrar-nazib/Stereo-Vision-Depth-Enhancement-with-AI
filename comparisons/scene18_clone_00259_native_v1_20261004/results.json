@@ -1,0 +1,110 @@
+{
+  "LightStereo-S": {
+    "metrics": {
+      "valid_pixels": 426577,
+      "epe_px": 19.414022477264307,
+      "rmse_px": 36.74275229183101,
+      "median_px": 2.424337387084961,
+      "bad_0.5_pct": 78.39991373187021,
+      "bad_1_pct": 66.02465674426892,
+      "bad_2_pct": 53.29260602423478,
+      "bad_3_pct": 46.34731830361225,
+      "d1_pct": 46.27464678123762
+    },
+    "elapsed_s_including_load": 6.315065893999417,
+    "checkpoint": "/media/abrar/AbrarSSD/ResearchArtifacts/SVDE/external_weights/lightstereo/LightStereo-S-SceneFlow.ckpt",
+    "checkpoint_sha256": "e34b6aaa646217d03abcaa4f438dd02404711fe2bcee10eb59a6aff71f2ca02f",
+    "pred_min_px": 0.9373416304588318,
+    "pred_max_px": 123.77891540527344
+  },
+  "LightStereo-M": {
+    "metrics": {
+      "valid_pixels": 426577,
+      "epe_px": 1.352033104530196,
+      "rmse_px": 2.6782034434347333,
+      "median_px": 0.5403213500976562,
+      "bad_0.5_pct": 52.770777608731834,
+      "bad_1_pct": 30.545950672446004,
+      "bad_2_pct": 16.49643557903966,
+      "bad_3_pct": 11.369811311908519,
+      "d1_pct": 11.361840886873882
+    },
+    "elapsed_s_including_load": 6.444851194006333,
+    "checkpoint": "/media/abrar/AbrarSSD/ResearchArtifacts/SVDE/external_weights/lightstereo/LightStereo-M-SceneFlow.ckpt",
+    "checkpoint_sha256": "82d9982b4c6e653d258f009ea9deb25cadd5a3ec6315e858dd0637d5ca58eca4",
+    "pred_min_px": 0.5051372647285461,
+    "pred_max_px": 70.95651245117188
+  },
+  "SemTileStereo-E3": {
+    "metrics": {
+      "valid_pixels": 426577,
+      "epe_px": 0.936150610456082,
+      "rmse_px": 1.8855472123406058,
+      "median_px": 0.3610801696777344,
+      "bad_0.5_pct": 41.57326813213089,
+      "bad_1_pct": 25.305396212172717,
+      "bad_2_pct": 12.550137489831847,
+      "bad_3_pct": 7.241599992498424,
+      "d1_pct": 7.240427871169801
+    },
+    "elapsed_s_including_load": 3.508907655996154,
+    "checkpoint": "/home/abrar/Research/Stereo-Vision-Depth-Enhancement-with-AI/experiments/E/E_3_wide4_semantics/runs/e3_e4_d2_full_t4_v1_20261002/checkpoints/best.pth",
+    "checkpoint_sha256": "2493d46d17eceb51ab133b73f9b8fd54fb4ccc1b9b2d87a9a05810f15b727b87",
+    "pred_min_px": -0.5435606837272644,
+    "pred_max_px": 71.41596221923828
+  },
+  "HITNet-XL": {
+    "metrics": {
+      "valid_pixels": 426577,
+      "epe_px": 32.698081488846874,
+      "rmse_px": 41.56895081305862,
+      "median_px": 32.75154399871826,
+      "bad_0.5_pct": 84.46564160749408,
+      "bad_1_pct": 81.3175581430785,
+      "bad_2_pct": 78.7867137703158,
+      "bad_3_pct": 77.03603335388452,
+      "d1_pct": 76.95890777046114
+    },
+    "elapsed_s_including_load": 1.9874278659990523,
+    "checkpoint": "/media/abrar/AbrarSSD/ResearchArtifacts/SVDE/external_weights/hitnet/hitnet_xl_sf_finalpass_from_tf.ckpt",
+    "checkpoint_sha256": "763f89dc7a93fabc8064f2071bcf4bb6b3706b3bd637cb411199e272bc071ad2",
+    "pred_min_px": 1.33544921875,
+    "pred_max_px": 102.17931365966797
+  },
+  "FoundationStereo-ViT-S": {
+    "metrics": {
+      "valid_pixels": 426577,
+      "epe_px": 0.5058933052414838,
+      "rmse_px": 1.436434156129648,
+      "median_px": 0.06724905967712402,
+      "bad_0.5_pct": 20.154626245671942,
+      "bad_1_pct": 11.844286025735096,
+      "bad_2_pct": 6.249047651420494,
+      "bad_3_pct": 4.152591443045452,
+      "d1_pct": 4.152591443045452
+    },
+    "elapsed_s_including_load": 21.64193482200062,
+    "checkpoint": "/media/abrar/AbrarSSD/ResearchArtifacts/SVDE/external_weights/foundationstereo_vits/model_best_bp2.pth",
+    "checkpoint_sha256": "8d7850b9dc68d1366722a02a39745704b1db41471211be6abd93ef463727e6be",
+    "pred_min_px": 1.082219123840332,
+    "pred_max_px": 71.38922119140625
+  },
+  "HITNet-SF": {
+    "metrics": {
+      "valid_pixels": 426577,
+      "epe_px": 55.04644539675694,
+      "rmse_px": 74.94730008200763,
+      "median_px": 46.37356376647949,
+      "bad_0.5_pct": 82.31667436359672,
+      "bad_1_pct": 77.90645065251994,
+      "bad_2_pct": 74.00305220393973,
+      "bad_3_pct": 71.99286412535135,
+      "d1_pct": 71.9724692142333
+    },
+    "elapsed_s_including_load": 8.830852633996983,
+    "checkpoint": "/media/abrar/AbrarSSD/ResearchArtifacts/SVDE/external_weights/hitnet/hitnet_sf_finalpass.ckpt",
+    "checkpoint_sha256": "a1cdf0b40815310c262dede837914a2108b6a0f6d0d6cba0b5ce551be17ad16b",
+    "pred_min_px": -25.407958984375,
+    "pred_max_px": 171.2918701171875
+  }
+}

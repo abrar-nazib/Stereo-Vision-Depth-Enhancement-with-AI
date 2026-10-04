@@ -7,7 +7,9 @@ import timm
 from model import ROOT
 
 
-def build_lightstereo():
+def build_lightstereo(variant="S"):
+    if variant not in ("S", "M"):
+        raise ValueError(f"Unsupported LightStereo variant: {variant}")
     source=ROOT/'external_models/OpenStereo'
     for name in ('stereo','stereo.modeling','stereo.modeling.models'):
         module=types.ModuleType(name)
@@ -25,5 +27,6 @@ def build_lightstereo():
             net.act1=torch.nn.Identity()
         return net
     with patch.object(timm,'create_model',create):
-        net=LightStereo(Config(MAX_DISP=192,LEFT_ATT=True,AGGREGATION_BLOCKS=[1,2,4],EXPANSE_RATIO=4))
+        blocks = [1, 2, 4] if variant == "S" else [4, 8, 16]
+        net=LightStereo(Config(MAX_DISP=192,LEFT_ATT=True,AGGREGATION_BLOCKS=blocks,EXPANSE_RATIO=4))
     return net
