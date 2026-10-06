@@ -1,124 +1,139 @@
 ---
 name: stereo-vision-expert
-description: Architectural and training knowledge for stereo disparity estimation — which head, loss, and fusion design solves which failure mode. Use when choosing a stereo head, debugging EPE spikes or edge blur, designing a shared semantic+disparity encoder, porting a loss recipe, quantizing or TensorRT-converting a stereo head, improving zero-shot generalization, cleaning training pairs, handling mirrors or occlusions, picking pretraining or augmentation, or deciding what to read next.
+description: Evidence-graded architectural knowledge for stereo disparity estimation fused with semantic segmentation (38 papers read end-to-end, 2018–2026), centred on this repo's frozen-YOLO-trunk + semantic cost-gate model. Use when choosing or changing a stereo head, fusion point, gate, residual, loss, or training recipe; when diagnosing edge blur, textureless/occlusion/reflective errors, EPE spikes or zero-shot drops; when judging whether a paper's gain is real; when planning the next ablation, its controls, or a Modal vs local run; when positioning novelty against TwInS/TiCoSS/S3M-Net/SGNet/RTS2Net; when writing related-work or a manuscript claim; or when planning real-time Jetson/RTX-3050 deployment.
 ---
 
 # Stereo Vision Expert
 
-26 papers live in `paper/reference_papers/` (9 lightweight, 6 fusion, 11 semantic-stereo).
-Per-paper detail lives in `references/` — read the matching file before citing specifics.
-Paths below are relative to the repo root.
+Knowledge base for designing a **real-time model that fuses stereo disparity with semantic
+segmentation**. Every paper in `paper/reference_papers/` was read in full on 2026-10-06 and
+turned into a verified block-card with table and page refs. Paths are relative to the repo root.
+Files under `references/` are relative to this skill.
 
-## When to load a reference file
+## How to use this skill
 
-- Picking or swapping a disparity head → `references/lightweight.md`
-- Fusing mono/semantic priors, fixing dark/textureless/occluded regions → `references/fusion.md`
-- Sharing one encoder between segmentation and disparity, joint losses → `references/semantic.md`
-- Writing the training script (optimizer, schedule, aug, curriculum) → `references/training.md`
-- Need a number for the paper (EPE/D1, latency, params) → the relevant file above
+1. Find the question type in the routing table below and read that file **before**
+   answering. The SKILL.md body is the summary. The files hold the numbers.
+2. Before quoting any number in a manuscript or a decision, open the paper's card in
+   `references/cards/<Paper>.md` and quote the **table** value with its ref. Paper prose
+   often contradicts its own tables (`evidence_audit.md` §1 #14).
+3. Before proposing any experiment, check `design_playbook.md` §0 ("what exists")
+   and §4 ("do not spend compute on"). Name the **control arm** it needs.
+4. Never cite `paper/reference_papers/summaries/*.md` as fact: they contain verified errors
+   (`summary_errata.md`).
 
-## Decision rules
+| Question | Read |
+|---|---|
+| Which block fixes failure X? Where can a cue enter, and with which operator? | `references/block_matrix.md` |
+| Is this paper's gain real? How do we make our claims hold up? | `references/evidence_audit.md` |
+| What should our next experiment be? What is already done? What is a dead end? | `references/design_playbook.md` |
+| Is our idea novel? Who are the competitors? What is the field doing? | `references/trends_and_novelty.md` |
+| Losses, optimiser, augmentation, curricula, pseudo-labels, debugging signatures | `references/training.md` |
+| Latency, TensorRT/Jetson operator support, multi-head runtime, compression | `references/deployment.md` |
+| One specific paper: architecture, shapes, exact losses, every ablation | `references/cards/<Paper>.md` (index: `references/paper_index.md`) |
 
-**Head selection (defaults below are scoped to our rig: frozen semantic encoder, Driving-200 pairs, 4 GB GPU — re-verify elsewhere):**
-1. Default: iterative GRU head (RAFT-family). On our Driving-200/A04 budget it won (5.87 vs 6.20/6.52 EPE) at the fewest trainable params (0.84M). Refinement beats capacity at this data scale.
-2. If the GRU loop is unshippable — banned ops (RNN control flow, slicing, trilinear interp, deformable convs) for your TensorRT/edge SDK, or latency budget blown (rule of thumb: >50 ms on Orin-NX-class hardware at 320×640): use 2D channel-boost aggregation (LightStereo) + MSCA gating. Accept ~0.3–0.6 EPE penalty. If even 2D hourglasses are too heavy, DTPnet's all-2D channel-to-disparity + single hourglass is the floor.
-3. If edges melt — diagnose by edge-region EPE (mask pixels within ~5 px of a GT disparity jump >4 px; suspect when edge-EPE exceeds flat-region EPE by >2×) or by a disparity-gradient error map: add bilateral-grid slicing (CUBG, ~4 ms, edge-EPE 5.95 vs 8.13 linear) or plane-tile upsampling instead of bilinear. Top-k regression (CoEx, k=2 — train with it, test-only swap fails) fixes bimodal boundary pixels.
-4. Freeze the encoder first; train adapters + fusion only. All six fusion papers do this. Exception: joint-from-scratch works on tiny real datasets given an SCG-style boundary-weighted loss (S3M-Net, no SceneFlow pretrain). Encoder co-training is otherwise the last 5%, not the first 80%.
-5. If disparity punches through mirrors/transparent surfaces: truncate the cost volume at the mono disparity (StereoAnywhere, threshold 0.98) so the mirror match cannot win.
-6. If occlusions dominate error: SoftLRC entropy masking + LR-consistency check (StereoAnywhere; DispSegNet's double-warp `|I''−I|` + median-fill post-process).
-7. If zero-shot transfer collapses (e.g. SceneFlow→KITTI/Driving drop): 3-stage curriculum — supervised synthetic → feature-alignment self-distill → real pseudo-labels (LiteAnyStereo); pseudo-label via teacher disparity vs mono-depth normal-consistency mask (Fast-FoundationStereo). Never distill RGB features alone — align in depth/normal/order space.
-8. If mono/depth priors are affine-misaligned or early-iteration noise corrupts fusion: contribute structure as binary local-ordering maps with iteration-ramped Beta guidance (D-FUSE), not raw depth values.
+## Our model in one paragraph (verify in code before relying on it)
 
-**Loss recipe (port in this order, cumulative; weights are Driving-200/`experiments/a05_clean/losses.py:modal_loss(pred, gt, left)` tuning — re-tune per dataset):**
-1. Smooth-L1 full-res — baseline, converges but plateaus ~6 px on our Driving-200.
-2. Multi-scale L1 at 1/2 + 1/4 (weights 0.5/0.3) — teaches coarse structure, biggest single jump.
-3. Gradient consistency (0.5) — sharpens edges without a refinement net.
-4. Threshold hinge (0.2) + D1 hinge (0.2) — pulls down bad-1/bad-3/D1 directly.
-5. Edge-aware smoothness (0.02) — small polish, keep weight tiny or it oversmooths poles/signs.
-6. If semantics available: boundary loss coupling semantic edges to disparity jumps (SSPCV/SGNet form), masked to ignore fake boundaries (road/sidewalk/vegetation).
-7. Iterative heads: L1 over iterates with γ=0.9 decay (RAFT-family standard). Later iterates weigh more.
-8. Effect sizes are dataset-dependent — ablate each step (ΔEPE/Δbad1) before keeping it; the ordering above is by typical impact, not guaranteed impact.
+- **Trunk:** frozen YOLO26m layers 0–6, run once per stereo pair.
+- **Frozen predictors on the trunk:**
+  - A09 stereo predictor `FusionStereoLite`: HITNet/LightStereo lineage, 1/16 group
+    cost volume, tile/plane refinement
+  - 14-class VKITTI2 semantic decoder
+- **Trained:** only a fusion head (`experiments/D/D_1_semantic_cost/model.py`, width-scaled in E).
+  - `SemanticCostGate`: a 3×3×3 Conv3d over [mean A09 volume, left(x)·right(x−d)
+    class-probability agreement], output a multiplicative [0.5, 1.5]
+  - `ClassResidual`: a per-class depthwise residual
+  - no-semantics control: zero the agreement at equal capacity
+- **Results** (single seed, `experiments/*/INSIGHTS.md`):
+  - in-domain: semantic arms beat equal-capacity controls by ≈0.24 px EPE
+  - KITTI15 zero-shot EPE: E3 2.59 vs E4 control 2.71 vs A09-only 3.08
+  - edge refiners: RGB-guided residual, convex upsampling and stereo-warp correction were all null (G/H)
 
-**Killing EPE spikes (train curve spiky, val curve smooth):**
-1. Score every pair with the latest checkpoint at full res — rank by EPE. Command pattern: load `runs/<run>/checkpoints/latest.pth` into the run's model, inference all pairs in `manifest_train.json + manifest_validation.json` at native res with replicate-pad stripped, compute `metrics()` per pair, sort descending. (A04b anecdote, not a universal law: our spikes came from 2/200 near-black tunnel frames, mean brightness ~30. Recalibrate thresholds per dataset.)
-2. Pre-filter suspects by brightness (our cutoff mean < 45) and valid fraction (< 0.5), but confirm by inference — most dark frames are fine; only unmatchable ones spike.
-3. Replace from the same sequence (sequence id = `record["sequence"]` in the split manifests; preserves stratification), verified bright + left/right/PFM all present. Do not delete — replace, or sequences unbalance.
-4. If spikes persist after cleaning: suspect the loss, not the data. Single-scale L1 averages large-disparity regions into flat penalties; multi-scale terms fix this.
+## Ten rules that the evidence supports
 
-**Shared-encoder design (one YOLO backbone → seg + disparity):**
-1. Keep semantic and disparity volumes separate, then attention-fuse (SSPCV's FFM). Naive concat/summation causes task conflict (TiCoSS Table V: gating recovers ~7.9% mIoU).
-2. Gate per region (AIO's KeepTopK over priors; TGF's selective inheritance). Foreground/edges/dark areas want different cues.
-3. Feed fusion from depth/normal/order space, not RGB (StereoAnywhere, D-FUSE). Relative geometry transfers; RGB doesn't.
-4. Distinguish two frozen-fusion cases: frozen-VFM (SAM) early concat without a warp/aux loss hurts transfer (USAM-Net — avoid). Frozen-semantic concat PLUS a semantic-warp supervision loss fixes textureless regions (SegStereo — the warp loss is what makes it work, not the concat alone).
-5. Adapter pattern: 1×1 per scale, kept wide (≥48 ch at 1/4; verify by ablation). Our A02B run had a 128→24 chokepoint at the correlation scale — general rule, local example.
+1. **Keep priors frozen and add a small trainable path. Never replace the matching
+   features.**
+   - FoundationStereo: freeze 1.97 vs unfreeze 3.94 vs prior-only 6.48 BP-2 (Tab. 5).
+   - D-FUSE: DA-V2 as the feature extractor gives EPE 3.26 vs 1.15.
+   - DEFOM: removing the CNN branch costs +35% EPE.
+2. **Multiply, don't add, when a cue modulates matching.**
+   - CoEx excite 0.685 vs add 0.731 (Tab. IV).
+   - SGNet: × beats + (Tab. 1).
+   - LightStereo MSCA: −0.034 EPE for +0.2 ms.
+3. **A gate generalises only when keyed on a domain-robust cue, and pointwise fusion
+   generalises better.**
+   - GGEV texture-keyed kernels give an in-domain gain only (K12 6.80). Prior-keyed give 4.11.
+   - GGEV 1×1 fusion 4.11 vs 3×3 4.59 (Tabs. 4, 7, 8).
+4. **Gates learn to ignore a cue unless training forces them to use it.**
+   - Use volume corruption plus oracle-prior substitution: StereoAnywhere −2.32 Booster
+     bad-2 (row E vs D).
+5. **Inject into refinement residually, with the state kept separate.**
+   - PromptStereo: merged-conv 4.86 vs residual 4.59 (Tab. 5).
+   - DEFOM: depth-init without correction regresses (Midd +1.73).
+6. **Edge gains come from matching information, not appearance guidance.**
+   - BGNet's edge-band gain exists only against linear upsampling of a 1/8 volume.
+   - On a near-full-res predictor, post-hoc RGB guidance and convex upsampling are null:
+     our G/H, and nothing in the literature contradicts it.
+   - Decision tree: `block_matrix.md` §4.
+7. **Dense refinement over a converged disparity adds little.**
+   - Pip-Stereo: <1% of pixels change by iteration 32.
+   - Iteration pruning needs a regularised init.
+   - Keep our head single-pass. GRU loops cost 3.4× on Orin (LAS2).
+8. **Data and labels move results more than modules do.**
+   - FoundationStereo: FSD data 2.34→1.15 vs the whole adapter 2.48→1.97.
+   - Fast-FS pseudo-labels: LightStereo-L K15 12.08→7.63.
+   - RTS2Net: Cityscapes > SceneFlow pretraining.
+   - The cheapest real-domain lever for us is pseudo-label or self-supervised adaptation of the head alone (`design_playbook.md` Tier 2).
+9. **Semantic losses help most without GT.**
+   - SegStereo warp-CE: 2.17→1.89 EPE unsupervised, ~0 supervised.
+   - SGNet loss module: −0.0005 px.
+   - Use them for real-domain adaptation, not in-domain polish.
+10. **Every semantic claim needs an equal-capacity no-semantics control, seeds, and a
+    leakage-free split.**
+    - Almost no published semantic-stereo paper has the control (`evidence_audit.md` §1 #1).
+    - Ours is the main methodological edge. Keep it in every new arm.
 
-**Training script defaults (distilled from all 26 papers; batch/VRAM/clip values after "our rig" are local):**
-- Optimizer AdamW, LR 1–2e-4, weight decay 1e-4–1e-5, grad clip norm 1.0 (or clip values [−1,1]).
-- Schedule: OneCycle (short runs) or cosine/step decay (long runs). Flat LR is fine past 20k only for BGNet-style KITTI finetune (constant LR, multi-seed, pick best); otherwise decay.
-- Our rig: batch 1–8 with AMP fp16, 0.5–1.5 GB, clip norm 1.0. Scale up on bigger GPUs (batch 8–176 on A100s). Gradient accumulation if needed.
-- Augmentation that preserves epipolar geometry: asymmetric brightness/contrast, color jitter, right-image eraser patches, y-offset ±2px, scale 0.9–1.15 with disparity rescaling. Photometric asymmetry is fine; geometric vertical flip and independent left/right warps are banned (they break epipolar lines).
-- Pretrain on SceneFlow (FlyingThings; Driving/Monkaa can hurt per HITNet), finetune on target domain. Cityscapes-coarse→fine beats synthetic for KITTI transfer (RTS2Net).
-- Disparity init matters for iterative heads: regularized/Gev-init beats zero-init; width-normalized init absorbs per-image amplitude variation (DEFOM).
+## Fast diagnosis
 
-## Comparison tables (EPE on SceneFlow unless noted; latency at KITTI res)
+| Symptom | First check | Likely fix (evidence) |
+|---|---|---|
+| Edges look soft but EPE is fine | Is the output already ≥ 1/4-res with tile/plane refinement? | Don't add guided upsamplers. Try matching-side changes: semantic-keyed dynamic aggregation (playbook 3.1) or reliability-aware gating (1.2) |
+| Semantic arm ≈ control | Does the gate see stereo reliability? Was it trained with corrupted candidates? | Playbook 1.2 + 1.3 (give the control the same inputs and augmentation) |
+| In-domain gain but no zero-shot gain | Is the gate keyed on texture/RGB? Is the fusion spatial (3×3)? | Pointwise fusion (1.4). Key on semantics or depth priors (GGEV) |
+| Train curve spiky, val smooth | Score every pair with the latest checkpoint | `training.md` debugging signatures (dark/unmatchable frames, A04b) |
+| Small classes (poles/signs) worse | Is an image-weighted smoothness term on? | Segment-aware smoothness (DispSegNet Tab. III) or drop the term |
+| Mirrors / glass punch through | Is there a continuous depth prior? | Truncation needs mono depth (StereoAnywhere). A 14-class prior cannot fix it |
+| Latency over budget on Jetson | Is it measured on the device at the lowest power mode? | `deployment.md`: 2D ops, no loops, 1×1 fusion, shared trunk, TensorRT |
 
-**Cost volumes** (detail: `references/lightweight.md`):
-| type | exemplar | EPE | params | latency | when to pick |
-|---|---|---:|---:|---:|---|
-| none (tile match + propagate) | HITNet-XL | 0.36 | 2.07M | 20 ms | real-time + thin structures, no 3D ops |
-| correlation + 2D boost | LightStereo-S | 0.73 | 3.44M | 17 ms | cheapest deployable, edge SDK-safe |
-| correlation + tiny-3D + 2D | LiteAnyStereo | ~0.7 | ~2M | 21 ms | 2D budget but disparity continuity matters |
-| group-wise corr + 3D hourglass | BGNet+ | ~0.9 | ~5M | 32 ms | accuracy headroom, 3D allowed |
-| learned interlaced | MobileStereoNet-2D | 0.79 | 2.32M | — | 2D-only constraint, near-3D accuracy |
-| all-pairs + GRU | RAFT-family | 0.44–0.72 | 1–11M | 50+ ms | best accuracy, iteration budget available |
+## Novelty position (short; full table in `trends_and_novelty.md`)
 
-**Upsampling to full res:**
-| method | edge quality | cost | source |
-|---|---|---:|---|
-| bilinear | melts boundaries | ~0 | baseline |
-| convex (RAFT) | crisp, learned weights | small conv | RAFT-Stereo |
-| bilateral-grid slice (CUBG) | edge-EPE 5.95 vs 8.13 linear | ~4 ms | BGNet |
-| plane-equation tile | preserves slanted surfaces | ~0 | HITNet |
-| learned superpixel 3×3 | boundary-aware | 1 conv | CoEx |
+These are not novel on their own:
+- a shared encoder for seg + stereo (RTS2Net 2020, TwInS 2026)
+- semantic cost gating (SGNet 2020)
+- class residuals (SGNet, SemStereo)
+- frozen segmentation features for stereo (SegStereo 2018)
 
-**Iteration budget (accuracy vs latency):**
-| model | iters | EPE | latency | source |
-|---|---|---:|---:|---|
-| Selective-IGEV | 12 | 0.44 | high | baseline |
-| Pip-Stereo | 1 | 0.45 | 19 ms 4090 / 75 ms Orin | pruning works |
-| MonSter++ | 4 (2+2) | 0.37 | — | beats 32-iter baseline |
-| GGEV | 8 / 4 / 2 | 0.46 / 0.49 / 0.54 | 47 ms at 8 | graceful degradation |
+Defensible: the **combination**, which no 2018–2026 paper found has all of:
+- a frozen pretrained detector/segmenter trunk shared by a frozen stereo predictor and a
+  frozen decoder
+- a tiny semantic cost-gate + class-residual head
+- equal-capacity, zeroed and misaligned semantic controls on a grouped split
+- semantic-attributable zero-shot transfer
+- a real-time, sub-4-GB budget
 
-## Paper index
+The closest competitor is **TwInS (2026)**:
+- end-to-end ConvNeXt, 68–276M params, 18–22 FPS on an RTX 4090
+- semantics enter GRU context and init; no cost gating, no no-semantics control
+- KITTI15 trained with pseudo-labels, so protocols differ from our zero-shot
 
-Lightweight heads — detail in `references/lightweight.md`:
-- HITNet (CVPR21) `lightweight/HITNet_Tankovich_CVPR2021.pdf` — tile hypotheses + propagation, no stored volume, 20 ms.
-- LightStereo (ICRA25) `lightweight/LightStereo_Guo_ICRA2025.pdf` — 2D channel-boost aggregation + MSCA gating.
-- CoEx (IROS21) `lightweight/CoEx_Bangunharcana_IROS2021.pdf` — guided excitation + top-k regression.
-- BGNet (CVPR21) `lightweight/BGNet_Xu_CVPR2021.pdf` — bilateral-grid edge-aware cost upsampling.
-- MobileStereoNet (WACV22) `lightweight/MobileStereoNet_Shamsafar_WACV2022.pdf` — 2D-vs-3D cost analysis, interlaced volume.
-- LiteAnyStereo (arXiv25) `lightweight/LiteAnyStereo_Jing_arXiv2025.pdf` — tiny-3D + 3-stage distillation curriculum.
-- Pip-Stereo (CVPR26) `lightweight/Pip-Stereo_Zheng_CVPR2026.pdf` — iteration pruning, 1-step GRU.
-- GGEV (AAAI26) `lightweight/GGEV_Liu_AAAI2026.pdf` — frozen depth prior as guidance, dynamic per-plane kernels.
-- DTPnet (ICRA24) `lightweight/Distill-then-Prune_Pan_ICRA2024.pdf` — hardware-first all-2D + logits KD + pruning.
+## Maintenance
 
-Fusion priors — detail in `references/fusion.md`:
-- MonSter++ (CVPR25) `fusion/MonSter_Cheng_CVPR2025.pdf` — bidirectional stereo↔mono refinement, shared frozen ViT.
-- StereoAnywhere (CVPR25) `fusion/StereoAnywhere_Bartolomei_CVPR2025.pdf` — normals volume + depth-fed context encoder.
-- DEFOM (CVPR25) `fusion/DEFOM-Stereo_Jiang_CVPR2025.pdf` — multiplicative scale update + trainable DPT adapter.
-- D-FUSE (ICCV25) `fusion/D-FUSE_Yao_ICCV2025.pdf` — ordering-map fusion, iteration-ramped guidance.
-- AIO-Stereo (AAAI25) `fusion/AIO-Stereo_Zhou_AAAI2025.pdf` — multi-VFM distill + MoE selection (DINO/SAM/DA).
-- Fast-FoundationStereo (CVPR26) `fusion/Fast-FoundationStereo_Wen_CVPR2026.pdf` — distill→NAS→prune→pseudo-label compression playbook.
-
-Semantic-stereo sharing — detail in `references/semantic.md`:
-- SegStereo (ECCV18) `semantic_stereo/SegStereo_Yang_ECCV2018.pdf` — frozen PSPNet + early concat + warp loss.
-- SSPCV-Net (ICCV19) `semantic_stereo/SSPCV-Net_Wu_ICCV2019.pdf` — separate volumes + attention fusion + boundary loss.
-- DispSegNet (RAL19) `semantic_stereo/DispSegNet_Zhang_RAL2019.pdf` — semantic residual refinement + segment smoothness.
-- SGNet (ACCV20) `semantic_stereo/SGNet_Chen_ACCV2020.pdf` — confidence gating + per-class depthwise residual.
-- RTS2Net (ICRA20) `semantic_stereo/RTS2Net_Dovesi_ICRA2020.pdf` — real-time shared encoder + anytime exits.
-- S3M-Net (TIV24) `semantic_stereo/S3M-Net_Wu_TIV2024.pdf` — FFA bridging + SCG boundary-weighted loss.
-- SemStereo (AAAI25) `semantic_stereo/SemStereo_Chen_AAAI2025.pdf` — deep cascade + semantic-gated residual + warp CE.
-- TiCoSS (TASE25) `semantic_stereo/TiCoSS_Tang_TASE2025.pdf` — gated fusion + inconsistency-weighted supervision (cautionary).
-- S3Net (IGARSS24) `semantic_stereo/S3Net_Yang_IGARSS2024.pdf` — single-branch single-volume multitask.
-- USAM-Net (arXiv25) `semantic_stereo/USAM-Net_Sankaranarayanan_arXiv2025.pdf` — frozen-SAM early fusion (cautionary).
-- SDBF-Net (APSIPA19) `semantic_stereo/SDBF-Net_Rao_APSIPA2019.pdf` — bidirectional late residual fusion.
+- **New paper:**
+  1. Write a card with the same section template as `references/cards/` (sections 0–10;
+     numbers carry refs; "not stated" rather than guesses).
+  2. Add it to `paper_index.md` with an evidence grade.
+  3. Update `block_matrix.md` / `trends_and_novelty.md` if it changes a rule.
+- **New project result:** update `design_playbook.md` §0 and any rule it confirms or breaks.
+  Section 9 ("Relevance to OUR model") of the cards is dated 2026-10-06.
+- **Edit location:** this skill lives in `.agents/skills/` and is symlinked into
+  `.claude/skills/`. Edit it in `.agents/skills/`.
